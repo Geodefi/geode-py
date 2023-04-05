@@ -12,7 +12,19 @@ from .beacon import Beacon
 class Pool(Id):
 
     def __init__(self, beacon: Beacon, *args, **kwargs):
-        self.TYPE: ID_TYPE(5)
+        """
+        Initializes a Pool object.
+
+        Parameters:
+        beacon: A Beacon object.
+        *args: variable length argument list.
+        **kwargs: arbitrary keyword arguments.
+
+        Returns:
+        None
+        """
+        self.TYPE: ID_TYPE(5)  # The type of the Pool is 5.
+        # The Pool object is associated with a Beacon object.
         self.Beacon: Beacon = beacon
         super().__init__(*args, **kwargs)
 
@@ -110,6 +122,17 @@ class Pool(Id):
                          pk=self._readBytesArray("validators", index=index))
 
     def prepareProposeStake(self, deposit_data_path: str):
+        """
+        This method prepares for a proposal stake. It reads deposit data from a file path, validates it, and returns the 
+        public keys and signature 1s for the proposal stake.
+
+        Args:
+        - deposit_data_path (str): The file path of the deposit data.
+
+        Returns:
+        - pubkeys (List[bytes]): A list of public keys as bytes objects.
+        - sig1s (List[bytes]): A list of signature 1s as bytes objects.
+        """
         deposit_data = validate_deposit_data_file(deposit_data_path=deposit_data_path,
                                                   amount=DEPOSIT_SIZE.PROPOSAL,
                                                   network=self.network,
@@ -121,6 +144,23 @@ class Pool(Id):
         return pubkeys, sig1s
 
     def prepareBeaconStake(self, deposit_data_path: str):
+        """
+        This function prepares a beacon stake by taking the path to a deposit data file as input.
+        The deposit data file is validated by checking that it contains the required amount of Ether
+        for the Beacon chain, that it is meant for the specified network, and that it is associated
+        with the withdrawal credentials of the current operator.
+
+        Once the deposit data has been validated, the function extracts the public keys and 31-byte
+        signatures from the deposit data and returns them as a tuple.
+
+        Args:
+            deposit_data_path (str): The path to the deposit data file.
+
+        Returns:
+            Tuple of lists: A tuple containing two lists, the public keys and 31-byte signatures extracted
+            from the deposit data file.
+        """
+
         deposit_data = validate_deposit_data_file(deposit_data_path=deposit_data_path,
                                                   amount=DEPOSIT_SIZE.BEACON,
                                                   network=self.network,

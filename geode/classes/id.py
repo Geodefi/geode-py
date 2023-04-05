@@ -9,23 +9,38 @@ from geode.exceptions import UnexpectedResponseException
 
 
 class Id(object):
+    """
+    A class representing an identifier for some object or entity.
+
+    Attributes:
+        w3: A Web3 instance used for interacting with the Ethereum network.
+        network: A Network instance representing the Ethereum network to use.
+        portal: An Ethereum address of the portal contract.
+        ID: An integer representing the identifier value.
+        TYPE: An enumeration value representing the type of the identifier.
+    """
     w3: Web3
     network: Network
     portal: et.ChecksumAddress
     ID: int
     TYPE: ID_TYPE(0)
 
-    def __init__(self, w3: Web3, network:
-                 Network, portal: Contract, id: int):
+    def __init__(self, w3: Web3, network: Network, portal: Contract, id: int):
+        """
+        Initializes a new Id instance with the specified parameters.
+
+        Args:
+            w3: A Web3 instance used for interacting with the Ethereum network.
+            network: A Network instance representing the Ethereum network to use.
+            portal: An Ethereum address of the portal contract.
+            id: An integer representing the identifier value.
+        """
         self.w3 = w3
         self.network = network
         self.portal = portal
         self.ID = id
         logging.info(
             f"ID TYPE:{ID_TYPE(self.TYPE).name}:{self.ID}")
-
-    def __str__(self):
-        return self.ID
 
     @multipleAttempt
     def _readUint(self, key: str):
@@ -89,12 +104,27 @@ class Id(object):
 
     @property
     def NAME(self):
+        """
+        Returns the name of the object or entity.
+        """
         return self._readBytes("NAME", isString=True)
 
     @property
     def TYPE(self):
+        """
+        Returns the type of the object or entity.
+        """
         return self._readUint("TYPE")
 
     @property
     def CONTROLLER(self):
+        """
+        Returns the Ethereum address of the controller of the object or entity.
+        """
         return self._readAddress("CONTROLLER")
+
+    def __str__(self):
+        """
+        Returns a string representation of this Id instance.
+        """
+        return str(self.ID)

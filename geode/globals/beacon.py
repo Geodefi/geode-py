@@ -5,6 +5,9 @@ from .network import Network
 
 
 class DEPOSIT_SIZE(IntEnum):
+    """
+    In Geode, you should either deposit 1 or 31 ethereum
+    """
     PROPOSAL = 1000000000
     BEACON = 31000000000
 

@@ -6,7 +6,17 @@ from .id import Id
 class Operator(Id):
 
     def __init__(self, *args, **kwargs):
-        self.TYPE: ID_TYPE(4)
+        """
+        Initializes an Operator object.
+
+        Parameters:
+        *args: variable length argument list.
+        **kwargs: arbitrary keyword arguments.
+
+        Returns:
+        None
+        """
+        self.TYPE: ID_TYPE(4)  # The type of the Operator is 4.
         super().__init__(*args, **kwargs)
 
     @property

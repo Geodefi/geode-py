@@ -11,19 +11,25 @@ from .beacon import Beacon
 
 
 class Validator(object):
-    w3: Web3
-    network: Network
-    portal: Contract
-    beacon: Beacon
+    # Declare instance variables for Validator class
+    w3: Web3  # An instance of the Web3 class for interacting with Ethereum blockchain
+    network: Network  # The network being validated
+    portal: Contract  # The portal contract being used
+    beacon: Beacon  # The beacon chain being used
 
-    pubkey: bytes
-    portal_state = []
-    beacon_state: t.Dict = {}
-    last_portal_update: datetime = datetime.now() - timedelta(seconds=REFRESH_RATE+1)
-    last_beacon_update: datetime = datetime.now() - timedelta(seconds=REFRESH_RATE+1)
+    pubkey: bytes  # Public key of the validator
+    portal_state = []  # A list containing the current portal state
+    beacon_state: t.Dict = {}  # A dictionary containing the current beacon state
+    last_portal_update: datetime = datetime.now() - timedelta(seconds=REFRESH_RATE +
+                                                              1)  # The time of the last portal state update
+    last_beacon_update: datetime = datetime.now() - timedelta(seconds=REFRESH_RATE +
+                                                              1)  # The time of the last beacon state update
 
     def __init__(self, w3: Web3,
                  network: Network, portal: Contract, beacon: Beacon, pk: bytes):
+        """
+        Initialize the Validator object.
+        """
         self.w3 = w3
         self.network = network
         self.portal = portal
@@ -35,25 +41,39 @@ class Validator(object):
     def __str__(self):
         return f"Validator: {self.pubkey}"
 
+    # This is a static method and a decorator that wraps around another method
+    # It is used to update the Portal state for the Validator
     @staticmethod
     @multipleAttempt
     def updatePortal(func):
+        # This is the wrapper function that is returned by the decorator.
+        # It updates the Portal state if REFRESH_RATE has elapsed
         def wrap(self):
             if datetime.now() > self.last_portal_update + timedelta(seconds=REFRESH_RATE):
+                # Call the `getValidator()` function on the Portal contract with Validator's pubkey
+                # and retrieve its state
                 self.portal_state = self.portal.functions.getValidator(
                     self.pubkey).call()
                 self.last_portal_update = datetime.now()
+            # Call the function that was decorated and return its result
             return func(self)
+        # Return the wrapper function
         return wrap
 
     @staticmethod
     def updateBeacon(func):
+        # This is a decorator function that wraps around the given function.
+        # It checks whether the last update to the beacon state is older than REFRESH_RATE seconds.
         def wrap(self):
             if datetime.now() > self.last_beacon_update + timedelta(seconds=REFRESH_RATE):
+                # If it is, it updates the beacon state by calling get_validator() function of the beacon contract.
                 self.beacon_state = self.beacon.get_validator(
                     self.pubkey)
+                # It then updates the last_beacon_update timestamp to the current time.
                 self.last_beacon_update = datetime.now()
             return func(self)
+
+        # Finally, it returns the wrapped function.
         return wrap
 
     # Portal Props
