@@ -14,7 +14,7 @@ Geode is a Python library for interacting with blockchain networks. It provides 
 You can install Geode using pip:
 
 ```sh
-pip install geode
+pip install geode-finance
 ```
 
 ## Usage
