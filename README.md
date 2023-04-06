@@ -12,10 +12,14 @@ It provides a simple and intuitive interface for accessing blockchain data, exec
 
 ## Installation
 
-You can install Geode using pip:
-
+Using pip:
 ```sh
 pip install geode-py
+```
+
+Using setup.py:
+```sh
+python3 setup.py
 ```
 
 ## Usage
@@ -23,7 +27,7 @@ pip install geode-py
 Here's a simple example of how to use Geode Library to interact with the Geode Finance Systems:
 
 ```python
-from geode import Geode
+from geode-py import Geode
 
 #### STRONGLY RECOMMENDED TO SET THESE VARIABLES IN LOCAL ENVIROMENT
 # Initialize a Geode instance with the Ethereum JSON-RPC endpoint
@@ -32,7 +36,6 @@ url = "https://mainnet.infura.io/v3/your-project-id"
 # get a key from https://beaconcha.in
 consensus_key = "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
-import Geode from geode
 geode = Geode(exec_api=url, cons_key = consensus_key)
 ```
 
