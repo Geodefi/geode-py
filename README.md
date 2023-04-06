@@ -15,7 +15,7 @@ It provides a simple and intuitive interface for accessing blockchain data, exec
 Using pip:
 
 ```sh
-pip install geode-fi
+pip install geodefi
 ```
 
 Using setup.py:
