@@ -6,7 +6,8 @@ from .network import Network
 
 class DEPOSIT_SIZE(IntEnum):
     """
-    In Geode, you should either deposit 1 or 31 ethereum
+    proposeStake: takes 1 ether from the operator internal wallet
+    beaconStake: takes 31 ether from pool & reimburses the operator's 1 ether
     """
     PROPOSAL = 1000000000
     BEACON = 31000000000

@@ -110,13 +110,6 @@ class Id(object):
         return self._readBytes("NAME", isString=True)
 
     @property
-    def TYPE(self):
-        """
-        Returns the type of the object or entity.
-        """
-        return self._readUint("TYPE")
-
-    @property
     def CONTROLLER(self):
         """
         Returns the Ethereum address of the controller of the object or entity.

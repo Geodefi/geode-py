@@ -16,7 +16,7 @@ class Operator(Id):
         Returns:
         None
         """
-        self.TYPE: ID_TYPE(4)  # The type of the Operator is 4.
+        self.TYPE = ID_TYPE(4)  # The type of the Operator is 4.
         super().__init__(*args, **kwargs)
 
     @property
