@@ -39,10 +39,10 @@ consensus_key = "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 geode = Geode(exec_api=url, cons_key = consensus_key)
 ```
 
-### Get Pool
+### Get A Pool
 
 ```python
-# Get Pool
+# Get Pool from Portal
 pid = 50016835115526216130031110555486827201953559012021267556883950029143900999178
 myPool = geode.Portal.pool(pid)
 
@@ -50,7 +50,49 @@ print("NAME:",myPool.NAME)
 print("CONTROLLER:",myPool.CONTROLLER)
 print("initiated:",myPool.initiated)
 print("maintainer:",myPool.maintainer)
-print("surplus:",myPool.surplus)
+print("surplus:",myPool.allowance(operator=myOperator.ID))
+print("activeValidators:",myPool.activeValidators(operator=myOperator.ID))
+```
+
+### Get A Operator
+
+```python
+# Get Operator from Portal
+oid = 114391297015478800753082638170652680401082080549997516459063441314156612391510
+myOp = geode.Portal.operator(pid)
+
+print("NAME:",myOp.NAME)
+print("CONTROLLER:",myOp.CONTROLLER)
+print("initiated:",myOp.initiated)
+print("maintainer:",myOp.maintainer)
+print("totalProposedValidators:",myOp.totalProposedValidators)
+print("totalActiveValidators:",myOp.totalActiveValidators)
+print("feeSwitch:",myOp.feeSwitch)
+print("priorFee:",myOp.priorFee)
+print("fee:",myOp.fee)
+```
+
+
+### Get A Validator
+
+```python
+# Get Validator from pool
+myVal=myPool.validators(0)
+
+# Validator state on execution layer
+print("state:",myVal.state)
+print("index:",myVal.index)
+print("poolId:",myVal.poolId)
+print("operatorId:",myVal.operatorId)
+print("poolFee:",myVal.poolFee)
+print("operatorFee:",myVal.operatorFee)
+
+# Validator state on consensus layer
+print("slashed:",myVal.slashed)
+print("status:",myVal.status)
+print("validatorindex:",myVal.validatorIndex)
+print("withdrawalcredentials:",myVal.withdrawalCredentials)
+print("total_withdrawals:",myVal.totalWithdrawals)
 ```
 
 ### Call functions of the Portal Contract
