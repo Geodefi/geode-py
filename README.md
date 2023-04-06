@@ -1,20 +1,21 @@
-# Geode
+# geode-py
 
-Geode is a Python library for interacting with blockchain networks. It provides a simple and intuitive interface for accessing blockchain data, executing smart contract functions, and managing blockchain transactions related to Geode Finance.
+geode-py is a Python library which makes it easier to interact with the blockchain networks that The Staking Library is available. 
+It provides a simple and intuitive interface for accessing blockchain data, executing smart contract functions, and managing blockchain transactions related to Geode's Trustless staking solution.
 
 ## Features
 
-- Supports Ethereum mainnet and testnets (Goerli and Gnosis)
-- Provides a simple and intuitive API for managing Geode Finance validators, operators, pools, tokens, and other smart contracts
-- Dynamically, adapts to contract updates
-- Compatible with Python 3.6 and above
+- Supports Ethereum mainnet, gnosis and testnet (Goerli) where The Protocol is deployed.
+- Provides a simple and intuitive API for managing Geode Finance validators, operators, pools, tokens, and other smart contracts/modules
+- Dynamically, adapts to contract updates (might require changing the abi files)
+- Compatible with Python 3.7 and above
 
 ## Installation
 
 You can install Geode using pip:
 
 ```sh
-pip install geode
+pip install geode-py
 ```
 
 ## Usage
@@ -28,9 +29,10 @@ from geode import Geode
 # Initialize a Geode instance with the Ethereum JSON-RPC endpoint
 url = "https://mainnet.infura.io/v3/your-project-id"
 # For Beacon functionalities
+# get a key from https://beaconcha.in
 consensus_key = "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
-
+import Geode from geode
 geode = Geode(exec_api=url, cons_key = consensus_key)
 ```
 
@@ -53,26 +55,28 @@ print("surplus:",myPool.surplus)
 ```python
 # Call functions of the Portal Contract
 Portal = geode.Portal
-name = Portal.functions.readBytesForId(pid, toBytes32("NAME")).call()
+stakingParams = Portal.functions.StakingParams().call()
 ```
 
-### Get the Token
+### Get the chain-specific internal Token
+
+gETH on Ethereum, gGNO on gnosis etc.
 
 ```python
 # Get gETH token with all functionalities
 gETH = geode.Token
-totalSupply = gETH.contract.functions.totalSupply().call()
+totalSupply = gETH.functions.totalSupply().call()
 print(f"Total Supply: {totalSupply}")
 ```
 
 # Documentation
 
-Documentation for Geode is available on Read the Docs.
+Documentation for Geode is available on Read the Docs: 
+> put the link here
 
 # Contributing
 
 Contributions to Geode are welcome! Please see the contributing guidelines for more information.
 
 # License
-
-Geode is licensed under the MIT License.
+geode-py is licensed under MIT.
