@@ -27,7 +27,7 @@ python3 setup.py
 Here's a simple example of how to use Geode Library to interact with the Geode Finance Systems:
 
 ```python
-from geode-py import Geode
+from geode import Geode
 
 #### STRONGLY RECOMMENDED TO SET THESE VARIABLES IN LOCAL ENVIROMENT
 # Initialize a Geode instance with the Ethereum JSON-RPC endpoint
