@@ -23,7 +23,7 @@ class Pool(Id):
         Returns:
         None
         """
-        self.TYPE: ID_TYPE(5)  # The type of the Pool is 5.
+        self.TYPE = ID_TYPE(5)  # The type of the Pool is 5.
         # The Pool object is associated with a Beacon object.
         self.Beacon: Beacon = beacon
         super().__init__(*args, **kwargs)
@@ -123,8 +123,8 @@ class Pool(Id):
 
     def prepareProposeStake(self, deposit_data_path: str):
         """
-        This method prepares for a proposal stake. It reads deposit data from a file path, validates it, and returns the 
-        public keys and signature 1s for the proposal stake.
+        This method prepares for a validator proposal. It reads deposit data from a file path,
+        validates it, and returns the public keys and signature 1s for the proposal stake.
 
         Args:
         - deposit_data_path (str): The file path of the deposit data.

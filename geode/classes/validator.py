@@ -20,6 +20,7 @@ class Validator(object):
     pubkey: bytes  # Public key of the validator
     portal_state = []  # A list containing the current portal state
     beacon_state: t.Dict = {}  # A dictionary containing the current beacon state
+    # update timestamps set on init to be able to catch init state without
     last_portal_update: datetime = datetime.now() - timedelta(seconds=REFRESH_RATE +
                                                               1)  # The time of the last portal state update
     last_beacon_update: datetime = datetime.now() - timedelta(seconds=REFRESH_RATE +
@@ -39,7 +40,7 @@ class Validator(object):
             f"Connected to validator: {self.pubkey}")
 
     def __str__(self):
-        return f"Validator: {self.pubkey}"
+        return f"Validator Object: {self.pubkey}"
 
     # This is a static method and a decorator that wraps around another method
     # It is used to update the Portal state for the Validator
