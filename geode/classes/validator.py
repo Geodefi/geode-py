@@ -100,7 +100,7 @@ class Validator(object):
 
     @property
     @updatePortal
-    def poolIee(self):
+    def poolFee(self):
         return self.portal_state[4]
 
     @property
