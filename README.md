@@ -1,23 +1,25 @@
-# geode-py
+# geodefi
 
-geode-py is a Python library which makes it easier to interact with the blockchain networks that The Staking Library is available. 
+geodefi is a Python library which makes it easier to interact with the blockchain networks that The Staking Library is available.
 It provides a simple and intuitive interface for accessing blockchain data, executing smart contract functions, and managing blockchain transactions related to Geode's Trustless staking solution.
 
 ## Features
 
 - Supports Ethereum mainnet, gnosis and testnet (Goerli) where The Protocol is deployed.
-- Provides a simple and intuitive API for managing Geode Finance validators, operators, pools, tokens, and other smart contracts/modules
+- Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/modules
 - Dynamically, adapts to contract updates (might require changing the abi files)
 - Compatible with Python 3.7 and above
 
 ## Installation
 
 Using pip:
+
 ```sh
-pip install geode-py
+pip install geode-fi
 ```
 
 Using setup.py:
+
 ```sh
 python3 setup.py
 ```
@@ -72,7 +74,6 @@ print("priorFee:",myOp.priorFee)
 print("fee:",myOp.fee)
 ```
 
-
 ### Get A Validator
 
 ```python
@@ -116,7 +117,7 @@ print(f"Total Supply: {totalSupply}")
 
 # Documentation
 
-Documentation for Geode is available on Read the Docs: 
+Documentation for Geode is available on Read the Docs:
 > put the link here
 
 # Contributing
@@ -124,4 +125,5 @@ Documentation for Geode is available on Read the Docs:
 Contributions to Geode are welcome! Please see the contributing guidelines for more information.
 
 # License
-geode-py is licensed under MIT.
+
+geodefi is licensed under MIT.

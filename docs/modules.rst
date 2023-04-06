@@ -1,4 +1,4 @@
-geode-py
+geode-fi
 ========
 
 .. toctree::
