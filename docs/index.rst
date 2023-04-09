@@ -66,5 +66,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. _Discord: https://discord.gg/GHryRvPB84
-.. _Github: https://github.com/ethereum/web3.py
+.. _Discord: https://discord.com/invite/RC8fTTuJtm
+.. _Github: https://github.com/Geodefi
