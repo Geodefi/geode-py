@@ -32,7 +32,7 @@ class Portal:
 
         address, abi = get_contract_abi(network=self.network, name="Portal")
         self.contract: Contract = w3.eth.contract(
-            address=Web3.toChecksumAddress(address), abi=abi)
+            address=Web3.to_checksum_address(address), abi=abi)
 
         self.version: int = self.functions.CONTRACT_VERSION().call()
         version_name = self.functions.readBytesForId(

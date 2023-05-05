@@ -44,7 +44,6 @@ class Validator(object):
 
     # This is a static method and a decorator that wraps around another method
     # It is used to update the Portal state for the Validator
-    @staticmethod
     @multipleAttempt
     def updatePortal(func):
         # This is the wrapper function that is returned by the decorator.
@@ -61,7 +60,7 @@ class Validator(object):
         # Return the wrapper function
         return wrap
 
-    @staticmethod
+    @multipleAttempt
     def updateBeacon(func):
         # This is a decorator function that wraps around the given function.
         # It checks whether the last update to the beacon state is older than REFRESH_RATE seconds.
@@ -78,6 +77,7 @@ class Validator(object):
         return wrap
 
     # Portal Props
+
     @property
     @updatePortal
     def state(self):
