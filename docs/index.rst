@@ -17,7 +17,7 @@ Getting Started
 - Want to chat? → `Discord`_
 - Read the source? → `Github`_
 
-Table of Contents
+Table of Contents 
 --------------------
 
 .. toctree::

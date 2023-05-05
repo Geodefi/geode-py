@@ -92,14 +92,14 @@ class Id(object):
     def _readAddress(self, key: str):
         res: et.Address = self.portal.functions.readAddressForId(
             self.ID, toBytes32(key)).call()
-        csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
+        csRes: et.ChecksumAddress = Web3.toChecksumAddress(res)
         return csRes
 
     @multipleAttempt
     def _readAddressArray(self, key: str, index: int):
         res: et.Address = self.portal.functions.readAddressArrayForId(
             self.ID, toBytes32(key), index).call()
-        csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
+        csRes: et.ChecksumAddress = Web3.toChecksumAddress(res)
         return csRes
 
     @property

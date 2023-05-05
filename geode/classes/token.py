@@ -1,7 +1,7 @@
 import logging
 
 from web3 import Web3
-from web3.contract.contract import Contract
+from web3.contract import Contract
 
 from geode.globals import Network
 from geode.utils import get_contract_abi, get_token_name
@@ -21,7 +21,7 @@ class Token(object):
 
         # Instantiate the contract using Web3 instance, address and ABI
         self.contract: Contract = w3.eth.contract(
-            address=Web3.to_checksum_address(address), abi=abi)
+            address=Web3.toChecksumAddress(address), abi=abi)
 
         # Log the token name
         logging.info(f"Token:{token_name}")
