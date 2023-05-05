@@ -1,15 +1,62 @@
-.. Geode Finance Python SDK documentation master file, created by
-   sphinx-quickstart on Fri Apr  7 00:02:22 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 Welcome to Geodefi Python SDK documentation!
 ====================================================
 
+GeodePy is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.
+
+Built on top of web3.py, GeodePy offers a comprehensive set of functions and utilities that simplify the process of interacting with smart contracts on the Ethereum blockchain. 
+Whether you're looking to query contract data, execute transactions, GeodePy has you covered with a user-friendly and highly efficient interface. By leveraging the power of the Ethereum network and GeodePy's intuitive functionality, Geode Finance companies can streamline their operations and unlock new levels of efficiency in their workflows.
+
+
+Getting Started
+---------------
+
+- Ready to code? → :ref:`quickstart`
+- Interested in a quick tour? → :ref:`overview`
+- Like to give back? → :ref:`Contribute <contributing>`
+- Want to chat? → `Discord`_
+- Read the source? → `Github`_
+
+Table of Contents 
+--------------------
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   modules
+    :maxdepth: 1
+    :caption: Intro
+
+    quickstart
+    overview
+    releases
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Guides
+
+    initialize_geode
+    portal
+    geth
+    pools 
+    operators 
+    validators 
+    exceptions 
+    signatures 
+    utils 
+    constants 
+    examples
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Hand Books
+
+    staking_pool_handbook
+    operator_onboard_handbook
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Community
+
+    contributing
+    code_of_conduct
 
 
 Indices and tables
@@ -18,3 +65,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. _Discord: https://discord.com/invite/RC8fTTuJtm
+.. _Github: https://github.com/Geodefi

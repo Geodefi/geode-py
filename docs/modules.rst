@@ -1,7 +1,7 @@
 geode-fi
-========
 
-.. toctree::
-   :maxdepth: 4
 
-   geode
+ .. toctree::
+    :maxdepth: 4
+
+    geode
