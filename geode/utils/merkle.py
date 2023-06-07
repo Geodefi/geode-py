@@ -262,7 +262,7 @@ class StandartMerkleTree:
 
             self.nextNode(1)
 
-    @ cache
+    @cache
     def nextNode(self, i):
         if i > self._sizeOfTree - 1:
             return
@@ -279,7 +279,7 @@ class StandartMerkleTree:
         self.nextNode(i*2)
         self.nextNode(i*2 + 1)
 
-    @ staticmethod
+    @staticmethod
     def _keccak256(message: str) -> str:
         """
         Keccak256 of the message.
@@ -288,7 +288,7 @@ class StandartMerkleTree:
 
         return keccak256(message)
 
-    @ staticmethod
+    @staticmethod
     def _intToHexString(number: int) -> str:
         """
         integer to hex string
@@ -298,7 +298,7 @@ class StandartMerkleTree:
         """
         return intToHexString(number)
 
-    @ classmethod
+    @classmethod
     def _abiEncodepacked(cls, *args) -> str:
         """
         Functions as abi.encodePacked() in Solidity
@@ -313,7 +313,7 @@ class StandartMerkleTree:
 
         return abiEncodepacked(args)
 
-    @ staticmethod
+    @staticmethod
     def concat(a: str, b: str, sort=True) -> str:
         """
         concat two strings like
@@ -354,33 +354,33 @@ class StandartMerkleTree:
 
     # Properties
 
-    @ property
+    @property
     def root(self):
         if not self._generated:
             print('WARNING! The Merkle Tree is not generated yet.')
             return '0x'
         return self._tree[1]
 
-    @ property
+    @property
     def generated(self):
         return self._generated
 
-    @ property
+    @property
     def numberOfNodes(self):
         return self._numberOfNodes
 
-    @ property
+    @property
     def tree(self):
         return self._tree[1:]
 
-    @ property
+    @property
     def sizeOfTree(self):
         return self._sizeOfTree
 
-    @ property
+    @property
     def depth(self):
         return self._depth
 
-    @ property
+    @property
     def leaves(self):
         self._tree[len(self._tree)//2:]
