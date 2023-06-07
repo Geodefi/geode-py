@@ -2,17 +2,28 @@
 
 
 Portal
-=============
+============
+
+.. contents:: :local:
+
+.. py:module:: portal
+.. py:currentmodule:: portal
 
 
-.. py:module:: Geode.Portal
+.. py:class:: Geode.Portal()
 
 The ``portal`` module houses public utility functions from Portal contract.
 
-Constants
+.. WARNING:: 
+    Take extra caution when handling private keys or mnemonic phrases, as they grant full access to your Ethereum wallet and can result in irreversible loss of funds if compromised or mishandled. Always store them securely and avoid sharing them with anyone.
+
+.. WARNING:: 
+    Make sure to double-check the gas limit when executing transactions to prevent potential out-of-gas errors and unexpected transaction failures.
+
+Attributes
 ------------
 
-.. py:method:: portal.address
+.. py:attribute:: Portal.address
 
     Returns the ``address`` of the contract.
 
@@ -20,63 +31,90 @@ Constants
 
     # get a Portal address
     >>> geode.Portal.address
-    0xB0334F08dEC465Ec180F1AF04C6D7d3737407083
+     0xB0334F08dEC465Ec180F1AF04C6D7d3737407083
+    
+    >>> PORTAL = geode.Portal
+
+.. py:attribute:: Portal.version
+
+    Returns the ``version`` of the contract.
+
+.. code-block:: python
+
+    # get a Portal address
+    >>> geode.Portal.version
+      87373968589722757255522487689903791119558634447171488905970002736659167479131    
+
+.. py:attribute:: Portal.network
+
+    Returns the ``network`` of the contract.
+
+.. code-block:: python
+
+    # get a Portal address
+    >>> geode.Portal.network
+      <Network.goerli: 5>    
 
 
-.. py:method:: PORTAL.contract.functions.CONTRACT_VERSION()
+Methods
+------------
+
+.. py:method:: Portal.functions.CONTRACT_VERSION()
 
     Returns the ``CONTRACT_VERSION`` of the contract.
 
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.contract.functions.CONTRACT_VERSION().call()
+    >>> PORTAL.functions.CONTRACT_VERSION().call()
     87373968589722757255522487689903791119558634447171488905970002736659167479131
 
 
-.. py:method:: PORTAL.contract.functions.Do_we_care()
+.. py:method:: Portal.functions.Do_we_care()
 
     Returns always ``True`` because we always care <3
 
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.contract.functions.Do_we_care().call()
-    True
+    >>> PORTAL.functions.Do_we_care().call()
+      True
 
+.. py:method:: Portal.functions.GeodeParams()
 
-
-.. py:method:: PORTAL.contract.functions.GeodeParams()
-
-    Returns address of ``SENATE``, address of ``GOVERNANCE``, integer of value of ``SENATE_EXPIRY`` and ``GOVERNANCE_FEE`` respectively.
+    Returns: 
+        * ``SENATE``
+        * ``GOVERNANCE``
+        * ``SENATE_EXPIRY`` 
+        * ``GOVERNANCE_FEE`` 
 
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.contract.functions.GeodeParams().call()
+    >>> PORTAL.functions.GeodeParams().call()
     ['0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     115792089237316195423570985008687907853269984665640564039457584007913129639935,
     0]
 
 
-.. py:method:: PORTAL.contract.functions.StakingParams()
+.. py:method:: Portal.functions.StakingParams()
 
     Returns:
-        ``VALIDATORS_INDEX``
-        ``VERIFICATION_INDEX``
-        ``MONOPOLY_THRESHOLD``
-        ``EARLY_EXIT_FEE``
-        ``ORACLE_UPDATE_TIMESTAMP``
-        ``DAILY_PRICE_INCREASE_LIMIT``
-        ``DAILY_PRICE_DECREASE_LIMIT``
-        ``PRICE_MERKLE_ROOT``
-        ``ORACLE_POSITION``
+        * ``VALIDATORS_INDEX``
+        * ``VERIFICATION_INDEX``
+        * ``MONOPOLY_THRESHOLD``
+        * ``EARLY_EXIT_FEE``
+        * ``ORACLE_UPDATE_TIMESTAMP``
+        * ``DAILY_PRICE_INCREASE_LIMIT``
+        * ``DAILY_PRICE_DECREASE_LIMIT``
+        * ``PRICE_MERKLE_ROOT``
+        * ``ORACLE_POSITION``
 
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.contract.functions.StakingParams().call()
+    >>> PORTAL.functions.StakingParams().call()
     [10,
     9,
     115792089237316195423570985008687907853269984665640564039457584007913129639935,
@@ -88,9 +126,7 @@ Constants
     '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C']
 
 
-'getContractVersion',
-
-.. py:method:: PORTAL.contract.functions.getContractVersion()
+.. py:method:: Portal.functions.getContractVersion()
 
     Returns ``version`` of contract in integer.
 
@@ -98,43 +134,269 @@ Constants
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.contract.functions.getContractVersion().call()
+    >>> PORTAL.functions.getContractVersion().call()
     87373968589722757255522487689903791119558634447171488905970002736659167479131
 
 
 Data Utils
 -----------------
 
- 'allIdsByType',
+.. NOTE:: 
+    Please read the `Isolated Storage <https://docs.geode.fi/key-concepts/portal/isolated-storage>`_ in Geode Finance Docs.
 
- 'generateId',
- 'getKey',
- 'readAddressArrayForId',
- 'readAddressForId',
- 'readBytesArrayForId',
- 'readBytesForId',
- 'readUintArrayForId',
- 'readUintForId',
+.. WARNING::
+    We recommend that you initialize the ``Pool``, ``Operator`` or ``Validator`` and read the data that way, instead of calling it from the ``Portal`` contract. 
+    See :doc:`Pools <pools>`, :doc:`Operators <operators>`, :doc:`Validators <validators>`,
 
- 'getProposal',
- 'getValidator',
- 'getValidatorByPool',
+.. py:method:: Portal.functions.readBytesForId(uint256, bytes32)
 
-Role Checks
------------------
+.. code-block:: python
 
- 'isAllowedModule',
- 'isElector',
- 'isMintingAllowed',
- 'isPriceValid',
- 'isPrisoned',
- 'isPrivatePool',
- 'isUpgradeAllowed',
+    >>> from geode.utils import toBytes32, toString
+    >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
+    >>> Portal.functions.readBytesForId(pid, toBytes32("NAME")).call()
+      b'Icy Pool'
+    >>> toString(b'Icy Pool')
+       'Icy Pool'
 
-Initiate Opeartor or Pool
--------------------------------
-'getDefaultModule',
-'getMaintenanceFee',
+.. py:method:: Portal.functions.readAddressForId(uint256, bytes32)
+
+.. code-block:: python
+
+    >>> from geode.utils import toBytes32
+    >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
+    >>> Portal.functions.readAddressForId(pid, toBytes32("CONTROLLER")).call()
+      '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C'
+
+
+.. py:method:: Portal.functions.readUintForId(uint256, bytes32)
+
+.. code-block:: python
+
+    >>> from geode.utils import toBytes32
+    >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
+    >>> Portal.functions.readUintForId(pid, toBytes32("fee")).call()
+      500000000
+
+
+.. NOTE::
+    Do not forget to call the correct function according to the type of the variable you will return.
+
+* Extra functions
+
+.. py:method:: Portal.functions.readBytesArrayForId(uint256, bytes32)
+
+For getting array of ``bytes``.
+
+.. py:method:: Portal.functions.readAddressArrayForId(uint256, bytes32)
+
+For getting array of ``address``.
+
+.. py:method:: Portal.functions.readUintArrayForId(uint256, bytes32)
+
+For getting array of ``uint256``.
+
+
+
+Getting Roles of Portal
+--------------------------
+
+.. py:method:: Portal.functions.allIdsByType(type: uint256, index: uint256)
+
+    Returns the ``id`` of specific type of given index.
+    
+.. code-block:: python
+
+    >>> from geode.globals import ID_TYPE
+
+    # Get Pools (ID_TYPE => 5)
+    >>> Portal.functions.allIdsByType(ID_TYPE.POOL,0).call()
+      29228457249232120346521013786824808088246537603535847808963148138747123868265
+    >>> Portal.functions.allIdsByType(5,1).call()
+      50016835115526216130031110555486827201953559012021267556883950029143900999178
+    >>> Portal.functions.allIdsByType(ID_TYPE.POOL,99).call()
+      ContractLogicError
+
+    # Get Operators (ID_TYPE => 4)
+    >>> Portal.functions.allIdsByType(ID_TYPE.OPERATOR,0).call()
+      114391297015478800753082638170652680401082080549997516459063441314156612391510
+    >>> Portal.functions.allIdsByType(4,1).call()
+      51559110727159830236523264446237638129364818047104669081802875007477059353434
+
+
+
+.. py:method:: Portal.functions.getProposal(id: uint25)
+
+    Returns ``Proposal`` the struct that stores ``CONTROLLER`` (address),
+    ``TYPE`` (uint256), ``NAME`` (bytes), ``deadline`` (uint256).
+
+.. code-block:: python
+
+    >>> (controller, type, name, deadline) = Portal.functions.getProposal(0).call()
+    >>> controller
+      0x0000000000000000000000000000000000000000
+    >>> type
+      0
+    >>> name
+      b''
+    >>> deadline
+      0
+
+
+
+.. py:method:: Portal.functions.getValidator(pubkey: bytes)
+
+    Returns the ``Validator`` by given pubkey.
+
+.. code-block:: python
+
+    ### Optionally both hexstring or bytes works.
+    ## Hex-string 
+    >>> pubkey = 0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
+    ## Hex-to-bytes
+    >>> bytes.fromhex('9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d')
+      b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
+      
+    ## Bytes
+    >>> pubkey =  b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
+    ## Bytes-to-hex
+    >>> pubkey.hex()
+      0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
+
+    >>> Portal.functions.getValidator(pubkey).call()
+        (2,
+        1,
+        50016835115526216130031110555486827201953559012021267556883950029143900999178,
+        114391297015478800753082638170652680401082080549997516459063441314156612391510,
+        500000000,
+        500000000,
+        0,
+        1677383052,
+        1692935052,
+        b'\x94\xc0\x18~I\x0e\xc3\x96r&\xd3\xc3\xce\xbc\xf0\xb0t\xbf\xa0Iq\xe5+\x95t\x8e\x91\x93?\x93\xfc?\x93g}\x94tM\xf5 \x89|\x99\xd3sn\xd1\xdb\x08\xa8!i\x813\xc2b\xb3SdB\x95Y\xa1\xb0z\xc4\x85`\xd2z.g\x88Dq\xf8R/g\xae\nB\xfa\xaa\xee!~\x9c@\xe0\\\xd91(\xad\xdb')
+
+
+.. py:method:: Portal.functions.getValidatorByPool(poolID: uint256, index: uint256)
+
+    Returns the ``Validator`` of pool that corresponding index.
+
+.. code-block:: python
+
+    >>> Portal.functions.getValidatorByPool(poolID, 0).call()
+        (2,
+        1,
+        50016835115526216130031110555486827201953559012021267556883950029143900999178,
+        114391297015478800753082638170652680401082080549997516459063441314156612391510,
+        500000000,
+        500000000,
+        0,
+        1677383052,
+        1692935052,
+        b'\x94\xc0\x18~I\x0e\xc3\x96r&\xd3\xc3\xce\xbc\xf0\xb0t\xbf\xa0Iq\xe5+\x95t\x8e\x91\x93?\x93\xfc?\x93g}\x94tM\xf5 \x89|\x99\xd3sn\xd1\xdb\x08\xa8!i\x813\xc2b\xb3SdB\x95Y\xa1\xb0z\xc4\x85`\xd2z.g\x88Dq\xf8R/g\xae\nB\xfa\xaa\xee!~\x9c@\xe0\\\xd91(\xad\xdb')
+
+
+.. WARNING::
+    The offchain version of below functions have already implemented. Optionally: Use built-in functions in geode.utils.
+
+.. py:method:: Portal.functions.generateId(name: string, type: uint256)
+
+    It returns keccak256 hash of encoded name and type.
+
+.. code-block:: python
+
+    >>> Portal.functions.generateId(b'Some_Pool', 5).call()
+      97770474815149397909782741678802560703260876453812799861980400297568557242506
+
+.. py:method:: Portal.functions.getKey(id: uint256, param: bytes32)
+
+    Each variable of roles stores in mappings. To optimize storage, each key directs the specific parameter with given id in mapping.
+
+.. code-block:: python
+
+    >>> from geode.utils import toBytes32
+
+    # Bytes
+    >>> Portal.functions.getKey(poolID, toBytes32('CONTROLLER')).call()
+      b'\xb4s\xca\xe0\xf2\xd9\xf2!*k\xfd$\xd9\xff\xcc\n\xf8\xcc7>\xae{=\x8f&\xb9\xbe\xc6_\x00^\xdf'
+
+
+Configuration of Ecosystem
+---------------------------
+.. py:method:: Portal.functions.isPrisoned(operatorId: uint256)
+
+    ``True`` if the operator of given id has prisoned, ``False`` otherwise.
+
+
+.. code-block:: python
+
+    ## operatorId: uint256
+    >>> Portal.functions.isPrisoned(operatorId).call()
+      False
+
+
+.. py:method:: Portal.functions.isPrivatePool(poolId: uint256)
+
+    ``True`` if the pool of given id is private pool, ``False`` otherwise.
+
+.. code-block:: python
+
+    ## poolID: uint256
+    >>> Portal.functions.isPrivatePool(poolId).call()
+      False
+
+
+.. py:method:: Portal.functions.isPriceValid(poolId: uint256)
+
+    ``True`` if the pool of given id has valid price, ``False`` otherwise.
+
+.. code-block:: python
+
+    ## poolID: uint256
+    >>> Portal.functions.isPriceValid(poolId).call()
+      True
+
+.. py:method:: Portal.functions.isMintingAllowed(poolId: uint256)
+
+    ``True`` if the pool of given id allows minting, ``False`` otherwise.
+
+.. code-block:: python
+
+    ## poolID: uint256
+    >>> Portal.functions.isMintingAllowed(poolId).call()
+      True
+
+.. py:method:: Portal.functions.canStake(pubkey: uint256)
+
+    ``True`` if the validator of given pubkey passed the checks and is ready to stake, ``False`` otherwise.
+
+.. code-block:: python
+
+    ## pubkey: bytes
+    >>> Portal.functions.canStake(pubkey).call()
+      True
+
+.. py:method:: Portal.functions.getMaintenanceFee(operatorId: uint256)
+
+    ``MaintainanceFee`` 1e10 means 10% of commision will be payed to operator.
+
+.. code-block:: python
+
+    ## operatorId: uint256
+    >>> Portal.functions.getMaintenanceFee(operatorId).call()
+      500000000
+    >>> 500000000 / 1e10 
+      0.05
+
+
+Modules
+---------
+
+getDefaultModule
+isAllowedModule
+fetchModuleUpgradeProposal
+deployLiquidityPool
+setPoolVisibility
+setWhitelist
 
 
 Oracle Utils
@@ -145,12 +407,6 @@ Oracle Utils
  'regulateOperators',
  'reportOracle',
 
-Pausability
-------------------------
- 'pause',
- 'pausegETH',
- 'unpause',
- 'unpausegETH',
 
 Governance Only
 ------------------------
@@ -165,46 +421,50 @@ Governance Only
 
  'changeIdCONTROLLER',
  'changeMaintainer',
- 'changeSenate',
-Wallet  
+ 'changeSenate'
+
+Internal Wallet  
 -----------------
- 'decreaseWalletBalance',
- 'increaseWalletBalance',
 
-Executives Only
-------------------------
- 'approveOperators',
- 'approveProposal',
- 'approveSenate',
+    Every `operator` has an internal wallet. They use this wallet to create the ``Validator``.
 
- 'supportsInterface',
- 'switchMaintenanceFee',
- 'switchValidatorPeriod',
+.. py:method:: Portal.functions.increaseWalletBalance(id: uint256)
+
+    Operators need 32 ethers to create a validator. So they should put 32 ether in the inner wallet.
+
+.. WARNING::
+    Please double-check you operator id before processing.
+
+.. code-block:: python
+
+    >>> transaction_params = {
+        'to': Portal.address,
+        'from': your_address,
+        'value': web3.toWei(320, 'ether'),  # Example: sending 320 Ether for 10 Validator
+        'gas': 200000,  # Example: setting the gas limit
+        'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
+        }
+
+    >>> transaction = Portal.functions.increaseWalletBalance(operatorId).buildTransaction(transaction_params)
+    >>> signed_txn = web3.eth.account.sign_transaction(transaction, private_key=sender_private_key)
+    >>> tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
 
- 'beaconStake',
- 'blameOperator',
- 'canStake',
+.. py:method:: Portal.functions.decreaseWalletBalance(id: uint256, value: uint256)
 
- 'deployLiquidityPool',
- 'deposit',
- 'fetchWithdrawalContractUpgradeProposal',
- 'gETH',
- 'gETHInterfaces',
+    Like, above function, operators can also decrease their wallet balance.
 
- 'initialize',
- 'initiateOperator',
- 'initiatePool',
+.. code-block:: python
 
- 'newProposal',
- 'onERC1155BatchReceived',
- 'onERC1155Received',
- 'paused',
+    ## It is not payable function.
+    >>> transaction_params = {
+        'to': Portal.address,
+        'from': your_address,
+        'gas': 200000,  # Example: setting the gas limit
+        'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
+        }
 
- 'proposeStake',
+    >>> transaction = Portal.functions.decreaseWalletBalance(operatorId, web3.toWei(320, 'ether')).buildTransaction(transaction_params)
+    >>> signed_txn = web3.eth.account.sign_transaction(transaction, private_key=sender_private_key)
+    >>> tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
-Updates  
--------
- 'proxiableUUID',
- 'upgradeTo',
- 'upgradeToAndCall'
