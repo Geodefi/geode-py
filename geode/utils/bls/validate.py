@@ -10,10 +10,10 @@ from geode.globals import (
     MIN_DEPOSIT_AMOUNT,
     MAX_DEPOSIT_AMOUNT)
 
-from _ssz import (DepositMessage,
-                  compute_deposit_domain,
-                  compute_signing_root,
-                  DepositData)
+from .serialize import (DepositMessage,
+                        compute_deposit_domain,
+                        compute_signing_root,
+                        DepositData)
 
 
 def SHA256(x: bytes) -> bytes:
