@@ -1,6 +1,5 @@
 from math import pow, ceil, log2
 from functools import cache
-from .solidity import intToHexString, abiEncodepacked
 import typing as t
 from eth_abi import encode
 from Crypto.Hash import keccak as _keccak
@@ -19,7 +18,7 @@ def keccak256(x: bytes) -> bytes:
 
 class Tree:
 
-    def __init__(self, types, values, tree) -> None:
+    def __init__(self, types, values, tree='') -> None:
         self._types: t.List = types
         self._values: t.List = values
         self._tree: t.List = tree
@@ -32,12 +31,16 @@ class Tree:
         return f"MerkleTree(\n\tformat: '{self._format}',\n\ttree:\n\t  '{_tree_repr}',\n\tvalues:\n\t\t{self._values},\n\troot:\n\t  {self.root}\n\tleaf_encoding:  {self._types})"
 
     @property
+    def tree(self):
+        return self._tree[1:]
+
+    @property
     def root(self):
         return '0x' + self._tree[1]
 
     @property
     def values(self):
-        return self.values
+        return self._values
 
     @property
     def format(self):
@@ -50,10 +53,7 @@ class Tree:
     def _tree_hexify(self, tree):
         t = []
         for i in tree:
-            if isinstance(i, bytes):
-                t.append('0x'+i.hex())
-            else:
-                t.append('0x'+i)
+            t.append('0x'+i)
         return t
 
 
@@ -77,6 +77,9 @@ class StandartMerkleTree:
         # Always power of 2, How many memory should be allocated.
         self._sizeOfTree = 0
         self._sort = sort  # Recommentation: Always use sort = True for solidity compatilibty
+
+    def leafToHash(self, leaf, types):
+        return keccak256(bytes.fromhex(keccak256(encode(types, leaf))))
 
     def of(self, values: t.List, types: t.List):
         """
@@ -129,7 +132,7 @@ class StandartMerkleTree:
 
             for i, type in enumerate(types):
                 # type check
-                if 'bytes' in type:
+                if type in ['bytes', 'bytes32']:
                     # Hex string
                     if isinstance(v[i], str):
                         if v[i][:2] == '0x':
@@ -142,7 +145,7 @@ class StandartMerkleTree:
 
                         else:
                             try:
-                                int(v[i][:2], 16)
+                                int(v[i], 16)
                             except ValueError:
                                 raise ValueError(f"{v[i]} is not hex-string.")
                             v[i] = bytes.fromhex(v[i])
@@ -151,19 +154,21 @@ class StandartMerkleTree:
                         pass
                     else:
                         raise ValueError(f"{v[i]} is not bytes.")
-                elif 'int' in type:
+
+                elif type in ['int', 'uint', 'uint8', 'uint16', 'uint32', 'uint64', 'uint128', 'uint256', 'int8', 'int16', 'int32', 'int64', 'int128', 'int256']:
                     try:
                         v[i] = int(v[i])
                     except ValueError:
                         raise ValueError(
                             f"{v[i]} is not integer or unsigned integer.")
                 elif 'bool' == type:
+
                     if isinstance(v[i], bool):
                         pass
-                    elif v[i] == 'true' or v[i] == 'True':
+                    elif v[i] in ['true', 'True']:
                         v[i] = True
-                    elif v[i] == 'false' or v[i] == 'False':
-                        v[i] = True
+                    elif v[i] in ['False', 'false']:
+                        v[i] = False
                     else:
                         raise ValueError(f"{v[i]} is not boolean.")
 
@@ -184,8 +189,6 @@ class StandartMerkleTree:
 
                 if (right is None and left is None):
                     self._tree[i + startIndex] = None
-                elif (left is None):
-                    self._tree[i + startIndex] = right
                 elif (right is None):
                     self._tree[i + startIndex] = left
                 else:
@@ -252,9 +255,9 @@ class StandartMerkleTree:
 
         return proofList
 
-    def verifyProof(self, leaf, proofs) -> bool:
-        # To be Implemented
-        pass
+    # def verifyProof(self, leaf, proofs) -> bool:
+    #    # To be Implemented
+    #    pass
 
     def printTree(self):
         if self.generated:
@@ -269,49 +272,13 @@ class StandartMerkleTree:
 
         depthOfIndex = int(log2(i)) + 1
 
-        if self._tree[i] is None:
-            pass
-        else:
+        if self._tree[i] is not None:
             print(i, '|  ' * depthOfIndex + '|'+'_' *
                   depthOfIndex + ': ' + self._tree[i])
 
         # RECURSION
         self.nextNode(i*2)
         self.nextNode(i*2 + 1)
-
-    @staticmethod
-    def _keccak256(message: str) -> str:
-        """
-        Keccak256 of the message.
-        First the message will be converted to bytes
-        """
-
-        return keccak256(message)
-
-    @staticmethod
-    def _intToHexString(number: int) -> str:
-        """
-        integer to hex string
-        :param number: the number to convert
-
-        31 -> "(0x)000000000000000000000000000000000000001f"
-        """
-        return intToHexString(number)
-
-    @classmethod
-    def _abiEncodepacked(cls, *args) -> str:
-        """
-        Functions as abi.encodePacked() in Solidity
-        Takes any number of integer arguments converts to hex integers and pad '0's to beginning.
-        returns bytes32 string
-
-        Sample:
-        0 => 0x0000000000000000000000000000000000000000000000000000000000000000
-        721077 => 0x00000000000000000000000000000000000000000000000000000000000b00b5
-        31, 64206, 1309 => 0x00000001f000000000000000000000000000000000000000000000000000000000000face000000000000000000000000000000000000000000000000000000000000051d
-        """
-
-        return abiEncodepacked(args)
 
     @staticmethod
     def concat(a: str, b: str, sort=True) -> str:
@@ -357,8 +324,8 @@ class StandartMerkleTree:
     @property
     def root(self):
         if not self._generated:
-            print('WARNING! The Merkle Tree is not generated yet.')
-            return '0x'
+            # Tree is not generated yet.
+            return None
         return self._tree[1]
 
     @property
@@ -383,4 +350,4 @@ class StandartMerkleTree:
 
     @property
     def leaves(self):
-        self._tree[len(self._tree)//2:]
+        return self._tree[-self.numberOfNodes:]
