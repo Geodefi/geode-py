@@ -1,7 +1,7 @@
-geode-fi
-========
+geode-py
+ ========
 
-.. toctree::
-   :maxdepth: 4
+ .. toctree::
+    :maxdepth: 4
 
-   geode
+    geode
