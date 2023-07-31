@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Geodefi Python SDK'
+project = 'Geode Finance Python SDK'
 copyright = '2023, Ice Bear'
 author = 'Ice Bear'
 
@@ -129,7 +129,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'GeodeFinancePythonSDK.tex', 'Geodefi Python SDK Documentation',
+    (master_doc, 'GeodeFinancePythonSDK.tex', 'Geode Finance Python SDK Documentation',
      'Ice Bear', 'manual'),
 ]
 
@@ -139,7 +139,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'geodefinancepythonsdk', 'Geodefi Python SDK Documentation',
+    (master_doc, 'geodefinancepythonsdk', 'Geode Finance Python SDK Documentation',
      [author], 1)
 ]
 
@@ -150,7 +150,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'GeodeFinancePythonSDK', 'Geodefi Python SDK Documentation',
+    (master_doc, 'GeodeFinancePythonSDK', 'Geode Finance Python SDK Documentation',
      author, 'GeodeFinancePythonSDK', 'One line description of project.',
      'Miscellaneous'),
 ]

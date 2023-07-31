@@ -1,5 +1,5 @@
 
-Welcome to Geodefi Python SDK documentation!
+Welcome to Geode Finance Python SDK's documentation!
 ====================================================
 
 GeodePy is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.

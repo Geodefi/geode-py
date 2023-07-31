@@ -10,10 +10,10 @@ from geode.globals import (
     MIN_DEPOSIT_AMOUNT,
     MAX_DEPOSIT_AMOUNT)
 
-from .ssz import (DepositMessage,
-                  compute_deposit_domain,
-                  compute_signing_root,
-                  DepositData)
+from .serialize import (DepositMessage,
+                        compute_deposit_domain,
+                        compute_signing_root,
+                        DepositData)
 
 
 def SHA256(x: bytes) -> bytes:
@@ -37,28 +37,6 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     # Verify pubkey
     if len(pubkey) != 48:
         return False
-    # if pubkey != credential.signing_pk:
-    #     return False
-
-    # # Verify withdrawal credential
-    # if len(withdrawal_credentials) != 32:
-    #     return False
-    # if withdrawal_credentials[:1] == BLS_WITHDRAWAL_PREFIX == credential.withdrawal_prefix:
-    #     if withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
-    #         return False
-    # elif withdrawal_credentials[:1] == ETH1_ADDRESS_WITHDRAWAL_PREFIX == credential.withdrawal_prefix:
-    #     if withdrawal_credentials[1:12] != b'\x00' * 11:
-    #         return False
-    #     if credential.eth1_withdrawal_address is None:
-    #         return False
-    #     if withdrawal_credentials[12:] != credential.eth1_withdrawal_address:
-    #         return False
-    # else:
-    #     return False
-
-    # Verify deposit amount
-    # if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:
-    #     return False
 
     # Verify deposit signature && pubkey
     deposit_message = DepositMessage(
@@ -76,3 +54,33 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
         signature=signature,
     )
     return signed_deposit.hash_tree_root == deposit_message_root
+
+
+def validate_parameters(pubkey, withdrawal_credentials, amount, signature, fork_version) -> bool:
+    """
+    :param: pubkey (str) ==> len-96 "No 0x-prefix" public key.
+    :param: withdrawal_credentials (str) ==>  len-96 "No 0x-prefix"
+    :param: amount (int) ==> 31000000000 for 31 and 1000000000 for 1.
+    :param: signature (str) ==>  len-192 "No 0x-prefix" 
+    :param: fork_version (bytes) ==>  fork_version
+
+    return True if the parameters can be validated, else otherwise.
+    """
+
+    # pubkey
+    pubkey = BLSPubkey(bytes.fromhex(pubkey))
+
+    # withdrawal_credentials
+    withdrawal_credentials = bytes.fromhex(withdrawal_credentials)
+
+    # signature
+    signature = bytes.fromhex(signature)
+
+    # Form deposit masage
+    deposit_message = DepositMessage(
+        pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount)
+
+    domain = compute_deposit_domain(fork_version)
+    signing_root = compute_signing_root(deposit_message, domain)
+
+    return bls.Verify(pubkey, signing_root, signature)
