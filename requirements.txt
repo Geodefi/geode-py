@@ -16,7 +16,6 @@ eth-rlp==0.3.0
 eth-typing==3.4.0
 eth-utils==2.2.0
 exceptiongroup==1.1.2
-frozenlist==1.4.0
 hexbytes==0.3.1
 idna==3.4
 iniconfig==2.0.0
