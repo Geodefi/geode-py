@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Geodefi Python SDK'
+project = 'Geode Finance Python SDK'
 copyright = '2023, Ice Bear'
 author = 'Ice Bear'
 
@@ -59,7 +59,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -129,7 +129,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'GeodeFinancePythonSDK.tex', 'Geodefi Python SDK Documentation',
+    (master_doc, 'GeodeFinancePythonSDK.tex', 'Geode Finance Python SDK Documentation',
      'Ice Bear', 'manual'),
 ]
 
@@ -139,7 +139,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'geodefinancepythonsdk', 'Geodefi Python SDK Documentation',
+    (master_doc, 'geodefinancepythonsdk', 'Geode Finance Python SDK Documentation',
      [author], 1)
 ]
 
@@ -150,7 +150,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'GeodeFinancePythonSDK', 'Geodefi Python SDK Documentation',
+    (master_doc, 'GeodeFinancePythonSDK', 'Geode Finance Python SDK Documentation',
      author, 'GeodeFinancePythonSDK', 'One line description of project.',
      'Miscellaneous'),
 ]
@@ -173,5 +173,10 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
 
+html_css_files = [
+    "css/toggle.css",
+    "css/banner.css"]
+
+html_js_files = ["js/matomo.js", "js/toggle.js"]
 
 # -- Extension configuration -------------------------------------------------

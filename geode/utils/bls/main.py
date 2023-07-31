@@ -37,15 +37,15 @@ def validate_deposit_data_file(deposit_data_path: str,
                                credential: str,
                                network: Network):
     deposit_data: t.List[t.Dict] = _get_deposit_data(deposit_data_path)
-    # for deposit in deposit_data:
-    #     if deposit["amount"] != amount.value:
-    #         raise DepositSizeException
-    #     if deposit["withdrawal_credentials"] != credential:
-    #         raise WithdrawalCredentialException
-    #     if bytes.fromhex(deposit["fork_version"]) != GENESIS_FORK_VERSION[network.value]:
-    #         raise GenesisForkException
-    #     if deposit["network_name"] != DEPOSIT_NETWORK_NAME[network.value]:
-    #         raise NetworkNameException
-    #     if not validate_deposit(deposit):
-    #         raise DepositDataException
+    for deposit in deposit_data:
+        if deposit["amount"] != amount.value:
+            raise DepositSizeException
+        if deposit["withdrawal_credentials"] != credential:
+            raise WithdrawalCredentialException
+        if bytes.fromhex(deposit["fork_version"]) != GENESIS_FORK_VERSION[network.value]:
+            raise GenesisForkException
+        if deposit["network_name"] != DEPOSIT_NETWORK_NAME[network.value]:
+            raise NetworkNameException
+        if not validate_deposit(deposit):
+            raise DepositDataException
     return deposit_data

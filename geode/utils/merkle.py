@@ -1,10 +1,63 @@
 from math import pow, ceil, log2
 from functools import cache
-from .crypto import keccak256
-from .solidity import intToHexString, abiEncodepacked
+import typing as t
+from eth_abi import encode
+from Crypto.Hash import keccak as _keccak
 
 
-class MerkleTree:
+def keccak256(x: bytes) -> bytes:
+
+    if isinstance(x, str):
+        x = bytes.fromhex(x[2:])
+
+    k = _keccak.new(digest_bits=256)
+    k.update(x)
+
+    return k.hexdigest()
+
+
+class Tree:
+
+    def __init__(self, types, values, tree='') -> None:
+        self._types: t.List = types
+        self._values: t.List = values
+        self._tree: t.List = tree
+        self._format = 'standard-v1'
+        self._root = tree[1]
+
+    def __repr__(self):
+        _tree_repr = "'\n\t  '".join(self._tree_hexify(self._tree[1:]))
+
+        return f"MerkleTree(\n\tformat: '{self._format}',\n\ttree:\n\t  '{_tree_repr}',\n\tvalues:\n\t\t{self._values},\n\troot:\n\t  {self.root}\n\tleaf_encoding:  {self._types})"
+
+    @property
+    def tree(self):
+        return self._tree[1:]
+
+    @property
+    def root(self):
+        return '0x' + self._tree[1]
+
+    @property
+    def values(self):
+        return self._values
+
+    @property
+    def format(self):
+        return self._format
+
+    @property
+    def leaf_encodings(self):
+        return self._types
+
+    def _tree_hexify(self, tree):
+        t = []
+        for i in tree:
+            t.append('0x'+i)
+        return t
+
+
+class StandartMerkleTree:
 
     def __init__(self, sort=True):
         """
@@ -25,7 +78,10 @@ class MerkleTree:
         self._sizeOfTree = 0
         self._sort = sort  # Recommentation: Always use sort = True for solidity compatilibty
 
-    def generateTree(self, nodes, keccakTheLeaves=True):
+    def leafToHash(self, leaf, types):
+        return keccak256(bytes.fromhex(keccak256(encode(types, leaf))))
+
+    def of(self, values: t.List, types: t.List):
         """
         Hash every node with keccak until the root has been calculated.
         Always first index of the tree is None (tree[0] = None)
@@ -44,7 +100,7 @@ class MerkleTree:
 
                 Root:    H( H(0xaa.., 0xbb..) , 0xcc..)
                         /                   |
-                H(0xaa.., 0xbb..)           0xccc...    
+                H(0xaa.., 0xbb..)           0xccc...
                     /      |                /       |
               0xaaa.. 0xbbb..          0xccc..      None
 
@@ -53,11 +109,13 @@ class MerkleTree:
         Default: True
         """
 
-        # If empty do not change anything
-        if not nodes:
-            return
+        assert len(values) != 0, "Values cannot be empty."
+        assert len(values[0]) == len(
+            types), "Number of values and types must be equal"
 
-        numberOfNodes = len(nodes)  # Lets assume numberOfNodes is 13,
+        # Create space for tree.
+
+        numberOfNodes = len(values)  # Lets assume numberOfNodes is 13,
         # Then, the tree size will be 32, so depth will be 5
         depth = 1 + ceil(log2(numberOfNodes))
         sizeOfTree = int(pow(2, depth))
@@ -67,23 +125,59 @@ class MerkleTree:
         self._depth = depth
         self._numberOfNodes = numberOfNodes
 
-        # Right half of the list is always leaves
-        # Right half of the left half is Layer 1
-        # Right half of the right half of the left half is Layer 2..
-        # Tree: [None] [Root]. [][]. [][][][]. [][][][][][][][]
-        #               Root  Layer2  Layer1       Leaves
-
         startIndex = sizeOfTree//2
+        base_leaves = []
+        # Take all values like ['123',True,'0xabcd']
+        for v in values:
 
-        # First Insert Leaves
+            for i, type in enumerate(types):
+                # type check
+                if type in ['bytes', 'bytes32']:
+                    # Hex string
+                    if isinstance(v[i], str):
+                        if v[i][:2] == '0x':
+                            try:
+                                int(v[i][2:], 16)
+                            except ValueError:
+                                raise ValueError(f"{v[i]} is not hex-string.")
 
-        # Did you have only the hashes then keccakTheLeaves must be False
-        if keccakTheLeaves:
-            for i, node in enumerate(nodes):
-                self._tree[i + startIndex] = self._keccak256(node)
-        else:
-            for i, node in enumerate(nodes):
-                self._tree[i + startIndex] = node
+                            v[i] = bytes.fromhex(v[i][2:])
+
+                        else:
+                            try:
+                                int(v[i], 16)
+                            except ValueError:
+                                raise ValueError(f"{v[i]} is not hex-string.")
+                            v[i] = bytes.fromhex(v[i])
+
+                    elif isinstance(v[i], bytes):
+                        pass
+                    else:
+                        raise ValueError(f"{v[i]} is not bytes.")
+
+                elif type in ['int', 'uint', 'uint8', 'uint16', 'uint32', 'uint64', 'uint128', 'uint256', 'int8', 'int16', 'int32', 'int64', 'int128', 'int256']:
+                    try:
+                        v[i] = int(v[i])
+                    except ValueError:
+                        raise ValueError(
+                            f"{v[i]} is not integer or unsigned integer.")
+                elif 'bool' == type:
+
+                    if isinstance(v[i], bool):
+                        pass
+                    elif v[i] in ['true', 'True']:
+                        v[i] = True
+                    elif v[i] in ['False', 'false']:
+                        v[i] = False
+                    else:
+                        raise ValueError(f"{v[i]} is not boolean.")
+
+            leaf = encode(types, v)
+
+            base_leaves.append(keccak256(bytes.fromhex(keccak256(leaf))))
+
+        for i, leaf in enumerate(base_leaves):
+            self._tree[i + startIndex] = leaf
 
         # Generate Upper Layers
         while startIndex >= 1:
@@ -95,15 +189,15 @@ class MerkleTree:
 
                 if (right is None and left is None):
                     self._tree[i + startIndex] = None
-                elif (left is None):
-                    self._tree[i + startIndex] = right
                 elif (right is None):
                     self._tree[i + startIndex] = left
                 else:
-                    self._tree[i + startIndex] = self._keccak256(
+                    self._tree[i + startIndex] = keccak256(
                         self.concat(left, right, self._sort))
 
         self._generated = True
+
+        return Tree(types=types, values=values, tree=self._tree)
 
     def getProofs(self, leaf):
         """
@@ -123,7 +217,7 @@ class MerkleTree:
             tree[5] and tree[3] can re-generate the root like
             H(tree[4], tree[5]) (which is equal to tree[2])
 
-            and 
+            and
             H(tree[2], tree[3]) can re-generate the tree[1] which is ROOT
 
 
@@ -161,9 +255,9 @@ class MerkleTree:
 
         return proofList
 
-    def verifyProof(self, leaf, proofs) -> bool:
-        # To be Implemented
-        pass
+    # def verifyProof(self, leaf, proofs) -> bool:
+    #    # To be Implemented
+    #    pass
 
     def printTree(self):
         if self.generated:
@@ -178,49 +272,13 @@ class MerkleTree:
 
         depthOfIndex = int(log2(i)) + 1
 
-        if self._tree[i] is None:
-            pass
-        else:
+        if self._tree[i] is not None:
             print(i, '|  ' * depthOfIndex + '|'+'_' *
                   depthOfIndex + ': ' + self._tree[i])
 
         # RECURSION
         self.nextNode(i*2)
         self.nextNode(i*2 + 1)
-
-    @staticmethod
-    def _keccak256(message: str) -> str:
-        """
-        Keccak256 of the message.
-        First the message will be converted to bytes 
-        """
-
-        return keccak256(message)
-
-    @staticmethod
-    def _intToHexString(number: int) -> str:
-        """
-        integer to hex string
-        :param number: the number to convert
-
-        31 -> "(0x)000000000000000000000000000000000000001f"
-        """
-        return intToHexString(number)
-
-    @classmethod
-    def _abiEncodepacked(cls, *args) -> str:
-        """
-        Functions as abi.encodePacked() in Solidity
-        Takes any number of integer arguments converts to hex integers and pad '0's to beginning.
-        returns bytes32 string
-
-        Sample:
-        0 => 0x0000000000000000000000000000000000000000000000000000000000000000
-        721077 => 0x00000000000000000000000000000000000000000000000000000000000b00b5
-        31, 64206, 1309 => 0x00000001f000000000000000000000000000000000000000000000000000000000000face000000000000000000000000000000000000000000000000000000000000051d
-        """
-
-        return abiEncodepacked(args)
 
     @staticmethod
     def concat(a: str, b: str, sort=True) -> str:
@@ -266,8 +324,8 @@ class MerkleTree:
     @property
     def root(self):
         if not self._generated:
-            print('WARNING! The Merkle Tree is not generated yet.')
-            return '0x'
+            # Tree is not generated yet.
+            return None
         return self._tree[1]
 
     @property
@@ -292,4 +350,4 @@ class MerkleTree:
 
     @property
     def leaves(self):
-        self._tree[len(self._tree)//2:]
+        return self._tree[-self.numberOfNodes:]

@@ -30,4 +30,5 @@ def getKey(id: int, key: str):
     Returns:
     bytes: The generated key.
     """
+
     return (solidity_keccak256(['uint256', 'bytes32'], [id, toBytes32(key)]))

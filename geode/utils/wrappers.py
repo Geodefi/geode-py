@@ -1,5 +1,7 @@
 import logging
 import requests
+from requests.exceptions import JSONDecodeError
+
 from time import sleep
 
 from geode.exceptions import BadRequestException, UnexpectedResponseException, MaxAttemptException
@@ -32,7 +34,11 @@ def httpRequest(func):
             url = func(*args, **kwargs)
             res = requests.get(url)
             if res.status_code == 200:
-                return res.json()["data"]
+
+                try:
+                    return res.json()["data"]
+                except JSONDecodeError:
+                    return res.content
             else:
                 raise BadRequestException(
                     res.status_code, res.reason, res.text)
