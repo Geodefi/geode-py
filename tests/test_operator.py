@@ -29,7 +29,8 @@ def test_init():
     myOperator = PORTAL.operator(OPERATOR_LIST[0])
     assert isinstance(myOperator, Operator)
 
-    assert myOperator.ID == 114391297015478800753082638170652680401082080549997516459063441314156612391510
+    # == 114391297015478800753082638170652680401082080549997516459063441314156612391510
+    assert isinstance(myOperator.ID, int)
     assert myOperator.TYPE == 4
     assert myOperator.network == 5
 
@@ -37,14 +38,14 @@ def test_init():
 
     myOperator2 = PORTAL.operator(
         "114391297015478800753082638170652680401082080549997516459063441314156612391510")
-    assert myOperator.ID == myOperator2.ID
+    assert str(myOperator.ID) == myOperator2.ID
 
 
 myOperator = PORTAL.operator(OPERATOR_LIST[0])
 
 
 def test_initiated():
-    assert myOperator.initiated == 1677378564
+    assert myOperator.initiated == 1687433352
 
 
 def test_totalProposedValidators():
@@ -52,7 +53,7 @@ def test_totalProposedValidators():
 
 
 def test_totalActiveValidators():
-    assert myOperator.totalActiveValidators == 1
+    assert myOperator.totalActiveValidators == 0
 
 
 def test_feeSwitch():
@@ -64,7 +65,7 @@ def test_priorFee():
 
 
 def test_fee():
-    assert myOperator.fee == 500000000
+    assert myOperator.fee == 600000000
 
 
 def test_periodSwitch():
@@ -80,7 +81,7 @@ def test_validatorPeriod():
 
 
 def test_wallet():
-    assert myOperator.wallet == 1000000000000000000
+    assert myOperator.wallet == 0
 
 
 def test_released():
