@@ -12,7 +12,6 @@ Getting Started
 ---------------
 
 - Ready to code? → :ref:`quickstart`
-- Interested in a quick tour? → :ref:`overview`
 - Like to give back? → :ref:`Contribute <contributing>`
 - Want to chat? → `Discord`_
 - Read the source? → `Github`_
@@ -25,7 +24,6 @@ Table of Contents
     :caption: Intro
 
     quickstart
-    overview
     releases
 
 .. toctree::
