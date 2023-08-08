@@ -15,7 +15,7 @@ using ``pip`` as follows:
 
 .. code-block:: shell
 
-   $ pip install geode-finance
+   $ pip install geodefi
 
 Using Geode-Py
 ---------------
