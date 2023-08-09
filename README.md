@@ -115,10 +115,16 @@ totalSupply = gETH.functions.totalSupply().call()
 print(f"Total Supply: {totalSupply}")
 ```
 
+# Releasing
+
+```
+git tag 0.0.1 # or whatever version you want 
+git push origin --tags
+```
+
 # Documentation
 
-Documentation for Geode is available on Read the Docs:
-> put the link here
+[Documentation for Geode is available on Read the Docs](https://sdk.geode.fi).
 
 # Contributing
 
