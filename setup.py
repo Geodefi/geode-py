@@ -3,4 +3,4 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(version={{VERSION_PLACEHOLDER}})
+setup(version='{{VERSION_PLACEHOLDER}}')
