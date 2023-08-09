@@ -115,7 +115,9 @@ totalSupply = gETH.functions.totalSupply().call()
 print(f"Total Supply: {totalSupply}")
 ```
 
-# Releasing
+# Release
+
+- change .github/workflows/pipy_release.yml version first, then:
 
 ```
 git tag 0.0.1 # or whatever version you want 
