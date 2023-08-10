@@ -7,32 +7,42 @@ Quickstart
     All code starting with a ``>>>`` is meant to run in a python interpreter,
     like `ipython <https://pypi.org/project/ipython/>`_.
 
+Before Starting
+------------
+# TODO make it into note
+Geodefi v1.1.0 only supports the python versions between 3.7 and 3.10.  
+
 Installation
 ------------
 
-Geode-py can be installed (preferably in a :ref:`virtualenv <setup_environment>`)
+Geodefi can be installed (preferably in a :ref:`virtualenv <setup_environment>`)
 using ``pip`` as follows:
 
 .. code-block:: shell
-
+   $ python3 -m venv venv
+   $ source venv/bin/activate  
    $ pip install geodefi
 
-Using Geode-Py
+Using Geodefi
 ---------------
 
-Geode-Py is a Python library that leverages the power of web3.py, offering developers a comprehensive toolkit for Geode Finance interactions. Before using, we recommend that you read the `documentation <docs.geode.fi>`_ to become familiar with the terms.
+Geodefi is a Python library that leverages the power of web3.py, offering developers a comprehensive toolkit for Geode Finance interactions. Before using, we recommend that you read the `documentation <https://docs.geode.fi>`_ to become familiar with the terms.
 
+Initilize Geode
+********************
 
-Getting Geode Info
+Check out :ref:`Initilize-Geode<_initilize_geode>`
+
+Display Staking Info
 ********************
 
 .. note::
 
-  In most examples, the ``id`` s of the roles are necessary to get information. 
+  In some examples, the ``id`` s of the roles are necessary to get information. 
   You can learn the ``id`` s of the relevant ``pool``, ``operator`` or ``validator`` 
   from the our `website <https://www.geode.fi>`_ or from the :ref:`Initilize-Geode<_initilize_geode>` documentation.
 
-Since geode-py is built on top of web3.py you can get most of the information just like in web3.py.
+Since Geodefi is built on top of web3.py you can get most of the information just like in web3.py.
 
 .. code-block:: python
 
@@ -46,7 +56,7 @@ Since geode-py is built on top of web3.py you can get most of the information ju
 
    ## View functions
    >>> myPortal = GEODE.Portal
-   >>> myPortal.contract.functions.CONTRACT_VERSION().call()
+   >>> myPortal.contract.functions.getContractVersion().call()
     87373968589722757255522487689903791119558634447171488905970002736659167479131
 
 
@@ -75,7 +85,7 @@ Some critical functions can only be called by such roles.
 
 .. note::
 
-  Geode-Py's property functions are not expensive because they return local variables. 
+  Geodefi's property functions are not expensive because they return local variables. 
   These variables are automatically updated every 60 (``REFRESH_RATE``) seconds.
 
 

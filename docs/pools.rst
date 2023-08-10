@@ -125,59 +125,59 @@ secured
 
 
 
-Interfaces
+Middlewares
 ************************************
 
-interfacesList
+middlewaresList
 --------------------------------------------------
 
-``interfacesList`` list of (address)es 
-    Although we expect pools to generally use our standard interfaces, they are free with interfaces and geode supports multiple interfaces. You can easily build on the standards.
+``middlewaresList`` list of (address)es 
+    Although we expect pools to generally use our standard middlewares, they are free with middlewares and geode supports multiple middlewares. You can easily build on the standards.
 
 .. code-block:: python
 
     >> myPool = geode.Portal.pool(poolID)
-    >> print("interfacesList:",myPool.interfacesList)
+    >> print("middlewaresList:",myPool.middlewaresList)
     
-    interfacesList: ['0xdaED82d9a6a0282D9084375eb1Dc8c09440e2aB3']
+    middlewaresList: ['0xdaED82d9a6a0282D9084375eb1Dc8c09440e2aB3']
 
 
-interfaces(index:uint256)
+middlewares(index:uint256)
 --------------------------------------------------
 
-``interfaces`` returns you the interface corresponding to the given index. If the index is too large, it will throw an error.
+``middlewares`` returns you the middleware corresponding to the given index. If the index is too large, it will throw an error.
 
 .. code-block:: python
 
     >> myPool = geode.Portal.pool(poolID)
-    >> print("interfaces:",myPool.interfaces(0))
+    >> print("middlewares:",myPool.middlewares(0))
     
-    interfaces: '0xdaED82d9a6a0282D9084375eb1Dc8c09440e2aB3'
+    middlewares: '0xdaED82d9a6a0282D9084375eb1Dc8c09440e2aB3'
 
 
-interfaces(index:uint256)
+middlewares(index:uint256)
 --------------------------------------------------
 
-``interfaces`` returns you the interface corresponding to the given index. If the index is too large, it will throw an error.
+``middlewares`` returns you the middleware corresponding to the given index. If the index is too large, it will throw an error.
 
 .. code-block:: python
 
     >> myPool = geode.Portal.pool(poolID)
-    >> print("interfaces:",myPool.interfaces(0))
+    >> print("middlewares:",myPool.middlewares(0))
     
-    interfaces: '0xdaED82d9a6a0282D9084375eb1Dc8c09440e2aB3'
+    middlewares: '0xdaED82d9a6a0282D9084375eb1Dc8c09440e2aB3'
 
-interfacesLen
+middlewaresLen
 --------------------------------------------------
 
-``interfaces`` returns the number of interfaces. If you want to achieve multiple interfaces, it can be used to set the limits of the loop before executing the above code.
+``middlewares`` returns the number of middlewares. If you want to achieve multiple middlewares, it can be used to set the limits of the loop before executing the above code.
 
 .. code-block:: python
 
     >> myPool = geode.Portal.pool(poolID)
-    >> print("interfacesLen:",myPool.interfacesLen)
+    >> print("middlewaresLen:",myPool.middlewaresLen)
     
-    interfacesLen: 1
+    middlewaresLen: 1
 
 
 Withdrawal Data

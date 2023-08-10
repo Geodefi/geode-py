@@ -3,9 +3,9 @@
 Contributing
 ==============
 
-Thanks for your interest in contributing to web3.py! Read on to learn what
+Thanks for your interest in contributing to Geodefi! Read on to learn what
 would be helpful and how to go about it. If you get stuck along the way, reach
-for help in the `Python Discord server`_.
+for help in the `Discord server <https://discord.com/invite/RC8fTTuJtm>`_.
 
 
 How to Help
@@ -13,10 +13,10 @@ How to Help
 
 Without code:
 
-* Answer user questions within GitHub issues, Stack Overflow, or the `Python Discord server`_.
+* Answer user questions within GitHub issues, Stack Overflow, or the `Discord server <https://discord.com/invite/RC8fTTuJtm>`_.
 * Write or record tutorial content.
 * Improve our documentation (including typo fixes).
-* `Open an issue <https://github.com/ethereum/web3.py/issues/new>`_ on GitHub to document a bug. Include as much detail as possible, e.g., how to reproduce the issue and any exception messages.
+* `Open an issue <https://github.com/Geodefi/geode-py/issues/new>`_ on GitHub to document a bug. Include as much detail as possible, e.g., how to reproduce the issue and any exception messages.
 
 With code:
 

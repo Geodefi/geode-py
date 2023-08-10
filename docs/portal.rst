@@ -58,18 +58,6 @@ Attributes
 
 Methods
 ------------
-
-.. py:method:: Portal.functions.CONTRACT_VERSION()
-
-    Returns the ``CONTRACT_VERSION`` of the contract.
-
-.. code-block:: python
-
-    # get a Portal address
-    >>> PORTAL.functions.CONTRACT_VERSION().call()
-    87373968589722757255522487689903791119558634447171488905970002736659167479131
-
-
 .. py:method:: Portal.functions.Do_we_care()
 
     Returns always ``True`` because we always care <3
@@ -83,10 +71,11 @@ Methods
 .. py:method:: Portal.functions.GeodeParams()
 
     Returns: 
-        * ``SENATE``
-        * ``GOVERNANCE``
-        * ``SENATE_EXPIRY`` 
-        * ``GOVERNANCE_FEE`` 
+        * ``governance``
+        * ``senate``
+        * ``approvedUpgrade`` 
+        * ``senateExpiry`` 
+        * ``packageType`` 
 
 .. code-block:: python
 
@@ -94,36 +83,41 @@ Methods
     >>> PORTAL.functions.GeodeParams().call()
     ['0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
-    115792089237316195423570985008687907853269984665640564039457584007913129639935,
-    0]
+    '0x6699580E23Fc6a802e996a654845348CA560bc94',
+    1717847448,
+    10001]
 
 
-.. py:method:: Portal.functions.StakingParams()
+.. py:method:: Portal.functions.StakeParams()
 
     Returns:
-        * ``VALIDATORS_INDEX``
-        * ``VERIFICATION_INDEX``
-        * ``MONOPOLY_THRESHOLD``
-        * ``EARLY_EXIT_FEE``
-        * ``ORACLE_UPDATE_TIMESTAMP``
-        * ``DAILY_PRICE_INCREASE_LIMIT``
-        * ``DAILY_PRICE_DECREASE_LIMIT``
-        * ``PRICE_MERKLE_ROOT``
-        * ``ORACLE_POSITION``
+        * ``gETH``
+        * ``oraclePosition``
+        * ``validatorsIndex``
+        * ``verificationIndex``
+        * ``monopolyThreshold``
+        * ``oracleUpdateTimestamp``
+        * ``dailyPriceIncreaseLimit``
+        * ``dailyPriceDecreaseLimit``
+        * ``governanceFee``
+        * ``priceMerkleRoot``
+        * ``balanceMerkleRoot``
 
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.functions.StakingParams().call()
-    [10,
-    9,
-    115792089237316195423570985008687907853269984665640564039457584007913129639935,
+    >>> PORTAL.functions.StakeParams().call()
+    ['0x3f911696044d000CcF7D085e35b060e846b95f56',
+    '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     0,
     0,
-    500000000, 
-    500000000,
+    500000,
+    0,
+    700000000,
+    700000000,
+    0,
     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
-    '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C']
+    b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00']
 
 
 .. py:method:: Portal.functions.getContractVersion()
@@ -138,7 +132,7 @@ Methods
     87373968589722757255522487689903791119558634447171488905970002736659167479131
 
 
-Data Utils
+Reading Portal's Storage
 -----------------
 
 .. NOTE:: 
@@ -148,34 +142,34 @@ Data Utils
     We recommend that you initialize the ``Pool``, ``Operator`` or ``Validator`` and read the data that way, instead of calling it from the ``Portal`` contract. 
     See :doc:`Pools <pools>`, :doc:`Operators <operators>`, :doc:`Validators <validators>`,
 
-.. py:method:: Portal.functions.readBytesForId(uint256, bytes32)
+.. py:method:: Portal.functions.readBytes(uint256, bytes32)
 
 .. code-block:: python
 
     >>> from geode.utils import toBytes32, toString
     >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.readBytesForId(pid, toBytes32("NAME")).call()
+    >>> Portal.functions.readBytes(pid, toBytes32("NAME")).call()
       b'Icy Pool'
     >>> toString(b'Icy Pool')
        'Icy Pool'
 
-.. py:method:: Portal.functions.readAddressForId(uint256, bytes32)
+.. py:method:: Portal.functions.readAddress(uint256, bytes32)
 
 .. code-block:: python
 
     >>> from geode.utils import toBytes32
     >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.readAddressForId(pid, toBytes32("CONTROLLER")).call()
+    >>> Portal.functions.readAddress(pid, toBytes32("CONTROLLER")).call()
       '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C'
 
 
-.. py:method:: Portal.functions.readUintForId(uint256, bytes32)
+.. py:method:: Portal.functions.readUint(uint256, bytes32)
 
 .. code-block:: python
 
     >>> from geode.utils import toBytes32
     >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.readUintForId(pid, toBytes32("fee")).call()
+    >>> Portal.functions.readUint(pid, toBytes32("fee")).call()
       500000000
 
 
@@ -184,21 +178,21 @@ Data Utils
 
 * Extra functions
 
-.. py:method:: Portal.functions.readBytesArrayForId(uint256, bytes32)
+.. py:method:: Portal.functions.readBytesArray(uint256, bytes32)
 
 For getting array of ``bytes``.
 
-.. py:method:: Portal.functions.readAddressArrayForId(uint256, bytes32)
+.. py:method:: Portal.functions.readAddressArray(uint256, bytes32)
 
 For getting array of ``address``.
 
-.. py:method:: Portal.functions.readUintArrayForId(uint256, bytes32)
+.. py:method:: Portal.functions.readUintArray(uint256, bytes32)
 
 For getting array of ``uint256``.
 
 
 
-Getting Roles of Portal
+Getting IDs from Portal's Storage
 --------------------------
 
 .. py:method:: Portal.functions.allIdsByType(type: uint256, index: uint256)

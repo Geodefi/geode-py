@@ -56,7 +56,7 @@ def test_invalid_init():
 # WARNING: readAddress is not working....
 
 # assert myPool.maintainer == 0
-# assert myPool.interfacesList == 0
+# assert myPool.middlewaresList == 0
 # assert myPool.whitelist == 0
 # assert myPool.withdrawalContract == 0
 # assert myPool.liquidityPool == 0
@@ -121,12 +121,12 @@ def test_activeValidators():
 # WARNING: readAddress does not work...
 
 """
-def test_interfaces():
+def test_middlewares():
     myPool = PORTAL.pool(POOL_LIST[0])
 
-    print(myPool.interfaces(0))
-    print(myPool.interfaces(1))
-    print(myPool.interfaces(-1))
+    print(myPool.middlewares(0))
+    print(myPool.middlewares(1))
+    print(myPool.middlewares(-1))
 """
 
 
@@ -170,8 +170,8 @@ def test_secured():
     assert myPool.secured == 0
 
 
-def test_interfacesLen():
-    assert myPool.interfacesLen == 1
+def test_middlewaresLen():
+    assert myPool.middlewaresLen == 1
 
 
 def test_private():

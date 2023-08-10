@@ -3,6 +3,7 @@
 
 Initilize Geode
 ====================
+# TODO: .env creation
 
 EXECUTION_API
 -------------------
@@ -37,7 +38,7 @@ CONSENSUS_KEY
 Initilize Geode
 -------------------
 
-The snippet initializes the Geode-Py library by importing the ``Geode`` class from the geode module. It creates an instance of Geode and passes the ``EXECUTION_API`` and ``CONSENSUS_KEY`` values as arguments to the constructor.
+The snippet initializes the Geodefi library by importing the ``Geode`` class from the geode module. It creates an instance of Geode and passes the ``EXECUTION_API`` and ``CONSENSUS_KEY`` values as arguments to the constructor.
 
 .. code-block:: python
 
@@ -52,10 +53,10 @@ The snippet initializes the Geode-Py library by importing the ``Geode`` class fr
 
       INFO : Connected to beconcha.in:https://goerli.beaconcha.in/api/v1/
 
-Generate ID
+Example: Locally Generating an ID
 ----------------
 
-You can easily get id of the spesific role by typing name of it.
+You can easily get id of the specific role by typing name of it.
 First, it imports the generateId function from the geode.utils module and the ``ID_TYPE`` enumeration from the geode.globals module.
 
 .. code-block:: python
@@ -80,8 +81,8 @@ First, it imports the generateId function from the geode.utils module and the ``
 Create Objects
 -----------------
 
-This code snippet showcases the usage of the Geode-Py library. 
-It initializes the ``Beacon`` and ``Portal`` objects, representing key components of Geode-Py. 
+This code snippet showcases the usage of the Geodefi library. 
+It initializes the ``Beacon`` and ``Portal`` objects, representing key components of Geodefi. 
 Additionally, it creates a gETH object that represents the ``gETH`` token. The snippet also demonstrates how to retrieve information about a pool using the pool() function, identified by pid, and how to retrieve information about an operator using the operator() function, identified by oid.
 
 .. code-block:: python

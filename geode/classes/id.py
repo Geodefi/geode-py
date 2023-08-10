@@ -44,19 +44,19 @@ class Id(object):
 
     @multipleAttempt
     def _readUint(self, key: str):
-        res = self.portal.functions.readUintForId(
+        res = self.portal.functions.readUint(
             self.ID, toBytes32(key)).call()
         return res
 
     @multipleAttempt
     def _readUintArray(self, key: str, index: int):
-        res = self.portal.functions.readUintArrayForId(
+        res = self.portal.functions.readUintArray(
             self.ID, toBytes32(key), index).call()
         return res
 
     @multipleAttempt
     def _readBytes(self, key: str, isString: bool = False, isHex=False):
-        res = self.portal.functions.readBytesForId(
+        res = self.portal.functions.readBytes(
             self.ID, toBytes32(key)).call()
 
         if isinstance(res, str):
@@ -73,7 +73,7 @@ class Id(object):
 
     @multipleAttempt
     def _readBytesArray(self, key: str, index: int, isString: bool = False, isHex=False):
-        res = self.portal.functions.readBytesArrayForId(
+        res = self.portal.functions.readBytesArray(
             self.ID, toBytes32(key), index).call()
 
         if isinstance(res, str):
@@ -90,16 +90,16 @@ class Id(object):
 
     @multipleAttempt
     def _readAddress(self, key: str):
-        res: et.Address = self.portal.functions.readAddressForId(
+        res: et.Address = self.portal.functions.readAddress(
             self.ID, toBytes32(key)).call()
-        csRes: et.ChecksumAddress = Web3.toChecksumAddress(res)
+        csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
         return csRes
 
     @multipleAttempt
     def _readAddressArray(self, key: str, index: int):
-        res: et.Address = self.portal.functions.readAddressArrayForId(
+        res: et.Address = self.portal.functions.readAddressArray(
             self.ID, toBytes32(key), index).call()
-        csRes: et.ChecksumAddress = Web3.toChecksumAddress(res)
+        csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
         return csRes
 
     @property

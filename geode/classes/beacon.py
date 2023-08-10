@@ -63,19 +63,21 @@ class Beacon(object):
     # Retrieves the validator's balance history data for the specified public key or index.
     @httpRequest
     def get_validator_balancehistory(self, index_or_pk: str):
-        url = self.api_base + index_or_pk + "/balancehistory" + self.api_suffix
+        url = self.api_base + "validator/" + index_or_pk + \
+            "/balancehistory" + self.api_suffix
         return url
 
     # Retrieves the validator's deposit history data for the specified public key or index.
     @httpRequest
     def get_validator_deposits(self, index_or_pk: str):
-        url = self.api_base + index_or_pk + "/deposits" + self.api_suffix
+        url = self.api_base + "validator/" + index_or_pk + "/deposits" + self.api_suffix
         return url
 
     # Retrieves the validator's withdrawals history data for the specified public key or index.
     @httpRequest
     def get_validator_withdrawals(self, index_or_pk: str):
-        url = self.api_base + index_or_pk + "/withdrawals" + self.api_suffix
+        url = self.api_base + "validator/" + \
+            index_or_pk + "/withdrawals" + self.api_suffix
         return url
 
     # Retrieves the validator's queue history data for the specified public key or index.
@@ -87,9 +89,4 @@ class Beacon(object):
     @httpRequest
     def get_eth1deposit(self, txhash: str):
         url = self.api_base + "eth1deposit/" + txhash + self.api_suffix
-        return url
-
-    @httpRequest
-    def get_healthz(self):
-        url = self.api_base + "healthz"
         return url

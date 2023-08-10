@@ -32,10 +32,10 @@ class Portal:
 
         address, abi = get_contract_abi(network=self.network, name="Portal")
         self.contract: Contract = w3.eth.contract(
-            address=Web3.toChecksumAddress(address), abi=abi)
+            address=Web3.to_checksum_address(address), abi=abi)
 
-        self.version: int = self.functions.CONTRACT_VERSION().call()
-        version_name = self.functions.readBytesForId(
+        self.version: int = self.functions.getContractVersion().call()
+        version_name = self.functions.readBytes(
             self.version, toBytes32("NAME")).call()
         logging.info(
             f"Portal:{self.network.name} head is on '{toString(version_name)}'")
