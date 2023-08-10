@@ -47,17 +47,17 @@ Geode uses an initiator function to set some parameters for your staking pool an
     # Can be changed later so lets assign 0.
     fee = 0
 
-    # Interface version https://docs.geode.fi/key-concepts/permissionless-configurable-staking-pools/current-interfaces
-    # Interfaces are optional but select from above link.    
-    interfaceVersion = 0
-    interface_data = ''
+    # Middleware version https://docs.geode.fi/key-concepts/permissionless-configurable-staking-pools/current-middlewares
+    # Middlewares are optional but select from above link.    
+    middlewareVersion = 0
+    middleware_data = ''
 
     # If you want to maintain
     maintainer = '0x<your-ethereum-address>'
 
 
     # config[0] = True if a private pool - Can be changed later.
-    # config[1] = True if uses an interface. Can not be changed later.
+    # config[1] = True if uses an middleware. Can not be changed later.
     # config[2] = True if uses a liquidity Pool - Can be changed later.
     config = [True, False, False ]
 
@@ -65,9 +65,9 @@ Geode uses an initiator function to set some parameters for your staking pool an
     >>> tx = Portal.contract.functions.initiatePool(
     pool_name,
     fee,
-    interfaceVersion,
+    middlewareVersion,
     maintainer,
-    interface_data,
+    middleware_data,
     config
     ).buildTransaction(
         {

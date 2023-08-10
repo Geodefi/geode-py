@@ -32,21 +32,25 @@ class Geode(object):
         # Set the Portal instance
         self._set_Portal()
 
+        # # not used for now
         # Set the modules and configurations
         # self._set_modules()
         # self._set_configs(kwargs)
 
     # Internal method to set the Web3 instance
     def _set_web3(self, exec_api: str):
+        # TODO Call global web3 class(web3 inherited) and initialize
         if exec_api:
             self.w3: Web3 = Web3(HTTPProvider(exec_api))
             self.network: int = Network(self.w3.eth.chain_id)
+        # TODO raise if not provided
 
     # Internal method to set the Beacon instance
     def _set_beacon(self, cons_key: str):
         if cons_key:
             self.Beacon: Beacon = Beacon(
                 network=self.network, cons_key=cons_key)
+        # TODO raise if not provided
 
     # Internal method to set the Portal instance
     def _set_Portal(self):

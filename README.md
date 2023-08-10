@@ -101,7 +101,7 @@ print("total_withdrawals:",myVal.totalWithdrawals)
 ```python
 # Call functions of the Portal Contract
 Portal = geode.Portal
-stakingParams = Portal.functions.StakingParams().call()
+StakeParams = Portal.functions.StakeParams().call()
 ```
 
 ### Get the chain-specific internal Token
@@ -115,8 +115,9 @@ totalSupply = gETH.functions.totalSupply().call()
 print(f"Total Supply: {totalSupply}")
 ```
 
-# Release
+# Releasing
 
+- use main branch for releases.
 - change .github/workflows/pipy_release.yml version first, then:
 
 ```

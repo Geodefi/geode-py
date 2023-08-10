@@ -21,7 +21,7 @@ class Token(object):
 
         # Instantiate the contract using Web3 instance, address and ABI
         self.contract: Contract = w3.eth.contract(
-            address=Web3.toChecksumAddress(address), abi=abi)
+            address=Web3.to_checksum_address(address), abi=abi)
 
         # Log the token name
         logging.info(f"Token:{token_name}")

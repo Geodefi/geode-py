@@ -2,10 +2,10 @@
 Welcome to Geode Finance Python SDK's documentation!
 ====================================================
 
-GeodePy is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.
+Geodefi is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.
 
-Built on top of web3.py, GeodePy offers a comprehensive set of functions and utilities that simplify the process of interacting with smart contracts on the Ethereum blockchain. 
-Whether you're looking to query contract data, execute transactions, GeodePy has you covered with a user-friendly and highly efficient interface. By leveraging the power of the Ethereum network and GeodePy's intuitive functionality, Geode Finance companies can streamline their operations and unlock new levels of efficiency in their workflows.
+Built on top of web3.py, Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with smart contracts on the Ethereum blockchain. 
+Whether you're looking to query contract data, execute transactions, Geodefi has you covered with a user-friendly and highly efficient interface. By leveraging the power of the Ethereum network and Geodefi's intuitive functionality, Geode Finance companies can streamline their operations and unlock new levels of efficiency in their workflows.
 
 
 Getting Started
@@ -14,7 +14,7 @@ Getting Started
 - Ready to code? → :ref:`quickstart`
 - Like to give back? → :ref:`Contribute <contributing>`
 - Want to chat? → `Discord`_
-- Read the source? → `Github`_
+- Read the source? → `Github <https://github.com/Geodefi/geode-py>`_
 
 Table of Contents 
 --------------------
@@ -22,7 +22,7 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Intro
-
+    index
     quickstart
     releases
 

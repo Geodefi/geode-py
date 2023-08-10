@@ -10,7 +10,7 @@ class DEPOSIT_SIZE(IntEnum):
     beaconStake: takes 31 ether from pool & reimburses the operator's 1 ether
     """
     PROPOSAL = 1000000000
-    BEACON = 31000000000
+    STAKE = 31000000000
 
 
 DEPOSIT_NETWORK_NAME: t.Dict[Network, bytes] = {

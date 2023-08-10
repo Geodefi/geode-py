@@ -46,7 +46,7 @@ Basic Standarts
 
 .. py:method:: Token.contract.functions.mintBatch(to, id[], amount[], data)
     
-    "Creates `amount` new tokens for `to`, of token type `id`. Enables multiple tokens with spesific amounts.
+    "Creates `amount` new tokens for `to`, of token type `id`. Enables multiple tokens with specific amounts.
 
 .. code-block:: python
     
@@ -268,11 +268,10 @@ Roles
 
 
 
-Interfaces 
+Middlewares 
 --------
-  'setInterface',
- 'avoidInterfaces',
- 'supportsInterface',
+  'setMiddleware',
+  'avoidMiddlewares',
 
 Pauses 
 -------
@@ -310,7 +309,7 @@ Checks
 
  'isApprovedForAll',
  'isAvoider',
- 'isInterface',
+ 'isMiddleware',
 
 
 
