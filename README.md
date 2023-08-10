@@ -1,14 +1,17 @@
 # geodefi
 
-geodefi is a Python library which makes it easier to interact with the blockchain networks that The Staking Library is available.
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+`geodefi` is a Python library which makes it easier to interact with the Proof of Stake networks that [The Staking Library](https://docs.geode.fi) is available.
 It provides a simple and intuitive interface for accessing blockchain data, executing smart contract functions, and managing blockchain transactions related to Geode's Trustless staking solution.
 
 ## Features
 
-- Supports Ethereum mainnet, gnosis and testnet (Goerli) where The Protocol is deployed.
-- Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/modules
-- Dynamically, adapts to contract updates (might require changing the abi files)
-- Compatible with Python 3.7 and above
+- Supports Ethereum Goerli testnet (as of v1.1.1) where The Protocol is deployed.
+- Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/packages.
+- Dynamically adapts to the contract upgrades.
+- Mostly chain agnostic. However, might differ according to the unique PoS implementations.
+- Compatible from Python 3.7 to Python 3.10.
 
 ## Installation
 
@@ -21,118 +24,94 @@ pip install geodefi
 Using setup.py:
 
 ```sh
-python3 setup.py
+python3 setup.py .
 ```
 
-## Usage
-
-Here's a simple example of how to use Geode Library to interact with the Geode Finance Systems:
-
-```python
-from geode import Geode
-
-#### STRONGLY RECOMMENDED TO SET THESE VARIABLES IN LOCAL ENVIROMENT
-# Initialize a Geode instance with the Ethereum JSON-RPC endpoint
-url = "https://mainnet.infura.io/v3/your-project-id"
-# For Beacon functionalities
-# get a key from https://beaconcha.in
-consensus_key = "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-
-geode = Geode(exec_api=url, cons_key = consensus_key)
-```
-
-### Get A Pool
-
-```python
-# Get Pool from Portal
-pid = 50016835115526216130031110555486827201953559012021267556883950029143900999178
-myPool = geode.Portal.pool(pid)
-
-print("NAME:",myPool.NAME)
-print("CONTROLLER:",myPool.CONTROLLER)
-print("initiated:",myPool.initiated)
-print("maintainer:",myPool.maintainer)
-print("surplus:",myPool.allowance(operator=myOperator.ID))
-print("activeValidators:",myPool.activeValidators(operator=myOperator.ID))
-```
-
-### Get A Operator
-
-```python
-# Get Operator from Portal
-oid = 114391297015478800753082638170652680401082080549997516459063441314156612391510
-myOp = geode.Portal.operator(pid)
-
-print("NAME:",myOp.NAME)
-print("CONTROLLER:",myOp.CONTROLLER)
-print("initiated:",myOp.initiated)
-print("maintainer:",myOp.maintainer)
-print("totalProposedValidators:",myOp.totalProposedValidators)
-print("totalActiveValidators:",myOp.totalActiveValidators)
-print("feeSwitch:",myOp.feeSwitch)
-print("priorFee:",myOp.priorFee)
-print("fee:",myOp.fee)
-```
-
-### Get A Validator
-
-```python
-# Get Validator from pool
-myVal=myPool.validators(0)
-
-# Validator state on execution layer
-print("state:",myVal.state)
-print("index:",myVal.index)
-print("poolId:",myVal.poolId)
-print("operatorId:",myVal.operatorId)
-print("poolFee:",myVal.poolFee)
-print("operatorFee:",myVal.operatorFee)
-
-# Validator state on consensus layer
-print("slashed:",myVal.slashed)
-print("status:",myVal.status)
-print("validatorindex:",myVal.validatorIndex)
-print("withdrawalcredentials:",myVal.withdrawalCredentials)
-print("total_withdrawals:",myVal.totalWithdrawals)
-```
-
-### Call functions of the Portal Contract
-
-```python
-# Call functions of the Portal Contract
-Portal = geode.Portal
-StakeParams = Portal.functions.StakeParams().call()
-```
+## Usage Details
+>
+>Note that, Geode.Token refers to the chain-specific internal Token of The Staking Library. This token differs on different chains.
 
 ### Get the chain-specific internal Token
 
-gETH on Ethereum, gGNO on gnosis etc.
+gETH on Ethereum, gGNO on Gnosis etc.
 
 ```python
 # Get gETH token with all functionalities
-gETH = geode.Token
+gETH = Geode.Token
 totalSupply = gETH.functions.totalSupply().call()
 print(f"Total Supply: {totalSupply}")
 ```
 
+## Contributing
+
+We welcome contributions from the community! To contribute to this project, please follow these steps:
+
+1. **Fork the Repository**: Click the "Fork" button at the top right corner of this repository to create your own copy.
+
+2. **Clone the Repository**: Clone the forked repository to your local machine using the following command:
+
+   ```bash
+   git clone https://github.com/<your_user_name>/Telescope.git
+    ```
+
+3. **Virtual Environment (adviced)** Open virtual environment for python.
+
+    ```bash
+    sudo pip install virtualenv
+    python3 -m venv {path}
+    source {path}/bin/activate
+
+    pip install -r requirements.txt
+    ```
+
+4. **Create a Branch**: Create a new branch for your contribution:
+
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
+
+5. **Commit Changes**: Commit your changes with a descriptive commit message:
+
+    ```bash
+    git commit -m "Add feature: your feature description"
+    ```
+
+6. **Push Changes**: Push your changes to your forked repository:
+
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+
+7. **Create a Pull Request**: Go to the original repository on GitHub and click on the "Pull Request" button. Fill out the necessary information and submit the pull request. Your pull request will be reviewed by the maintainers. Be ready to respond to any feedback or changes requested. You might need to make additional commits based on the feedback.
+
+8. **Celebrate**: Once your pull request is approved and merged, your contribution will be part of the project! Thank you for your contribution.
+
+## Documentation
+
+Detailed documentation for this project is available on [Geodefi SDK](https://sdk.geode.fi).
+
+You can find information on how to install, use, and contribute to the project in the documentation. Whether you're a user or a developer, the documentation provides essential resources to help you get started.
+
+1. **Update in documentations**
+If your feature needs to have additional section in [Read The Docs](https://sdk.geode.fi). Please check the docs in your local computer first.
+
+```bash
+cd docs
+make html
+```
+
+> built docs page is located in docs/_build/html/index.html.
+
 # Releasing
 
-- use main branch for releases.
-- change .github/workflows/pipy_release.yml version first, then:
+- Use main branch for releases.
+- Change .github/workflows/pipy_release.yml version first, then:
 
 ```
 git tag 0.0.1 # or whatever version you want 
 git push origin --tags
 ```
 
-# Documentation
-
-[Documentation for Geode is available on Read the Docs](https://sdk.geode.fi).
-
-# Contributing
-
-Contributions to Geode are welcome! Please see the contributing guidelines for more information.
-
 # License
 
-geodefi is licensed under MIT.
+`geodefi` is licensed under MIT.
