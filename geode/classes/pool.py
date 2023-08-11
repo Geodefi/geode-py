@@ -165,14 +165,14 @@ class Pool(Id):
         for the Beacon chain, that it is meant for the specified network, and that it is associated
         with the withdrawal credentials of the current operator.
 
-        Once the deposit data has been validated, the function extracts the public keys and 31-byte
+        Once the deposit data has been validated, the function extracts the public keys and
         signatures from the deposit data and returns them as a tuple.
 
         Args:
             deposit_data_path (str): The path to the deposit data file.
 
         Returns:
-            Tuple of lists: A tuple containing two lists, the public keys and 31-byte signatures extracted
+            Tuple of lists: A tuple containing two lists, the public keys and signatures extracted
             from the deposit data file.
         """
 

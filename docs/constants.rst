@@ -1,7 +1,7 @@
 .. _constants:
 
 Constants
-=========
+==========
 
 The Geode contants module contains commonly used values.
 
