@@ -51,7 +51,7 @@ We welcome contributions from the community! To contribute to this project, plea
 2. **Clone the Repository**: Clone the forked repository to your local machine using the following command:
 
    ```bash
-   git clone https://github.com/<your_user_name>/Telescope.git
+   git clone https://github.com/<your_user_name>/geode-py.git
     ```
 
 3. **Virtual Environment (adviced)** Open virtual environment for python.
@@ -70,21 +70,27 @@ We welcome contributions from the community! To contribute to this project, plea
     git checkout -b feature/your-feature-name
     ```
 
-5. **Commit Changes**: Commit your changes with a descriptive commit message:
+5. **Stage Changes**: Stage your changes to be commited
+
+    ```bash
+    git add <your-modified-files>
+    ```
+
+6. **Commit Changes**: Commit your changes with a descriptive commit message:
 
     ```bash
     git commit -m "Add feature: your feature description"
     ```
 
-6. **Push Changes**: Push your changes to your forked repository:
+7. **Push Changes**: Push your changes to your forked repository:
 
     ```bash
     git push origin feature/your-feature-name
     ```
 
-7. **Create a Pull Request**: Go to the original repository on GitHub and click on the "Pull Request" button. Fill out the necessary information and submit the pull request. Your pull request will be reviewed by the maintainers. Be ready to respond to any feedback or changes requested. You might need to make additional commits based on the feedback.
+8. **Create a Pull Request**: Go to the original repository on GitHub and click on the "Pull Request" button. Fill out the necessary information and submit the pull request. Your pull request will be reviewed by the maintainers. Be ready to respond to any feedback or changes requested. You might need to make additional commits based on the feedback.
 
-8. **Celebrate**: Once your pull request is approved and merged, your contribution will be part of the project! Thank you for your contribution.
+9. **Celebrate**: Once your pull request is approved and merged, your contribution will be part of the project! Thank you for your contribution.
 
 ## Documentation
 
