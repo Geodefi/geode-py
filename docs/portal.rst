@@ -12,13 +12,11 @@ Portal
 
 .. py:class:: Geode.Portal()
 
-The ``portal`` module houses public utility functions from Portal contract.
+The ``portal`` package houses public utility functions from Portal contract.
 
 .. WARNING:: 
-    Take extra caution when handling private keys or mnemonic phrases, as they grant full access to your Ethereum wallet and can result in irreversible loss of funds if compromised or mishandled. Always store them securely and avoid sharing them with anyone.
+    You may want to make sure to double-check the gas limit when executing transactions to prevent potential out-of-gas errors and unexpected transaction failures.
 
-.. WARNING:: 
-    Make sure to double-check the gas limit when executing transactions to prevent potential out-of-gas errors and unexpected transaction failures.
 
 Attributes
 ------------
@@ -58,15 +56,6 @@ Attributes
 
 Methods
 ------------
-.. py:method:: Portal.functions.Do_we_care()
-
-    Returns always ``True`` because we always care <3
-
-.. code-block:: python
-
-    # get a Portal address
-    >>> PORTAL.functions.Do_we_care().call()
-      True
 
 .. py:method:: Portal.functions.GeodeParams()
 
@@ -80,7 +69,7 @@ Methods
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.functions.GeodeParams().call()
+    >>> Portal.functions.GeodeParams().call()
     ['0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     '0x6699580E23Fc6a802e996a654845348CA560bc94',
@@ -106,7 +95,7 @@ Methods
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.functions.StakeParams().call()
+    >>> Portal.functions.StakeParams().call()
     ['0x3f911696044d000CcF7D085e35b060e846b95f56',
     '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
     0,
@@ -128,19 +117,19 @@ Methods
 .. code-block:: python
 
     # get a Portal address
-    >>> PORTAL.functions.getContractVersion().call()
+    >>> Portal.functions.getContractVersion().call()
     87373968589722757255522487689903791119558634447171488905970002736659167479131
 
 
-Reading Portal's Storage
------------------
+Portal: Reading Isolated Storage
+-----------------------------------
 
 .. NOTE:: 
     Please read the `Isolated Storage <https://docs.geode.fi/key-concepts/portal/isolated-storage>`_ in Geode Finance Docs.
 
 .. WARNING::
     We recommend that you initialize the ``Pool``, ``Operator`` or ``Validator`` and read the data that way, instead of calling it from the ``Portal`` contract. 
-    See :doc:`Pools <pools>`, :doc:`Operators <operators>`, :doc:`Validators <validators>`,
+    See :doc:`Pools <pool>`, :doc:`Operators <operator>`, :doc:`Validators <validator>`,
 
 .. py:method:: Portal.functions.readBytes(uint256, bytes32)
 
@@ -176,7 +165,21 @@ Reading Portal's Storage
 .. NOTE::
     Do not forget to call the correct function according to the type of the variable you will return.
 
-* Extra functions
+Reading Arrays
+*****************
+
+.. NOTE::
+    If you want to get lenght of the array you can call ``readUint`` function with the same keyword like below function.
+
+
+.. code-block:: python
+
+    >>> Portal.functions.readAddressArray(pid, toBytes32("middlewares")).call()
+    ['0x..','0x..','0x..']
+
+    >>> Portal.functions.readUint(pid, toBytes32("middlewares")).call()
+    3
+
 
 .. py:method:: Portal.functions.readBytesArray(uint256, bytes32)
 
@@ -191,9 +194,8 @@ For getting array of ``address``.
 For getting array of ``uint256``.
 
 
-
 Getting IDs from Portal's Storage
---------------------------
+-----------------------------------
 
 .. py:method:: Portal.functions.allIdsByType(type: uint256, index: uint256)
 
@@ -218,25 +220,52 @@ Getting IDs from Portal's Storage
       51559110727159830236523264446237638129364818047104669081802875007477059353434
 
 
+.. py:method:: Portal.functions.allIdsByTypeLength(type: uint256)
 
-.. py:method:: Portal.functions.getProposal(id: uint25)
+    Returns the ``lenght`` of specific type of given index.
+    
+.. code-block:: python
 
-    Returns ``Proposal`` the struct that stores ``CONTROLLER`` (address),
-    ``TYPE`` (uint256), ``NAME`` (bytes), ``deadline`` (uint256).
+    >>> from geode.globals import ID_TYPE
+
+    # Get Pools Length (ID_TYPE => 5)
+    >>> Portal.functions.allIdsByTypeLength(ID_TYPE.POOL).call()
+      13
+
+    # Get Operators Length (ID_TYPE => 4)
+    >>> Portal.functions.allIdsByTypeLength(ID_TYPE.OPERATOR).call()
+      5
+
+
+How IDs Are generated
+---------------------------
+
+
+.. py:method:: Portal.functions.generateId(name: string, type: uint256)
+
+    It returns keccak256 hash of encoded name and type.
 
 .. code-block:: python
 
-    >>> (controller, type, name, deadline) = Portal.functions.getProposal(0).call()
-    >>> controller
-      0x0000000000000000000000000000000000000000
-    >>> type
-      0
-    >>> name
-      b''
-    >>> deadline
-      0
+    >>> Portal.functions.generateId(b'Some_Pool', 5).call()
+      97770474815149397909782741678802560703260876453812799861980400297568557242506
+
+.. py:method:: Portal.functions.getKey(id: uint256, param: bytes32)
+
+    Each variable of roles stores in mappings. To optimize storage, each key directs the specific parameter with given id in mapping.
+
+.. code-block:: python
+
+    >>> from geode.utils import toBytes32
+
+    # Bytes
+    >>> Portal.functions.getKey(poolID, toBytes32('CONTROLLER')).call()
+      b'\xb4s\xca\xe0\xf2\xd9\xf2!*k\xfd$\xd9\xff\xcc\n\xf8\xcc7>\xae{=\x8f&\xb9\xbe\xc6_\x00^\xdf'
 
 
+
+Get Validator Data from Portal
+-----------------------------------
 
 .. py:method:: Portal.functions.getValidator(pubkey: bytes)
 
@@ -292,30 +321,9 @@ Getting IDs from Portal's Storage
 .. WARNING::
     The offchain version of below functions have already implemented. Optionally: Use built-in functions in geode.utils.
 
-.. py:method:: Portal.functions.generateId(name: string, type: uint256)
 
-    It returns keccak256 hash of encoded name and type.
-
-.. code-block:: python
-
-    >>> Portal.functions.generateId(b'Some_Pool', 5).call()
-      97770474815149397909782741678802560703260876453812799861980400297568557242506
-
-.. py:method:: Portal.functions.getKey(id: uint256, param: bytes32)
-
-    Each variable of roles stores in mappings. To optimize storage, each key directs the specific parameter with given id in mapping.
-
-.. code-block:: python
-
-    >>> from geode.utils import toBytes32
-
-    # Bytes
-    >>> Portal.functions.getKey(poolID, toBytes32('CONTROLLER')).call()
-      b'\xb4s\xca\xe0\xf2\xd9\xf2!*k\xfd$\xd9\xff\xcc\n\xf8\xcc7>\xae{=\x8f&\xb9\xbe\xc6_\x00^\xdf'
-
-
-Configuration of Ecosystem
----------------------------
+Additional View Functions for Pools, Operators and Validators
+---------------------------------------------------------------
 .. py:method:: Portal.functions.isPrisoned(operatorId: uint256)
 
     ``True`` if the operator of given id has prisoned, ``False`` otherwise.
@@ -381,84 +389,4 @@ Configuration of Ecosystem
     >>> 500000000 / 1e10 
       0.05
 
-
-Modules
----------
-
-getDefaultModule
-isAllowedModule
-fetchModuleUpgradeProposal
-deployLiquidityPool
-setPoolVisibility
-setWhitelist
-
-
-Oracle Utils
-------------------------
- 'updateVerificationIndex',
- 'priceSync',
- 'priceSyncBatch',
- 'regulateOperators',
- 'reportOracle',
-
-
-Governance Only
-------------------------
-
- 'releasePrisoned',
-
- 'setEarlyExitFee',
- 'setElectorType',
- 'setGovernanceFee',
- 'setPoolVisibility',
- 'setWhitelist',
-
- 'changeIdCONTROLLER',
- 'changeMaintainer',
- 'changeSenate'
-
-Internal Wallet  
------------------
-
-    Every `operator` has an internal wallet. They use this wallet to create the ``Validator``.
-
-.. py:method:: Portal.functions.increaseWalletBalance(id: uint256)
-
-    Operators need 32 ethers to create a validator. So they should put 32 ether in the inner wallet.
-
-.. WARNING::
-    Please double-check you operator id before processing.
-
-.. code-block:: python
-
-    >>> transaction_params = {
-        'to': Portal.address,
-        'from': your_address,
-        'value': web3.toWei(320, 'ether'),  # Example: sending 320 Ether for 10 Validator
-        'gas': 200000,  # Example: setting the gas limit
-        'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
-        }
-
-    >>> transaction = Portal.functions.increaseWalletBalance(operatorId).buildTransaction(transaction_params)
-    >>> signed_txn = web3.eth.account.sign_transaction(transaction, private_key=sender_private_key)
-    >>> tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
-
-
-.. py:method:: Portal.functions.decreaseWalletBalance(id: uint256, value: uint256)
-
-    Like, above function, operators can also decrease their wallet balance.
-
-.. code-block:: python
-
-    ## It is not payable function.
-    >>> transaction_params = {
-        'to': Portal.address,
-        'from': your_address,
-        'gas': 200000,  # Example: setting the gas limit
-        'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
-        }
-
-    >>> transaction = Portal.functions.decreaseWalletBalance(operatorId, web3.toWei(320, 'ether')).buildTransaction(transaction_params)
-    >>> signed_txn = web3.eth.account.sign_transaction(transaction, private_key=sender_private_key)
-    >>> tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
