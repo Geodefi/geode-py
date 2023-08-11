@@ -1,11 +1,11 @@
 
-Welcome to Geode Finance Python SDK's documentation!
+Geode Finance Python SDK
 ====================================================
 
-GeodePy is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.
+Geodefi is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.
 
-Built on top of web3.py, GeodePy offers a comprehensive set of functions and utilities that simplify the process of interacting with smart contracts on the Ethereum blockchain. 
-Whether you're looking to query contract data, execute transactions, GeodePy has you covered with a user-friendly and highly efficient interface. By leveraging the power of the Ethereum network and GeodePy's intuitive functionality, Geode Finance companies can streamline their operations and unlock new levels of efficiency in their workflows.
+Built on top of web3.py, Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with smart contracts on the Ethereum blockchain. 
+Whether you're looking to query contract data, execute transactions, Geode Staking library has you covered with a user-friendly and highly efficient interface. By leveraging the power of the Ethereum network and Geodefi's intuitive functionality, Geode Staking Library can streamline their operations and unlock new levels of efficiency in their workflows.
 
 
 Getting Started
@@ -28,26 +28,30 @@ Table of Contents
 
 .. toctree::
     :maxdepth: 1
-    :caption: Guides
+    :caption: Classes
 
-    initialize_geode
+    initializing_geode
     portal
-    geth
-    pools 
-    operators 
-    validators 
-    exceptions 
-    signatures 
-    utils 
-    constants 
-    examples
+    gToken
+    pool 
+    operator
+    validator
 
 .. toctree::
     :maxdepth: 1
-    :caption: Hand Books
+    :caption: Utils
+
+    constants
+    utils
+    exceptions
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Examples
 
     staking_pool_handbook
-    operator_onboard_handbook
+    examples
+    internal_wallet
 
 .. toctree::
     :maxdepth: 1
@@ -65,4 +69,4 @@ Indices and tables
 * :ref:`search`
 
 .. _Discord: https://discord.com/invite/RC8fTTuJtm
-.. _Github: https://github.com/Geodefi
+.. _Github: https://github.com/Geodefi/geode-py

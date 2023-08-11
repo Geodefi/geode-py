@@ -37,6 +37,10 @@ class Pool(Id):
         return self._readAddress("maintainer")
 
     @property
+    def yieldReceiver(self):
+        return self._readAddress("yieldReceiver")
+
+    @property
     def surplus(self):
         return self._readUint("surplus")
 
@@ -44,29 +48,20 @@ class Pool(Id):
     def secured(self):
         return self._readUint("secured")
 
-    def allowance(self, operator: int):
-        return self._readUint(getKey(id=operator, key="allowance"))
-
-    def proposedValidators(self, operator: int):
-        return self._readUint(getKey(id=operator, key="proposedValidators"))
-
-    def activeValidators(self, operator: int):
-        return self._readUint(getKey(id=operator, key="activeValidators"))
-
     @property
-    def interfacesList(self):
-        lenInterfaces = self.interfacesLen
+    def middlewaresList(self):
+        lenmiddlewares = self.middlewaresLen
         ints: t.List = []
-        for i in range(lenInterfaces):
-            ints.append(self._readAddressArray("interfaces", i))
+        for i in range(lenmiddlewares):
+            ints.append(self._readAddressArray("middlewares", i))
         return ints
 
     @property
-    def interfacesLen(self):
-        return self._readUint("interfaces")
+    def middlewaresLen(self):
+        return self._readUint("middlewares")
 
-    def interfaces(self, index):
-        return self._readAddressArray("interfaces", index)
+    def middlewares(self, index):
+        return self._readAddressArray("middlewares", index)
 
     @property
     def private(self):
@@ -117,9 +112,29 @@ class Pool(Id):
     def validatorsLen(self):
         return self._readUint("validators")
 
+    @property
+    def fallbackOperator(self):
+        return self._readUint("fallbackOperator")
+
+    @property
+    def fallbackThreshold(self):
+        return self._readUint("fallbackThreshold")
+
     def validators(self, index):
         return Validator(network=self.network, beacon=self.Beacon, w3=self.w3, portal=self.portal,
                          pk=self._readBytesArray("validators", index=index))
+
+    def allowance(self, operator: int):
+        return self._readUint(getKey(id=operator, key="allowance"))
+
+    def proposedValidators(self, operator: int):
+        return self._readUint(getKey(id=operator, key="proposedValidators"))
+
+    def activeValidators(self, operator: int):
+        return self._readUint(getKey(id=operator, key="activeValidators"))
+
+    def alienValidators(self, operator: int):
+        return self._readUint(getKey(id=operator, key="alienValidators"))
 
     def prepareProposeStake(self, deposit_data_path: str):
         """
@@ -143,26 +158,26 @@ class Pool(Id):
                  for deposit in deposit_data]
         return pubkeys, sig1s
 
-    def prepareBeaconStake(self, deposit_data_path: str):
+    def prepareStake(self, deposit_data_path: str):
         """
         This function prepares a beacon stake by taking the path to a deposit data file as input.
         The deposit data file is validated by checking that it contains the required amount of Ether
         for the Beacon chain, that it is meant for the specified network, and that it is associated
         with the withdrawal credentials of the current operator.
 
-        Once the deposit data has been validated, the function extracts the public keys and 31-byte
+        Once the deposit data has been validated, the function extracts the public keys and
         signatures from the deposit data and returns them as a tuple.
 
         Args:
             deposit_data_path (str): The path to the deposit data file.
 
         Returns:
-            Tuple of lists: A tuple containing two lists, the public keys and 31-byte signatures extracted
+            Tuple of lists: A tuple containing two lists, the public keys and signatures extracted
             from the deposit data file.
         """
 
         deposit_data = validate_deposit_data_file(deposit_data_path=deposit_data_path,
-                                                  amount=DEPOSIT_SIZE.BEACON,
+                                                  amount=DEPOSIT_SIZE.STAKE,
                                                   network=self.network,
                                                   credential=self.withdrawalCredential[2:])
         pubkeys = [bytes.fromhex(deposit['pubkey'])

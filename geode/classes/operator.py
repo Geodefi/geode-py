@@ -28,14 +28,6 @@ class Operator(Id):
         return self._readAddress("maintainer")
 
     @property
-    def totalProposedValidators(self):
-        return self._readUint("totalProposedValidators")
-
-    @property
-    def totalActiveValidators(self):
-        return self._readUint("totalActiveValidators")
-
-    @property
     def feeSwitch(self):
         return self._readUint("feeSwitch")
 
@@ -64,5 +56,5 @@ class Operator(Id):
         return self._readUint("wallet")
 
     @property
-    def released(self):
-        return self._readUint("released")
+    def release(self):
+        return self._readUint("release")

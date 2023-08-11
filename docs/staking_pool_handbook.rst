@@ -28,7 +28,7 @@ It will be used for your Pool operations, and you can find your ID from both our
     pool_name = 'Cypher'
 
     # Generate ID for your pool.
-    >>> Portal.contract.functions.generateId(pool_name, 5).call()
+    >>> Portal.functions.generateId(pool_name, 5).call()
     54475916409245079355772281022530446651260021350020357005172842322230014479215
 
 
@@ -47,27 +47,27 @@ Geode uses an initiator function to set some parameters for your staking pool an
     # Can be changed later so lets assign 0.
     fee = 0
 
-    # Interface version https://docs.geode.fi/key-concepts/permissionless-configurable-staking-pools/current-interfaces
-    # Interfaces are optional but select from above link.    
-    interfaceVersion = 0
-    interface_data = ''
+    # Middleware version https://docs.geode.fi/key-concepts/permissionless-configurable-staking-pools/current-middlewares
+    # Middlewares are optional but select from above link.    
+    middlewareVersion = 0
+    middleware_data = ''
 
     # If you want to maintain
     maintainer = '0x<your-ethereum-address>'
 
 
     # config[0] = True if a private pool - Can be changed later.
-    # config[1] = True if uses an interface. Can not be changed later.
+    # config[1] = True if uses an middleware. Can not be changed later.
     # config[2] = True if uses a liquidity Pool - Can be changed later.
     config = [True, False, False ]
 
     # Dont forget to send with 32 ether.
-    >>> tx = Portal.contract.functions.initiatePool(
+    >>> tx = Portal.functions.initiatePool(
     pool_name,
     fee,
-    interfaceVersion,
+    middlewareVersion,
     maintainer,
-    interface_data,
+    middleware_data,
     config
     ).buildTransaction(
         {
@@ -93,7 +93,7 @@ You can think of it as ERC-20 approvals. You are approving a certain amount of v
 .. code-block:: python
 
 
-    >> Portal.contract.functions.approveOperators(
+    >> Portal.functions.approveOperators(
         pool_ID,
          [operatorIds],
          [allowances]
@@ -128,11 +128,11 @@ At any given point, a Staking Pool can have 1 maintainer at most.
 
     # Change the owner of the pool
     new_owner = '0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-    >> Portal.contract.function.changeIdCONTROLLER(poolID, new_owner)
+    >> Portal.function.changeIdCONTROLLER(poolID, new_owner)
 
     # Change the maintainer of the pool
     new_maintainer = '0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-    >> Portal.contract.function.changeMaintainer(poolID, new_maintainer)
+    >> Portal.function.changeMaintainer(poolID, new_maintainer)
 
 
     ## How to get controller
@@ -143,14 +143,6 @@ At any given point, a Staking Pool can have 1 maintainer at most.
     >> myPool.maintainer
     '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C'
 
-Change the Owner of Your Withdrawal Contract
-***********************************************
-
-.. code-block:: python
-
-    # TODO
-
-``If your Pool's Owner is not the Withdrawal Pool's Owner, it will go into Recovery Mode until you change it's ownership:``
 
 Changing Your Fee
 ***********************************************
@@ -159,7 +151,7 @@ Changing Your Fee
     ## It mean 1% (max 10%)
     new_fee = x * 10**10 /100 
 
-    >> Portal.contract.switchMaintenanceFee(pool_id, new_fee)
+    >> Portal.switchMaintenanceFee(pool_id, new_fee)
 
 
 Claiming Your Fees
@@ -173,7 +165,7 @@ The Internal Wallet is the place where your fees will accrue over time.
     wallet_balance = myPool.wallet  
 
     # Withdrawal 
-    >> Portal.contract.functions.decreaseWalletBalance(pool_ID, wallet_balance);
+    >> Portal.functions.decreaseWalletBalance(pool_ID, wallet_balance);
 
 
 Making Your Pool Public or Private
@@ -189,14 +181,14 @@ If you are using a personal staking pool, or worried about KYC/AML, create a Pri
 .. code-block:: python
 
     # Making Your Pool Public
-    >> Portal.contract.functions.setPoolVisibility(pool_ID, False)
+    >> Portal.functions.setPoolVisibility(pool_ID, False)
     # Making Your Pool Private
-    >> Portal.contract.functions.setPoolVisibility(pool_ID, True)
+    >> Portal.functions.setPoolVisibility(pool_ID, True)
 
     # Set whitelist for your Private pool
     ## Whitelisted addressses
     contract_address = ['0xaa','0xaa','0xaa']
-    >> Portal.contract.functions.setWhitelist(pool_ID, contract_address)
+    >> Portal.functions.setWhitelist(pool_ID, contract_address)
 
 
 
@@ -208,18 +200,6 @@ You can also create a bound Liquidity Pool after initiation:
 
     # For details
     # https://docs.geode.fi/key-concepts/bound-liquidity-pools
-    >> Portal.contract.functions.deployLiquidityPool(pool_ID)
+    >> Portal.functions.deployLiquidityPool(pool_ID)
 
 
-Checking for Upgrades
-***********************************************
-
-As a pool owner, it is your responsibility to keep your Withdrawal Contract up to date, or your pool will immediately go under Recovery Mode.
-
-.. code-block:: python
-
-
-    lastVersion =  Portal.contract.functions.getWithdrawalContractVersion()
-    currentVersion =  #TODO
-
-    needs_upgrade = lastVersion != currentVersion 

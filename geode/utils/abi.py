@@ -26,7 +26,7 @@ def get_contract_abi(network: Network, name: str):
     return (abi["address"], abi["abi"])
 
 
-def get_module_abi(network: Network, name: str):
+def get_library_abi(network: Network, name: str):
     # Get the ABI for the specified module name on the given network
-    abi = _open_abi_file(network, name, folder="modules")
+    abi = _open_abi_file(network, name, folder="libraries")
     return abi["abi"]
