@@ -5,7 +5,7 @@ build:
   tools:
     python: "3.10"
   jobs:
-    pre_build:
+    pre_system_dependencies:
       - echo ::set-output name=TAG_NAME::$(echo $GITHUB_REF | cut -d / -f 3)
       - sed -i "s/{{VERSION_PLACEHOLDER}}/${READTHEDOCS_VERSION}/g" setup.py
 
