@@ -36,7 +36,7 @@ Geodefi is a Python library that leverages the power of web3.py, offering develo
 Initialize Geode
 ********************
 
-Check out :ref:`Initializing Geode <_initializing_geode>`
+Check out :doc:`initializing_geode` for details.
 
 Get Started with Staking Pools
 ********************************
@@ -45,7 +45,7 @@ Get Started with Staking Pools
 
   In some examples, the ``id`` s of the roles are necessary to get information. 
   You can learn the ``id`` s of the relevant ``pool``, ``operator`` or ``validator`` 
-  from the our `website <https://www.geode.fi>`_ or from the :ref:`Initializing Geode <_initializing_geode>` documentation.
+  from the our `website <https://www.geode.fi>`_ or from the :doc:`initializing_geode` documentation.
 
 Since Geodefi is built on top of web3.py you can get most of the information just like in web3.py.
 
