@@ -90,37 +90,37 @@ class Validator(object):
 
     @property
     @updatePortal
-    def poolId(self):
+    def createdAt(self):
         return self.portal_state[2]
 
     @property
     @updatePortal
-    def operatorId(self):
+    def period(self):
         return self.portal_state[3]
 
     @property
     @updatePortal
-    def poolFee(self):
+    def poolId(self):
         return self.portal_state[4]
 
     @property
     @updatePortal
-    def operatorFee(self):
+    def operatorId(self):
         return self.portal_state[5]
 
     @property
     @updatePortal
-    def earlyExitFee(self):
+    def poolFee(self):
         return self.portal_state[6]
 
     @property
     @updatePortal
-    def createdAt(self):
+    def operatorFee(self):
         return self.portal_state[7]
 
     @property
     @updatePortal
-    def expectedExit(self):
+    def governanceFee(self):
         return self.portal_state[8]
 
     @property
@@ -128,7 +128,25 @@ class Validator(object):
     def signature31(self):
         return self.portal_state[9]
 
+    @property
+    @updatePortal
+    def __portal__(self):
+
+        keys = ["state",
+                "index",
+                "createdAt",
+                "period",
+                "poolId",
+                "operatorId",
+                "poolFee",
+                "operatorFee",
+                "governanceFee",
+                "signature31"]
+
+        return {keys[i]: value for i, value in enumerate(self.portal_state)}
+
     # Beacon Props
+
     @property
     @updateBeacon
     def activationEligibilityEpoch(self):
@@ -188,3 +206,8 @@ class Validator(object):
     @updateBeacon
     def totalWithdrawals(self):
         return self.beacon_state["total_withdrawals"]
+
+    @property
+    @updateBeacon
+    def __beacon__(self):
+        return self.beacon_state
