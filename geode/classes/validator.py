@@ -90,12 +90,12 @@ class Validator(object):
 
     @property
     @updatePortal
-    def poolFee(self):
+    def createdAt(self):
         return self.portal_state[2]
 
     @property
     @updatePortal
-    def operatorFee(self):
+    def period(self):
         return self.portal_state[3]
 
     @property
@@ -110,17 +110,17 @@ class Validator(object):
 
     @property
     @updatePortal
-    def earlyExitFee(self):
+    def poolFee(self):
         return self.portal_state[6]
 
     @property
     @updatePortal
-    def createdAt(self):
+    def operatorFee(self):
         return self.portal_state[7]
 
     @property
     @updatePortal
-    def expectedExit(self):
+    def governanceFee(self):
         return self.portal_state[8]
 
     @property
@@ -134,13 +134,13 @@ class Validator(object):
 
         keys = ["state",
                 "index",
-                "poolFee",
-                "operatorFee",
+                "createdAt",
+                "period",
                 "poolId",
                 "operatorId",
-                "earlyExitFee",
-                "createdAt",
-                "expectedExit",
+                "poolFee",
+                "operatorFee",
+                "governanceFee",
                 "signature31"]
 
         return {keys[i]: value for i, value in enumerate(self.portal_state)}
