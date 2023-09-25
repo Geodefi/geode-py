@@ -373,23 +373,33 @@ Validator Data from Portal
     >>> myVal.operatorFee
     500000000
 
-.. py:method:: PORTAL.pool.validators(index: uint256).earlyExitFee
+.. py:method:: PORTAL.pool.validators(index: uint256).governanceFee
 
-    Returns the ``earlyExitFee`` integer value to show what percentage will be penailtized in case of early exit.
+    Returns ``governanceFee`` (uint256) How much of the percentage from maintanence fee will received by the Governance. DENOMINATOR: 1e10 (100%).
 
 .. code-block:: python
 
-    >>> myVal.earlyExitFee
-    0
+    >>> myVal.governanceFee
+    500000000
 
 .. py:method:: PORTAL.pool.validators(index: uint256).createdAt
 
-    Returns the ``createdAt`` timestamp of creation time of validator.
+    Returns ``createdAt`` (uint256) At what timestamp validator has created.
 
 .. code-block:: python
 
     >>> myVal.createdAt
-        123123123
+    1695632168
+
+.. py:method:: PORTAL.pool.validators(index: uint256).period
+
+    Returns ``period`` (uint256) 
+
+.. code-block:: python
+
+    >>> myVal.period
+    500000000
+
 
 .. py:method:: PORTAL.pool.validators(index: uint256).signature31
 
