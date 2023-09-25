@@ -2,7 +2,7 @@ from eth_typing import (
     BLSPubkey,
     BLSSignature,
 )
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from py_ecc.bls import G2ProofOfPossession as bls
 from Crypto.Hash import SHA256 as _sha256
 
@@ -15,7 +15,7 @@ from .serialize import (DepositMessage,
                         compute_signing_root,
                         DepositData)
 
-from .staking_deposit import from_mnemonic
+from .staking_deposit import from_mnemonic, get_mnemonic
 
 
 def SHA256(x: bytes) -> bytes:
@@ -90,8 +90,51 @@ def validate_parameters(pubkey, withdrawal_credentials, amount, signature, fork_
 # createDepositData(index, mnemonic_key varsa al yoksa yeniden yarat, lenght) => json
 
 
-def createDepositData(start_index: int, mnemonics: str, mnemonic_password: str, num_keys: int) -> List[Dict]:
-    return from_mnemonic(mnemonics, mnemonic_password, 'goerli', start_index, num_keys)
+def createDepositData(mnemonics: Optional[str], mnemonic_password: str, start_index: int, num_keys: int) -> List[Dict]:
+    """
+    Create deposit data for a blockchain application.
+
+    Args:
+        start_index (int): The starting index for key generation.
+        mnemonics (Optional[str]): A mnemonic (seed phrase) for key generation.
+        mnemonic_password (str): Password for unlocking the mnemonic.
+        num_keys (int): The number of keys to generate.
+
+    Returns:
+        List[Dict]: A list of dictionaries representing deposit data.
+
+    This function creates deposit data for a blockchain application. It can either use an existing mnemonic or generate a new one if none is provided. It then generates a specified number of keys from the mnemonic and password and writes deposit data to a file.
+
+    If `mnemonics` is not provided, a new mnemonic is generated, displayed to the user, and the user is prompted to record it securely.
+
+    The `from_mnemonic` function is called to generate keys from the mnemonic and password.
+
+    The `write_deposit_data` function is called to save the generated deposit data to a file.
+    """
+
+    # TODO add multi-chain support
+    chain_id = 5
+
+    if mnemonics is None:
+        # Generate a new mnemonic if not provided
+        print("Mnemonics not provided. Generating new mnemonics...")
+        mnemonics = get_mnemonic()
+
+        # Display the generated mnemonic and prompt the user to record it securely
+        print("This is your mnemonic (seed phrase). Write it down and store it safely. It is the ONLY way to retrieve your deposit.\n\n")
+        print(mnemonics)
+        input("\n\nPress any key when you have written down your mnemonic.")
+
+    # Generate keys from the mnemonic and password
+    return from_mnemonic(mnemonics, mnemonic_password, chain_id, start_index, num_keys)
+
+    # Write deposit data to a file
+    write_deposit_data()
+
+
+def write_deposit_data():
+    # TODO
+    pass
 
 
 """

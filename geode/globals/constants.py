@@ -1,4 +1,6 @@
 # Solidity
+import os
+
 ZERO_BYTES = b''
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 ZERO_BYTES32 = b'\x00' * 32
@@ -8,6 +10,9 @@ ETH2GWEI = 10 ** 9
 DENOMINATOR = 10 ** 10
 
 DEPOSIT_CLI_VERSION = '2.4.0'
+
+WORD_LIST_PATH = os.path.join('geode', 'utils', 'bls')
+
 
 # Execution-spec constants taken from https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md
 DOMAIN_DEPOSIT = bytes.fromhex('03000000')

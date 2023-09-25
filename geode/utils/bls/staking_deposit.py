@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from unicodedata import normalize
 from Crypto.Hash import (
     SHA256 as _sha256,
@@ -17,13 +17,20 @@ from geode.utils.bls.serialize import (DepositMessage,
                                        compute_deposit_domain,
                                        compute_signing_root,
                                        DepositData)
-from geode.globals.constants import DEPOSIT_CLI_VERSION
-from geode.globals.beacon import DEPOSIT_SIZE, GENESIS_FORK_VERSION
+from geode.globals.constants import DEPOSIT_CLI_VERSION, WORD_LIST_PATH
+from geode.globals.beacon import DEPOSIT_SIZE, GENESIS_FORK_VERSION, DEPOSIT_NETWORK_NAME
+
+import os
+from random import SystemRandom
+
+_sysrand = SystemRandom()
+
+randbits = _sysrand.getrandbits
 
 
 def from_mnemonic(mnemonic: str,
                   mnemonic_password: str,
-                  chain_name: str,
+                  chain_id: int,
                   start_index: int,
                   num_keys: int,
                   hex_eth1_withdrawal_address=None):
@@ -37,7 +44,7 @@ def from_mnemonic(mnemonic: str,
 
     deposit_data = []
 
-    for amount in [DEPOSIT_SIZE.PROPOSAL, DEPOSIT_SIZE.STAKE]:
+    for amount in [DEPOSIT_SIZE.PROPOSAL.value, DEPOSIT_SIZE.STAKE.value]:
         for index in key_indices:
             account = str(index)
             withdrawal_key_path = f'm/{purpose}/{coin_type}/{account}/0'
@@ -64,12 +71,13 @@ def from_mnemonic(mnemonic: str,
 
             deposit_message = DepositMessage(
                 pubkey=bls.SkToPk(signing_sk),
-                withdrawal_credentials=withdrawal_credentials,
+                withdrawal_credentials=bytes.fromhex(
+                    '00') + withdrawal_credentials,
                 amount=amount,
             )
 
             domain = compute_deposit_domain(
-                fork_version=GENESIS_FORK_VERSION[chain_name])
+                fork_version=GENESIS_FORK_VERSION[chain_id])
             signing_root = compute_signing_root(deposit_message, domain)
             signed_deposit = DepositData(
                 **deposit_message.as_dict(),
@@ -83,12 +91,71 @@ def from_mnemonic(mnemonic: str,
             datum_dict.update(
                 {'deposit_data_root': signed_deposit_datum.hash_tree_root})
             datum_dict.update(
-                {'fork_version': GENESIS_FORK_VERSION[chain_name]})
-            datum_dict.update({'network_name': chain_name})
+                {'fork_version': GENESIS_FORK_VERSION[chain_id]})
+            datum_dict.update({'network_name': DEPOSIT_NETWORK_NAME[chain_id]})
             datum_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
             deposit_data.append(datum_dict)
 
     return deposit_data
+
+
+def get_mnemonic(*, entropy: Optional[bytes] = None) -> str:
+    """
+    Return a mnemonic string in a given `language` based on `entropy` via the calculated checksum.
+
+    Ref: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#generating-the-mnemonic
+    """
+    if entropy is None:
+        entropy = randbits(256).to_bytes(32, 'big')
+    entropy_length = len(entropy) * 8
+    checksum_length = (entropy_length // 32)
+    checksum = _get_checksum(entropy)
+    entropy_bits = int.from_bytes(entropy, 'big') << checksum_length
+    entropy_bits += checksum
+    entropy_length += checksum_length
+    mnemonic = []
+    word_list = _get_word_list(WORD_LIST_PATH)
+    for i in range(entropy_length // 11 - 1, -1, -1):
+        index = (entropy_bits >> i * 11) & 2**11 - 1
+        word = _index_to_word(word_list, index)
+        mnemonic.append(word)
+    return ' '.join(mnemonic)
+
+
+def _get_checksum(entropy: bytes) -> int:
+    """
+    Determine the index of the checksum word given the entropy
+    """
+    _validate_entropy_length(entropy)
+    checksum_length = len(entropy) // 4
+    return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
+
+
+def _get_word_list(path: str) -> List[str]:
+    """
+    Given the language and path to the wordlist, return the list of BIP39 words.
+
+    Ref: https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md
+    """
+    dirty_list = open(os.path.join(path, 'word_list.txt'),
+                      encoding='utf-8').readlines()
+    return [word.replace('\n', '') for word in dirty_list]
+
+
+def _index_to_word(word_list: List[str], index: int) -> str:
+    """
+    Return the corresponding word for the supplied index while stripping out '\\n' chars.
+    """
+    if index >= 2048:
+        raise IndexError(f"`index` should be less than 2048. Got {index}.")
+    return word_list[index]
+
+
+def _validate_entropy_length(entropy: bytes) -> None:
+    entropy_length = len(entropy) * 8
+    if entropy_length not in range(128, 257, 32):
+        raise IndexError(
+            f"`entropy_length` should be in [128, 160, 192, 224, 256]. Got {entropy_length}.")
 
 
 def path_to_nodes(path: str) -> List[int]:
