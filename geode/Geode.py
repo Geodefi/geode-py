@@ -1,5 +1,5 @@
 import sys
-from web3 import Web3, HTTPProvider
+from web3 import Web3, HTTPProvider, WebsocketProvider
 from geode.exceptions import PythonVersionException
 from geode.globals import Network
 from geode.classes import Portal, Token, Beacon
@@ -41,9 +41,16 @@ class Geode(object):
     def _set_web3(self, exec_api: str):
         # TODO Call global web3 class(web3 inherited) and initialize
         if exec_api:
-            self.w3: Web3 = Web3(HTTPProvider(exec_api))
+
+            if exec_api.startswith('https'):
+                self.w3: Web3 = Web3(HTTPProvider(exec_api))
+            elif exec_api.startswith('wss'):
+                self.w3: Web3 = Web3(WebsocketProvider(exec_api))
+            else:
+                # TODO raise if not provided
+                pass
+
             self.network: int = Network(self.w3.eth.chain_id)
-        # TODO raise if not provided
 
     # Internal method to set the Beacon instance
     def _set_beacon(self, cons_key: str):
