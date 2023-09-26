@@ -11,7 +11,7 @@ Before Starting
 ----------------
 
 .. WARNING::
-  Geodefi (as of v1.1.2) only supports the python versions between 3.7 and 3.10.  
+  Geodefi (as of v1.2.3) only supports the python versions between 3.7 and 3.10.  
 
 Installation
 -------------
