@@ -4,7 +4,7 @@
 Release Notes
 =============
 
-1.2.0 (2023-09-25)
+1.3.0 (2023-09-25)
 ----------
 * Added websocket support to the internal web3.
 

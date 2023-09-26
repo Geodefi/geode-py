@@ -7,7 +7,7 @@ It provides a simple and intuitive interface for accessing blockchain data, exec
 
 ## Features
 
-- Supports Ethereum Goerli testnet (as of v1.2.3) where The Protocol is deployed.
+- Supports Ethereum Goerli testnet (as of v1.3.0) where The Protocol is deployed.
 - Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/packages.
 - Dynamically adapts to the contract upgrades.
 - Mostly chain agnostic. However, might differ according to the unique PoS implementations.
