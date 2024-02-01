@@ -87,8 +87,6 @@ def validate_parameters(pubkey, withdrawal_credentials, amount, signature, fork_
 
     return bls.Verify(pubkey, signing_root, signature)
 
-# createDepositData(index, mnemonic_key varsa al yoksa yeniden yarat, lenght) => json
-
 
 def createDepositData(mnemonic: Optional[str], mnemonic_password: str, start_index: int, num_keys: int, withdrawal_address: str) -> List[Dict]:
     """
