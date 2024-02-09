@@ -1,13 +1,19 @@
 from os import path
 import json
 import typing as t
-from geode.globals import Network, DEPOSIT_SIZE, DEPOSIT_NETWORK_NAME, GENESIS_FORK_VERSION
+from geode.globals import (
+    Network,
+    DEPOSIT_SIZE,
+    DEPOSIT_NETWORK_NAME,
+    GENESIS_FORK_VERSION,
+)
 from geode.exceptions import (
     DepositSizeException,
     WithdrawalCredentialException,
     GenesisForkException,
     NetworkNameException,
-    DepositDataException)
+    DepositDataException,
+)
 
 from .validate import validate_deposit
 
@@ -32,17 +38,22 @@ def _get_deposit_data(deposit_data_path: str):
     return json.loads(a)
 
 
-def validate_deposit_data_file(deposit_data_path: str,
-                               amount: DEPOSIT_SIZE,
-                               credential: str,
-                               network: Network):
+def validate_deposit_data_file(
+    deposit_data_path: str,
+    amount: DEPOSIT_SIZE,
+    credential: str,
+    network: Network,
+):
     deposit_data: t.List[t.Dict] = _get_deposit_data(deposit_data_path)
     for deposit in deposit_data:
         if deposit["amount"] != amount.value:
             raise DepositSizeException
         if deposit["withdrawal_credentials"] != credential:
             raise WithdrawalCredentialException
-        if bytes.fromhex(deposit["fork_version"]) != GENESIS_FORK_VERSION[network.value]:
+        if (
+            bytes.fromhex(deposit["fork_version"])
+            != GENESIS_FORK_VERSION[network.value]
+        ):
             raise GenesisForkException
         if deposit["network_name"] != DEPOSIT_NETWORK_NAME[network.value]:
             raise NetworkNameException

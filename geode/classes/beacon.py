@@ -6,8 +6,9 @@ from geode.utils import http_request
 class Beacon:
     """
     https://ethereum.github.io/beacon-APIs/#
-    All of the GET end points that is specified within the Ethereum's Specification v2.3.0 is accesible.
-    Also some of the v2.4.0 is also accesible.
+    Most of the GET end points that is specified within
+    the Ethereum's Specification v2.3.0 is accesible.
+    Some of the v2.4.0 is accesible too.
     """
 
     def __init__(self, network: Network, cons_api: str):
