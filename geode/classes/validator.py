@@ -17,33 +17,36 @@ class Validator(object):
     portal: Contract  # The portal contract being used
     beacon: Beacon  # The beacon chain being used
 
-    pubkey: bytes  # Public key of the validator
-    portal_state = []  # A list containing the current portal state
-    beacon_state: t.Dict = {}  # A dictionary containing the current beacon state
-    # update timestamps set on init to be able to catch init state without
-    last_portal_update: datetime = datetime.now() - timedelta(
-        seconds=REFRESH_RATE + 1
-    )  # The time of the last portal state update
-    last_beacon_update: datetime = datetime.now() - timedelta(
-        seconds=REFRESH_RATE + 1
-    )  # The time of the last beacon state update
-
     def __init__(
         self, w3: Web3, network: Network, portal: Contract, beacon: Beacon, pk
     ):
         """
         Initialize the Validator object.
+
+        pk: Public key of the validator, bytes (no 0x prefix) or str (0x prefix)
         """
         self.w3 = w3
         self.network = network
         self.portal = portal
         self.beacon = beacon
         if isinstance(pk, bytes):
-            self.pubkey = "0x" + pk.hex()
+            self.pubkey: str = "0x" + pk.hex()
         elif isinstance(pk, str):
-            self.pubkey = pk
+            self.pubkey: str = pk
 
-        logging.info(f"Connected to validator: {self.pubkey}")
+        self.portal_state = []  # A list containing the current portal state
+        self.beacon_state: t.Dict = (
+            {}
+        )  # A dictionary containing the current beacon state
+        # update timestamps set on init to be able to catch init state without
+        self.last_portal_update: datetime = datetime.now() - timedelta(
+            seconds=REFRESH_RATE + 1
+        )  # The time of the last portal state update
+        self.last_beacon_update: datetime = datetime.now() - timedelta(
+            seconds=REFRESH_RATE + 1
+        )  # The time of the last beacon state update
+
+        logging.info(f"Connected to the validator: {self.pubkey}")
 
     def __str__(self):
         return f"Validator Object: {self.pubkey}"

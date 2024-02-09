@@ -16,14 +16,11 @@ class Id(object):
         w3: A Web3 instance used for interacting with the Ethereum network.
         network: A Network instance representing the Ethereum network to use.
         portal: An Ethereum address of the portal contract.
-        ID: An integer representing the identifier value.
-        TYPE: An enumeration value representing the type of the identifier.
     """
+
     w3: Web3
     network: Network
     portal: et.ChecksumAddress
-    ID: int
-    TYPE: ID_TYPE(0)
 
     def __init__(self, w3: Web3, network: Network, portal: Contract, id: int):
         """
@@ -39,25 +36,22 @@ class Id(object):
         self.network = network
         self.portal = portal
         self.ID = id
-        logging.info(
-            f"ID TYPE:{ID_TYPE(self.TYPE).name}:{self.ID}")
+        # TYPE: An enumeration value representing the type of the identifier.
+        logging.info(f"ID TYPE:{ID_TYPE(self.TYPE).name}:{self.ID}")
 
     @multipleAttempt
     def _readUint(self, key: str):
-        res = self.portal.functions.readUint(
-            self.ID, toBytes32(key)).call()
+        res = self.portal.functions.readUint(self.ID, toBytes32(key)).call()
         return res
 
     @multipleAttempt
     def _readUintArray(self, key: str, index: int):
-        res = self.portal.functions.readUintArray(
-            self.ID, toBytes32(key), index).call()
+        res = self.portal.functions.readUintArray(self.ID, toBytes32(key), index).call()
         return res
 
     @multipleAttempt
     def _readBytes(self, key: str, isString: bool = False, isHex=False):
-        res = self.portal.functions.readBytes(
-            self.ID, toBytes32(key)).call()
+        res = self.portal.functions.readBytes(self.ID, toBytes32(key)).call()
 
         if isinstance(res, str):
             return res
@@ -72,9 +66,12 @@ class Id(object):
             raise UnexpectedResponseException
 
     @multipleAttempt
-    def _readBytesArray(self, key: str, index: int, isString: bool = False, isHex=False):
+    def _readBytesArray(
+        self, key: str, index: int, isString: bool = False, isHex=False
+    ):
         res = self.portal.functions.readBytesArray(
-            self.ID, toBytes32(key), index).call()
+            self.ID, toBytes32(key), index
+        ).call()
 
         if isinstance(res, str):
             return res
@@ -91,14 +88,16 @@ class Id(object):
     @multipleAttempt
     def _readAddress(self, key: str):
         res: et.Address = self.portal.functions.readAddress(
-            self.ID, toBytes32(key)).call()
+            self.ID, toBytes32(key)
+        ).call()
         csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
         return csRes
 
     @multipleAttempt
     def _readAddressArray(self, key: str, index: int):
         res: et.Address = self.portal.functions.readAddressArray(
-            self.ID, toBytes32(key), index).call()
+            self.ID, toBytes32(key), index
+        ).call()
         csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
         return csRes
 
