@@ -5,12 +5,58 @@ from web3 import Web3
 from web3.contract import Contract
 
 from geode.globals import Network, VALIDATOR_STATE, REFRESH_RATE
-from geode.utils import multipleAttempt
+from geode.utils import multiple_attempt
 
 from .beacon import Beacon
 
 
-class Validator(object):
+# This is a static method and a decorator that wraps around another method
+# It is used to update the Portal state for the Validator
+@multiple_attempt
+def update_portal(func):
+    # This is the wrapper function that is returned by the decorator.
+    # It updates the Portal state if REFRESH_RATE has elapsed
+    def wrap(self):
+        if datetime.now() > self.last_portal_update + timedelta(
+            seconds=REFRESH_RATE
+        ):
+            # Call the `getValidator()` function on the Portal contract with Validator's pubkey
+            # and retrieve its state
+            self.portal_state = self.portal.functions.getValidator(
+                self.pubkey
+            ).call()
+            self.last_portal_update = datetime.now()
+        # Call the function that was decorated and return its result
+        return func(self)
+
+    # Return the wrapper function
+    return wrap
+
+
+# This is a static method and a decorator that wraps around another method
+# It is used to update the Beacon chain state for the Validator
+@multiple_attempt
+def update_beacon(func):
+    # This is a decorator function that wraps around the given function.
+    # It checks whether the last update to the beacon state is older than REFRESH_RATE seconds.
+    def wrap(self):
+        if datetime.now() > self.last_beacon_update + timedelta(
+            seconds=REFRESH_RATE
+        ):
+            # If it is, it updates the beacon state by calling get_validator()
+            # function of the beacon contract.
+            self.beacon_state = self.beacon.beacon_states_validators_id(
+                state_id="head", validator_id=self.pubkey
+            )
+            # It then updates the last_beacon_update timestamp to the current time.
+            self.last_beacon_update = datetime.now()
+        return func(self)
+
+    # Finally, it returns the wrapped function.
+    return wrap
+
+
+class Validator:
     # Declare instance variables for Validator class
     w3: Web3  # An instance of the Web3 class for interacting with Ethereum blockchain
     network: Network  # The network being validated
@@ -51,101 +97,60 @@ class Validator(object):
     def __str__(self):
         return f"Validator Object: {self.pubkey}"
 
-    # This is a static method and a decorator that wraps around another method
-    # It is used to update the Portal state for the Validator
-    @multipleAttempt
-    def updatePortal(func):
-        # This is the wrapper function that is returned by the decorator.
-        # It updates the Portal state if REFRESH_RATE has elapsed
-        def wrap(self):
-            if datetime.now() > self.last_portal_update + timedelta(
-                seconds=REFRESH_RATE
-            ):
-                # Call the `getValidator()` function on the Portal contract with Validator's pubkey
-                # and retrieve its state
-                self.portal_state = self.portal.functions.getValidator(
-                    self.pubkey
-                ).call()
-                self.last_portal_update = datetime.now()
-            # Call the function that was decorated and return its result
-            return func(self)
-
-        # Return the wrapper function
-        return wrap
-
-    @multipleAttempt
-    def updateBeacon(func):
-        # This is a decorator function that wraps around the given function.
-        # It checks whether the last update to the beacon state is older than REFRESH_RATE seconds.
-        def wrap(self):
-            if datetime.now() > self.last_beacon_update + timedelta(
-                seconds=REFRESH_RATE
-            ):
-                # If it is, it updates the beacon state by calling get_validator() function of the beacon contract.
-                self.beacon_state = self.beacon.beacon_states_validators_id(
-                    state_id="head", validator_id=self.pubkey
-                )
-                # It then updates the last_beacon_update timestamp to the current time.
-                self.last_beacon_update = datetime.now()
-            return func(self)
-
-        # Finally, it returns the wrapped function.
-        return wrap
-
     # Portal Props
 
     @property
-    @updatePortal
+    @update_portal
     def state(self):
         return VALIDATOR_STATE(self.portal_state[0])
 
     @property
-    @updatePortal
+    @update_portal
     def portal_index(self):
         return self.portal_state[1]
 
     @property
-    @updatePortal
+    @update_portal
     def createdAt(self):
         return self.portal_state[2]
 
     @property
-    @updatePortal
+    @update_portal
     def period(self):
         return self.portal_state[3]
 
     @property
-    @updatePortal
+    @update_portal
     def poolId(self):
         return self.portal_state[4]
 
     @property
-    @updatePortal
+    @update_portal
     def operatorId(self):
         return self.portal_state[5]
 
     @property
-    @updatePortal
+    @update_portal
     def poolFee(self):
         return self.portal_state[6]
 
     @property
-    @updatePortal
+    @update_portal
     def operatorFee(self):
         return self.portal_state[7]
 
     @property
-    @updatePortal
+    @update_portal
     def governanceFee(self):
         return self.portal_state[8]
 
     @property
-    @updatePortal
+    @update_portal
     def signature31(self):
         return self.portal_state[9]
 
     @property
-    @updatePortal
+    @update_portal
     def __portal__(self):
         keys = [
             "state",
@@ -165,51 +170,51 @@ class Validator(object):
     # Beacon Props
 
     @property
-    @updateBeacon
+    @update_beacon
     def beacon_index(self):
         return self.beacon_state["index"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def balance(self):
         return self.beacon_state["balance"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def status(self):
         return self.beacon_state["status"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def withdrawal_credentials(self):
         return self.beacon_state["validator"]["withdrawal_credentials"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def effective_balance(self):
         return self.beacon_state["validator"]["effective_balance"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def slashed(self):
         return self.beacon_state["validator"]["slashed"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def activation_eligibility_epoch(self):
         return self.beacon_state["validator"]["activation_eligibility_epoch"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def exit_epoch(self):
         return self.beacon_state["validator"]["exit_epoch"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def withdrawable_epoch(self):
         return self.beacon_state["validator"]["withdrawable_epoch"]
 
     @property
-    @updateBeacon
+    @update_beacon
     def __beacon__(self):
         return self.beacon_state

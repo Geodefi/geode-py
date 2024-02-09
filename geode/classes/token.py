@@ -7,11 +7,11 @@ from geode.globals import Network
 from geode.utils import get_contract_abi, get_token_name
 
 
-class Token(object):
+class Token:
     network: Network
     contract: Contract
 
-    def __init__(self, w3: Web3, network: Network, **kwarg):
+    def __init__(self, w3: Web3, network: Network):
         # Set the network of the token
         self.network: Network = network
 

@@ -1,7 +1,7 @@
 import typing as t
 
 from geode.globals import ID_TYPE, DEPOSIT_SIZE
-from geode.utils import getKey, validate_deposit_data_file
+from geode.utils import get_key, validate_deposit_data_file
 
 
 from .id import Id
@@ -10,131 +10,134 @@ from .beacon import Beacon
 
 
 class Pool(Id):
-
     def __init__(self, beacon: Beacon, *args, **kwargs):
         """
         Initializes a Pool object.
 
         Parameters:
-        beacon: A Beacon object.
-        *args: variable length argument list.
-        **kwargs: arbitrary keyword arguments.
+            beacon: An initialized Beacon object.
+            *args: variable length argument list.
+            **kwargs: arbitrary keyword arguments.
 
         Returns:
         None
         """
-        self.TYPE = ID_TYPE(5)  # The type of the Pool is 5.
+        # The type of the Pool is 5.
+        super().__init__(*args, **kwargs, type_=ID_TYPE(5))
         # The Pool object is associated with a Beacon object.
-        self.Beacon: Beacon = beacon
-        super().__init__(*args, **kwargs)
+        self.beacon: Beacon = beacon
 
     @property
     def initiated(self):
-        return self._readUint("initiated")
+        return self._read_uint("initiated")
 
     @property
     def maintainer(self):
-        return self._readAddress("maintainer")
+        return self._read_address("maintainer")
 
     @property
     def yieldReceiver(self):
-        return self._readAddress("yieldReceiver")
+        return self._read_address("yieldReceiver")
 
     @property
     def surplus(self):
-        return self._readUint("surplus")
+        return self._read_uint("surplus")
 
     @property
     def secured(self):
-        return self._readUint("secured")
+        return self._read_uint("secured")
 
     @property
-    def middlewaresList(self):
-        lenmiddlewares = self.middlewaresLen
+    def middlewares_list(self):
+        lenmiddlewares = self.middlewares_len
         ints: t.List = []
         for i in range(lenmiddlewares):
-            ints.append(self._readAddressArray("middlewares", i))
+            ints.append(self._read_address_array("middlewares", i))
         return ints
 
     @property
-    def middlewaresLen(self):
-        return self._readUint("middlewares")
+    def middlewares_len(self):
+        return self._read_uint("middlewares")
 
     def middlewares(self, index):
-        return self._readAddressArray("middlewares", index)
+        return self._read_address_array("middlewares", index)
 
     @property
     def private(self):
-        return (self._readUint("private") == 1)
+        return self._read_uint("private") == 1
 
     @property
     def whitelist(self):
-        return self._readAddress("whitelist")
+        return self._read_address("whitelist")
 
     @property
     def withdrawalCredential(self):
-        return self._readBytes("withdrawalCredential", isHex=True)
+        return self._read_bytes("withdrawalCredential", is_hex=True)
 
     @property
     def withdrawalContract(self):
-        return self._readAddress("withdrawalContract")
+        return self._read_address("withdrawalContract")
 
     @property
     def liquidityPool(self):
-        return self._readAddress("liquidityPool")
+        return self._read_address("liquidityPool")
 
     @property
     def feeSwitch(self):
-        return self._readUint("feeSwitch")
+        return self._read_uint("feeSwitch")
 
     @property
     def priorFee(self):
-        return self._readUint("priorFee")
+        return self._read_uint("priorFee")
 
     @property
     def fee(self):
-        return self._readUint("fee")
+        return self._read_uint("fee")
 
     @property
     def wallet(self):
-        return self._readUint("wallet")
+        return self._read_uint("wallet")
 
     @property
     def validatorsList(self):
         lenvalidators = self.validatorsLen
         vals: t.List = []
         for i in range(lenvalidators):
-            vals.append(self._readBytesArray(
-                "validators", index=i))
+            vals.append(self._read_bytes_array("validators", index=i))
         return vals
 
     @property
     def validatorsLen(self):
-        return self._readUint("validators")
+        return self._read_uint("validators")
 
     @property
     def fallbackOperator(self):
-        return self._readUint("fallbackOperator")
+        return self._read_uint("fallbackOperator")
 
     @property
     def fallbackThreshold(self):
-        return self._readUint("fallbackThreshold")
+        return self._read_uint("fallbackThreshold")
 
     def validators(self, index):
-        return Validator(network=self.network, beacon=self.Beacon, w3=self.w3, portal=self.portal,
-                         pk=self._readBytesArray("validators", index=index))
+        return Validator(
+            network=self.network,
+            beacon=self.beacon,
+            w3=self.w3,
+            portal=self.portal,
+            pk=self._read_bytes_array("validators", index=index),
+        )
 
     def allowance(self, operator: int):
-        return self._readUint(getKey(id=operator, key="allowance"))
+        return self._read_uint(get_key(id_=operator, key="allowance"))
 
     def proposedValidators(self, operator: int):
-        return self._readUint(getKey(id=operator, key="proposedValidators"))
+        return self._read_uint(get_key(id_=operator, key="proposedValidators"))
 
     def activeValidators(self, operator: int):
-        return self._readUint(getKey(id=operator, key="activeValidators"))
+        return self._read_uint(get_key(id_=operator, key="activeValidators"))
 
     def alienValidators(self, operator: int):
-        return self._readUint(getKey(id=operator, key="alienValidators"))
+        return self._read_uint(get_key(id_=operator, key="alienValidators"))
 
     def prepareProposeStake(self, deposit_data_path: str):
         """
@@ -148,14 +151,16 @@ class Pool(Id):
         - pubkeys (List[bytes]): A list of public keys as bytes objects.
         - sig1s (List[bytes]): A list of signature 1s as bytes objects.
         """
-        deposit_data = validate_deposit_data_file(deposit_data_path=deposit_data_path,
-                                                  amount=DEPOSIT_SIZE.PROPOSAL,
-                                                  network=self.network,
-                                                  credential=self.withdrawalCredential[2:])
-        pubkeys = [bytes.fromhex(deposit['pubkey'])
-                   for deposit in deposit_data]
-        sig1s = [bytes.fromhex(deposit['signature'])
-                 for deposit in deposit_data]
+        deposit_data = validate_deposit_data_file(
+            deposit_data_path=deposit_data_path,
+            amount=DEPOSIT_SIZE.PROPOSAL,
+            network=self.network,
+            credential=self.withdrawalCredential[2:],
+        )
+        pubkeys = [bytes.fromhex(deposit["pubkey"]) for deposit in deposit_data]
+        sig1s = [
+            bytes.fromhex(deposit["signature"]) for deposit in deposit_data
+        ]
         return pubkeys, sig1s
 
     def prepareStake(self, deposit_data_path: str):
@@ -176,12 +181,14 @@ class Pool(Id):
             from the deposit data file.
         """
 
-        deposit_data = validate_deposit_data_file(deposit_data_path=deposit_data_path,
-                                                  amount=DEPOSIT_SIZE.STAKE,
-                                                  network=self.network,
-                                                  credential=self.withdrawalCredential[2:])
-        pubkeys = [bytes.fromhex(deposit['pubkey'])
-                   for deposit in deposit_data]
-        sig31s = [bytes.fromhex(deposit['signature'])
-                  for deposit in deposit_data]
+        deposit_data = validate_deposit_data_file(
+            deposit_data_path=deposit_data_path,
+            amount=DEPOSIT_SIZE.STAKE,
+            network=self.network,
+            credential=self.withdrawalCredential[2:],
+        )
+        pubkeys = [bytes.fromhex(deposit["pubkey"]) for deposit in deposit_data]
+        sig31s = [
+            bytes.fromhex(deposit["signature"]) for deposit in deposit_data
+        ]
         return pubkeys, sig31s

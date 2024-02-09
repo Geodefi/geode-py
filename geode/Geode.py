@@ -1,6 +1,6 @@
 import sys
 from web3 import Web3, HTTPProvider, WebsocketProvider
-from geode.exceptions import PythonVersionException
+from geode.exceptions import PythonVersionException, UnknownChainException
 from geode.globals import Network
 from geode.classes import Portal, Token, Beacon
 
@@ -14,8 +14,8 @@ def check_python_version() -> None:
         sys.exit()
 
 
-class Geode(object):
-    def __init__(self, exec_api: str = "", cons_api: str = "", **kwargs):
+class Geode:
+    def __init__(self, exec_api: str = "", cons_api: str = ""):
         # Check if the current version of Python is supported
         check_python_version()
 
@@ -29,21 +29,17 @@ class Geode(object):
             or self.network is Network.gnosis
         ):
             self._set_beacon(cons_api)
+        else:
+            raise UnknownChainException
 
         # Set the Token instance
-        self._set_Token()
+        self._set_token()
 
         # Set the Portal instance
-        self._set_Portal()
-
-        # # not used for now
-        # Set the modules and configurations
-        # self._set_modules()
-        # self._set_configs(kwargs)
+        self._set_portal()
 
     # Internal method to set the Web3 instance
     def _set_web3(self, exec_api: str):
-        # TODO Call global web3 class(web3 inherited) and initialize
         if exec_api:
             if exec_api.startswith("https"):
                 self.w3: Web3 = Web3(HTTPProvider(exec_api))
@@ -58,13 +54,15 @@ class Geode(object):
     # Internal method to set the Beacon instance
     def _set_beacon(self, cons_api: str):
         if cons_api:
-            self.Beacon: Beacon = Beacon(network=self.network, cons_api=cons_api)
+            self.beacon: Beacon = Beacon(
+                network=self.network, cons_api=cons_api
+            )
         # TODO raise if not provided
 
     # Internal method to set the Portal instance
-    def _set_Portal(self):
-        self.Portal: Portal = Portal(self.w3, self.Beacon)
+    def _set_portal(self):
+        self.portal: Portal = Portal(self.w3, self.beacon)
 
     # Internal method to set the Token instance
-    def _set_Token(self):
-        self.Token: Token = Token(self.w3, self.network)
+    def _set_token(self):
+        self.token: Token = Token(self.w3, self.network)

@@ -12,5 +12,6 @@ class VALIDATOR_STATE(IntEnum):
     EXIT_REQUESTED = 3
     # validator is fully exited.
     EXITED = 4
-    # proposal was malicious(alien). Maybe faulty signatures or probably frontrunning (https://bit.ly/3Tkc6UC)
+    # proposal was malicious(alien). Maybe faulty signatures
+    # or probably frontrunning (https://bit.ly/3Tkc6UC)
     ALIENATED = 69

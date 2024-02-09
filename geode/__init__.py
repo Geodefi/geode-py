@@ -1,1 +1,1 @@
-from .Geode import Geode
+from .geode import Geode

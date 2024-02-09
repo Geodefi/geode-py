@@ -4,57 +4,53 @@ from .id import Id
 
 
 class Operator(Id):
-
     def __init__(self, *args, **kwargs):
         """
         Initializes an Operator object.
 
         Parameters:
-        *args: variable length argument list.
-        **kwargs: arbitrary keyword arguments.
-
-        Returns:
-        None
+            *args: variable length argument list.
+            **kwargs: arbitrary keyword arguments.
         """
-        self.TYPE = ID_TYPE(4)  # The type of the Operator is 4.
-        super().__init__(*args, **kwargs)
+        # The type of the Operator is 4
+        super().__init__(*args, **kwargs, type_=ID_TYPE(4))
 
     @property
     def initiated(self):
-        return self._readUint("initiated")
+        return self._read_uint("initiated")
 
     @property
     def maintainer(self):
-        return self._readAddress("maintainer")
+        return self._read_address("maintainer")
 
     @property
     def feeSwitch(self):
-        return self._readUint("feeSwitch")
+        return self._read_uint("feeSwitch")
 
     @property
     def priorFee(self):
-        return self._readUint("priorFee")
+        return self._read_uint("priorFee")
 
     @property
     def fee(self):
-        return self._readUint("fee")
+        return self._read_uint("fee")
 
     @property
     def periodSwitch(self):
-        return self._readUint("periodSwitch")
+        return self._read_uint("periodSwitch")
 
     @property
     def priorPeriod(self):
-        return self._readUint("priorPeriod")
+        return self._read_uint("priorPeriod")
 
     @property
     def validatorPeriod(self):
-        return self._readUint("validatorPeriod")
+        return self._read_uint("validatorPeriod")
 
     @property
     def wallet(self):
-        return self._readUint("wallet")
+        return self._read_uint("wallet")
 
     @property
     def release(self):
-        return self._readUint("release")
+        return self._read_uint("release")

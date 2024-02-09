@@ -1,5 +1,4 @@
 from enum import IntEnum
-import typing as t
 
 
 class Network(IntEnum):

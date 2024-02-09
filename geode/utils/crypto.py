@@ -12,4 +12,4 @@ def keccak256(x: bytes) -> bytes:
 
 def solidity_keccak256(types: List[str], params: List[Any]):
     # Calculate Keccak-256 hash of the given solidity types and parameters
-    return Web3.solidity_keccak(types, params)
+    return Web3.solidity_keccak(abi_types=types, values=params)

@@ -3,7 +3,8 @@ from web3 import Web3
 from web3.contract import Contract
 
 from geode.globals import Network
-from geode.utils import get_contract_abi, toBytes32, toString
+from geode.utils import get_contract_abi, to_bytes32, to_string
+from geode.exceptions import UnknownChainException
 
 from .pool import Pool
 from .operator import Operator
@@ -12,13 +13,20 @@ from .validator import Validator
 
 
 class Portal:
+    """
+    Attributes:
+        w3: A Web3 instance used for interacting with the Ethereum network.
+        network: A Network instance representing the Ethereum network to use.
+        portal: An Ethereum address of the portal contract.
+    """
+
     w3: Web3  # Web3 instance used for interacting with the Ethereum network
     network: Network  # Network to which the Portal is connected
     contract: Contract  # Contract instance used for interacting with the Portal contract
-    Beacon: Beacon  # Beacon instance used for generating deposit keys and signatures
+    beacon: Beacon  # Beacon instance used for generating deposit keys and signatures
     version: int  # Version of the Portal contract
 
-    def __init__(self, w3: Web3, beacon: Beacon, **kwargs):
+    def __init__(self, w3: Web3, beacon: Beacon):
         """
         Initializes a new Portal instance.
 
@@ -34,6 +42,8 @@ class Portal:
             or self.network is Network.gnosis
         ):
             self._set_beacon(beacon)
+        else:
+            raise UnknownChainException
 
         address, abi = get_contract_abi(
             network=self.network, kind="package", name="Portal"
@@ -43,9 +53,11 @@ class Portal:
         )
 
         self.version: int = self.functions.getContractVersion().call()
-        version_name = self.functions.readBytes(self.version, toBytes32("NAME")).call()
+        version_name = self.functions.readBytes(
+            self.version, to_bytes32("NAME")
+        ).call()
         logging.info(
-            f"Portal:{self.network.name} head is on '{toString(version_name)}'"
+            f"Portal:{self.network.name} head is on '{to_string(version_name)}'"
         )
 
     def _set_web3(self, w3: Web3):
@@ -60,30 +72,32 @@ class Portal:
         """
         Set the Beacon instance
         """
-        self.Beacon: Beacon = beacon
+        self.beacon: Beacon = beacon
 
     def __getattr__(self, attr):
         return getattr(self.contract, attr)
 
-    def pool(self, id: int):
+    def pool(self, id_: int):
         """
         Get the Pool object by id
         """
         return Pool(
-            beacon=self.Beacon,
+            beacon=self.beacon,
             w3=self.w3,
             network=self.network,
             portal=self.contract,
-            id=id,
+            id_=id_,
         )
 
-    def operator(self, id: int):
+    def operator(self, id_: int):
         """
         Get the Opeartor object by id
         """
-        return Operator(w3=self.w3, network=self.network, portal=self.contract, id=id)
+        return Operator(
+            w3=self.w3, network=self.network, portal=self.contract, id_=id_
+        )
 
-    def validator(self, pk: bytes):
+    def validator(self, pubkey: bytes):
         """
         Get the Opeartor object by id
         """
@@ -91,6 +105,6 @@ class Portal:
             w3=self.w3,
             network=self.network,
             portal=self.contract,
-            beacon=self.Beacon,
-            pk=pk,
+            beacon=self.beacon,
+            pk=pubkey,
         )

@@ -1,12 +1,13 @@
 from web3 import Web3
-
-from geode.globals import ID_TYPE
-from .solidity import toBytes32
-from .crypto import solidity_keccak256, keccak256
 from eth_abi import encode
 
+from geode.globals import ID_TYPE
 
-def generateId(name: str, type: ID_TYPE):
+from .solidity import to_bytes32
+from .crypto import solidity_keccak256, keccak256
+
+
+def generate_id(name: str, type_: ID_TYPE):
     """
     Generates an ID using keccak256 hash function.
 
@@ -17,10 +18,10 @@ def generateId(name: str, type: ID_TYPE):
     Returns:
     int: The generated ID.
     """
-    return Web3.to_int(keccak256(encode(["string", "uint256"], [name, type])))
+    return Web3.to_int(keccak256(encode(["string", "uint256"], [name, type_])))
 
 
-def getKey(id: int, key: str):
+def get_key(id_: int, key: str):
     """
     Generates a key using keccak256 hash function.
 
@@ -32,4 +33,4 @@ def getKey(id: int, key: str):
     bytes: The generated key.
     """
 
-    return solidity_keccak256(["uint256", "bytes32"], [id, toBytes32(key)])
+    return solidity_keccak256(["uint256", "bytes32"], [id_, to_bytes32(key)])
