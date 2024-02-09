@@ -11,8 +11,8 @@ ENVIROMENTAL VARIABLES
 
 .. code-block:: shell
 
-  EXECUTION_API = "https://eth-goerli.g.alchemy.com/v2/xxxx"
-  CONSENSUS_KEY = "RaY0eU00xuZ50m0pK0KL00VsUFZu00hhZj0stQ"
+  EXECUTION_API = "https://xxxxxxxx.ethereum-holesky.quiknode.pro/xxxxxxxx"
+  CONSENSUS_API = "https://holesky.beaconstate.ethstaker.cc" # prefferably use your local (exposed) node
   PRIVATE_KEY = "586acb3c6bac489308c0938f762da702573a714dfdf3a729dcb40758b4c363ae" # optional
 
 
@@ -40,42 +40,40 @@ EXECUTION_API
 
 .. code-block:: shell
 
-   $ export EXECUTION_API = "https://eth-goerli.g.alchemy.com/v2/xxxxxxxxxxxxxxxxxxxxxxxxx"
+   $ export EXECUTION_API = "https://xxxxxxxx.ethereum-holesky.quiknode.pro/xxxxxxxx"
 
-
-CONSENSUS_KEY
+CONSENSUS_API
 -------------------
 
 .. NOTE:: 
-    ``CONSENSUS_KEY`` is required to make beacon chain API requests. 
-    You can get it from `beaconcha.in <https://beaconcha.in/pricing>`_ for free.
+    ``CONSENSUS_API`` is required to make beacon chain API requests.
 
 .. code-block:: shell
 
-   $ export CONSENSUS_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   $ export CONSENSUS_API = "https://holesky.beaconstate.ethstaker.cc"
 
 
 .. WARNING:: 
-    Please store your ``EXECUTION_API`` and ``CONSENSUS_KEY`` as environmental variable. 
+    Please store your ``EXECUTION_API`` and ``CONSENSUS_API`` as environmental variable. 
     Do not explicitly use in production code.
 
 Initilizing Geode Object
 *************************
 
-The snippet initializes the Geodefi library by importing the ``Geode`` class from the geode module. It creates an object of Geode and passes the ``EXECUTION_API`` and ``CONSENSUS_KEY`` values as arguments to the constructor.
+The snippet initializes the Geodefi library by importing the ``Geode`` class from the geode module. It creates an object of Geode and passes the ``EXECUTION_API`` and ``CONSENSUS_API`` values as arguments to the constructor.
 
 .. code-block:: python
 
     # Get keys from enviroment
     >>> import os
     >>> EXECUTION_API = os.environ['EXECUTION_API']
-    >>> CONSENSUS_KEY = os.environ['CONSENSUS_KEY']
+    >>> CONSENSUS_API = os.environ['CONSENSUS_API']
 
     # Initilize Geode
     >>> from geode import Geode
-    >>> G = Geode(exec_api = EXECUTION_API, cons_key = CONSENSUS_KEY)
+    >>> G = Geode(exec_api = EXECUTION_API, cons_api = CONSENSUS_API)
 
-      INFO : Connected to beconcha.in:https://goerli.beaconcha.in/api/v1/
+      INFO : Connected to beconcha.in: https://holesky.beaconstate.ethstaker.cc
 
 
 Configuration for Geode Object
@@ -103,7 +101,7 @@ It initializes the ``Beacon`` and ``Portal`` objects, representing key component
 Additionally, it creates a ``gETH`` token object that represents the gETH token on ethereum. The snippet also demonstrates how to retrieve information about a pool using the pool() function, identified by pid, and how to retrieve information about an operator using the operator() function, identified by oid.
 
 
-.. py:class:: geode.Geode(exec_key, cons_key)
+.. py:class:: geode.Geode(exec_key, cons_api)
 
 Each ``Geode`` instance has following sub-classes
 
@@ -133,7 +131,7 @@ Each ``Geode`` instance has following sub-classes
     >>> Beacon = G.Beacon
 
     >>> Portal = G.Portal
-      INFO : Portal:goerli head is on 'v1'
+      INFO : Portal:holesky head is on 'v1'
 
     >>> gETH = G.Token
       INFO : Token:gETH

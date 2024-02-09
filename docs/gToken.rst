@@ -14,7 +14,7 @@ One of the core components of Geode Finance is the ERC1155 token, which allows f
 .. code-block:: python
 
     # Initilize Geode
-    >>> G = Geode(exec_api=env["EXECUTION_API"], cons_key= env["CONSENSUS_KEY"])
+    >>> G = Geode(exec_api=env["EXECUTION_API"], cons_api= env["CONSENSUS_API"])
     # Initilize Token
     >>> gETH = G.Token
 

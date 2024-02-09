@@ -11,7 +11,7 @@ Initilize the Pool object of Geode with an existing pool id.
 
 .. code-block:: python
 
-    >> geode = Geode(exec_api, cons_key)
+    >> geode = Geode(exec_api, cons_api)
     ## You need pool id to create pool object
     >> poolID = 500191....78
     >> myPool = geode.Portal.pool(poolID)

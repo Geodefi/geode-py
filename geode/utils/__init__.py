@@ -1,4 +1,4 @@
-from .abi import get_contract_abi, get_library_abi
+from .abi import get_contract_abi
 from .token import get_token_name
 from .solidity import toBytes, toBytes32, toString
 from .crypto import keccak256, solidity_keccak256

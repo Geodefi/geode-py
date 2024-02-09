@@ -8,6 +8,7 @@ from geode.utils import get_contract_abi, toBytes32, toString
 from .pool import Pool
 from .operator import Operator
 from .beacon import Beacon
+from .validator import Validator
 
 
 class Portal:
@@ -27,20 +28,27 @@ class Portal:
             kwargs (dict): Optional keyword arguments.
         """
         self._set_web3(w3)  # sets the Web3 instance for the Portal
-        if self.network is Network.ethereum or self.network is Network.goerli or self.network is Network.gnosis:
+        if (
+            self.network is Network.ethereum
+            or self.network is Network.holesky
+            or self.network is Network.gnosis
+        ):
             self._set_beacon(beacon)
 
-        address, abi = get_contract_abi(network=self.network, name="Portal")
+        address, abi = get_contract_abi(
+            network=self.network, kind="package", name="Portal"
+        )
         self.contract: Contract = w3.eth.contract(
-            address=Web3.to_checksum_address(address), abi=abi)
+            address=Web3.to_checksum_address(address), abi=abi
+        )
 
         self.version: int = self.functions.getContractVersion().call()
-        version_name = self.functions.readBytes(
-            self.version, toBytes32("NAME")).call()
+        version_name = self.functions.readBytes(self.version, toBytes32("NAME")).call()
         logging.info(
-            f"Portal:{self.network.name} head is on '{toString(version_name)}'")
+            f"Portal:{self.network.name} head is on '{toString(version_name)}'"
+        )
 
-    def _set_web3(self,  w3: Web3):
+    def _set_web3(self, w3: Web3):
         """
         Set the Web3 instance and network based on the chain ID.
         """
@@ -48,7 +56,7 @@ class Portal:
         self.w3: Web3 = w3
         self.network: Network = Network(self.w3.eth.chain_id)
 
-    def _set_beacon(self,  beacon: Beacon):
+    def _set_beacon(self, beacon: Beacon):
         """
         Set the Beacon instance
         """
@@ -61,11 +69,28 @@ class Portal:
         """
         Get the Pool object by id
         """
-        return Pool(beacon=self.Beacon, w3=self.w3, network=self.network,
-                    portal=self.contract, id=id)
+        return Pool(
+            beacon=self.Beacon,
+            w3=self.w3,
+            network=self.network,
+            portal=self.contract,
+            id=id,
+        )
 
-    def operator(self,  id: int):
+    def operator(self, id: int):
         """
         Get the Opeartor object by id
         """
         return Operator(w3=self.w3, network=self.network, portal=self.contract, id=id)
+
+    def validator(self, pk: bytes):
+        """
+        Get the Opeartor object by id
+        """
+        return Validator(
+            w3=self.w3,
+            network=self.network,
+            portal=self.contract,
+            beacon=self.Beacon,
+            pk=pk,
+        )

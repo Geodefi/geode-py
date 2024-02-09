@@ -12,7 +12,7 @@ Initilize the Operator object of Geode.
 
 .. code-block:: python
 
-    >> geode = Geode(exec_api, cons_key)
+    >> geode = Geode(exec_api, cons_api)
     ## You need operator id to create operator object
     >> operatorID = 114..151
     >> myOperator = geode.Portal.operator(operatorID)

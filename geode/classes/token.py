@@ -11,17 +11,20 @@ class Token(object):
     network: Network
     contract: Contract
 
-    def __init__(self,  w3: Web3, network: Network, **kwarg):
+    def __init__(self, w3: Web3, network: Network, **kwarg):
         # Set the network of the token
         self.network: Network = network
 
         # Get the name, address and ABI of the token contract
         token_name = get_token_name(self.network)
-        address, abi = get_contract_abi(network=self.network, name=token_name)
+        address, abi = get_contract_abi(
+            network=self.network, kind="token", name=token_name
+        )
 
         # Instantiate the contract using Web3 instance, address and ABI
         self.contract: Contract = w3.eth.contract(
-            address=Web3.to_checksum_address(address), abi=abi)
+            address=Web3.to_checksum_address(address), abi=abi
+        )
 
         # Log the token name
         logging.info(f"Token:{token_name}")

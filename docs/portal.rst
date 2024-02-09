@@ -51,7 +51,7 @@ Attributes
 
     # get a Portal address
     >>> geode.Portal.network
-      <Network.goerli: 5>    
+      <Network.holesky: 17000>    
 
 
 Methods

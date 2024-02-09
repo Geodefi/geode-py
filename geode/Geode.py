@@ -6,16 +6,16 @@ from geode.classes import Portal, Token, Beacon
 
 
 def check_python_version() -> None:
-    '''
+    """
     Checks that the python version running is sufficient and exits if not.
-    '''
+    """
     if sys.version_info <= (3, 7) and sys.version_info >= (3, 10):
         raise PythonVersionException
         sys.exit()
 
 
 class Geode(object):
-    def __init__(self, exec_api: str = "", cons_key: str = "", **kwargs):
+    def __init__(self, exec_api: str = "", cons_api: str = "", **kwargs):
         # Check if the current version of Python is supported
         check_python_version()
 
@@ -23,8 +23,12 @@ class Geode(object):
         self._set_web3(exec_api)
 
         # If the network is Ethereum, Goerli or Gnosis, set the Beacon instance with the given consumer key
-        if self.network is Network.ethereum or self.network is Network.goerli or self.network is Network.gnosis:
-            self._set_beacon(cons_key)
+        if (
+            self.network is Network.ethereum
+            or self.network is Network.holesky
+            or self.network is Network.gnosis
+        ):
+            self._set_beacon(cons_api)
 
         # Set the Token instance
         self._set_Token()
@@ -41,10 +45,9 @@ class Geode(object):
     def _set_web3(self, exec_api: str):
         # TODO Call global web3 class(web3 inherited) and initialize
         if exec_api:
-
-            if exec_api.startswith('https'):
+            if exec_api.startswith("https"):
                 self.w3: Web3 = Web3(HTTPProvider(exec_api))
-            elif exec_api.startswith('wss'):
+            elif exec_api.startswith("wss"):
                 self.w3: Web3 = Web3(WebsocketProvider(exec_api))
             else:
                 # TODO raise if not provided
@@ -53,10 +56,9 @@ class Geode(object):
             self.network: int = Network(self.w3.eth.chain_id)
 
     # Internal method to set the Beacon instance
-    def _set_beacon(self, cons_key: str):
-        if cons_key:
-            self.Beacon: Beacon = Beacon(
-                network=self.network, cons_key=cons_key)
+    def _set_beacon(self, cons_api: str):
+        if cons_api:
+            self.Beacon: Beacon = Beacon(network=self.network, cons_api=cons_api)
         # TODO raise if not provided
 
     # Internal method to set the Portal instance
