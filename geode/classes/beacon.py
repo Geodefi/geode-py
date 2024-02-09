@@ -3,7 +3,7 @@ import typing as t
 import eth_typing as et
 from datetime import datetime
 
-from geode.globals import Network, API_BASE
+from geode.globals import Network
 from geode.utils import httpRequest
 from geode.exceptions import UnknownChainException
 
@@ -12,10 +12,6 @@ class Beacon(object):
     # https://ethereum.github.io/beacon-APIs/#
     # All of the GET end points that is specified within the Ethereum's Specification v2.3.0 is accesible.
     # Also some of the v2.4.0 is also accesible.
-    api_base: str
-    api_suffix: str
-    last_update: datetime
-    beacon_state: t.Dict
 
     def __init__(self, network: Network, cons_api: str, **kwargs):
         """
