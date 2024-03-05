@@ -102,8 +102,8 @@ We welcome contributions from the community! To contribute to this project, plea
 - Change .github/workflows/pipy_release.yml version first, then:
 
 ``` bash
-    git tag 0.0.1 # or whatever version you want 
-    git push origin --tags
+    git tag -a "v0.0.1-beta" -m "beta version testing"
+    git push --tags
 ```
 
 ## License
