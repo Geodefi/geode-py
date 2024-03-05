@@ -99,7 +99,7 @@ We welcome contributions from the community! To contribute to this project, plea
 ## Release
 
 - Use main branch for releases.
-- Change .github/workflows/pipy_release.yml version first, then:
+- test with ``VERSION=1.0.0 python -m build`` if you want, then:
 
 ``` bash
     git tag -a "v0.0.1-beta" -m "beta version testing"
