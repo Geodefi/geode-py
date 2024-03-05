@@ -1,12 +1,12 @@
 # geodefi
 
-**geodefi**  is a Python library for interacting with `geode.fi <https://www.geode.fi>`_ smart contract infrastructure.
+**geodefi**  is a Python library for interacting with [geode.fi](https://www.geode.fi) smart contract infrastructure.
 
-`geode.fi <https://www.geode.fi>`_ is an open source **Decentralized Infrastructure Provider** aiming to create a secure closed-environment for the wider Decentralized Finance landscape.
+[geode.fi](https://www.geode.fi) an open source **Decentralized Infrastructure Provider** aiming to create a secure closed-environment for the wider Decentralized Finance landscape.
 Currently providing a set of smart contracts which allows anyone to create their own Staking Pool on Ethereum.
 Soon, much more.
 
-Built on top of `web3.py <https://web3py.readthedocs.io/en/stable/>`_, Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with the protocol's smart contract infrastructure.
+Built on top of [web3.py](https://web3py.readthedocs.io/en/stable) Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with the protocol's smart contract infrastructure.
 
 Whether you're looking to query contract data or execute transactions, **geodefi** Python SDK has you covered! With a user-friendly and highly efficient interface, this SDK also provides cool features such as built-in cache, easy wallet management etc.
 
