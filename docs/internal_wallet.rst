@@ -1,48 +1,55 @@
 .. _internal_wallet:
 
-
 Internal Wallet  
------------------
+===============
 
-    Every `operator` has an internal wallet. They use this wallet to create the ``Validator``.
+    | ``wallet`` (uint256) amount (in ``wei``) in the internal wallet of the Operator.
+    | Every ID has its own internal wallet within Portal. It accrues maintanence fees, makes things safer and easier for Node Operators when creating validators etc. 
+
+.. note::     
+    | Validator proposals requires 1 Ether, which will be spent from your internal wallet.
+    | However, this amount is returned if the proposal is approved and the validator creation is finalized.
 
 .. py:method:: Portal.functions.increaseWalletBalance(id: uint256)
 
-    Operators need 1 ethers to propose a validator. However, they get it back when theirs the proposal is approved.
+    Increases internal wallet by accepting the deposited ETH amount.
 
 .. WARNING::
-    Please double-check you operator id before processing.
+    | You will need to provide a private key and setup your wallet with provided web3 instance to send any transactions:
+    | :ref: `Setting up your wallet with PRIVATE_KEY` 
 
-.. code-block:: python
+    .. code-block:: python
 
-    >>> transaction_params = {
-        'to': Portal.address,
-        'from': your_address,
-        'value': web3.toWei(320, 'ether'),  # Example: sending 320 Ether for 10 Validator
-        'gas': 200000,  # Example: setting the gas limit
-        'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
+        # Example: sending 320 Ether for 10 Validator
+        amount = portal.w3.toWei(320, 'ether')  
+
+        transaction_params = {
+            'from': acct.address, # no need if defaultAccount is set 
+            'value': amount,
+            'gas': 200000,  # Example: setting the gas limit
+            'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
         }
 
-    >>> transaction = Portal.functions.increaseWalletBalance(operatorId).buildTransaction(transaction_params)
-    >>> signed_txn = web3.eth.account.sign_transaction(transaction, private_key=sender_private_key)
-    >>> tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
-
+        # Returns the tx hash as HexBytes
+        tx_hash = portal.functions.increaseWalletBalance(myOperator.ID).transact(transaction_params)
+        # HexBytes('0xed0389fb5f45d676808d7a72ccb694d989f39495e2e6911c39ce4253cf976e34')
 
 .. py:method:: Portal.functions.decreaseWalletBalance(id: uint256, value: uint256)
 
     Like, above function, operators can also decrease their wallet balance.
 
-.. code-block:: python
+    .. code-block:: python
+        
+        # Example: withdrawing 320 eth back
+        amount = portal.w3.toWei(320, 'ether') 
 
-    ## It is not payable function.
-    >>> transaction_params = {
-        'to': Portal.address,
-        'from': your_address,
-        'gas': 200000,  # Example: setting the gas limit
-        'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
+        transaction_params = {
+            'from': acct.address, # no need if defaultAccount is set 
+            'value': 0,
+            'gas': 200000,  # Example: setting the gas limit
+            'gasPrice': web3.toWei('50', 'gwei')  # Example: setting the gas price
         }
 
-    >>> transaction = Portal.functions.decreaseWalletBalance(operatorId, web3.toWei(320, 'ether')).buildTransaction(transaction_params)
-    >>> signed_txn = web3.eth.account.sign_transaction(transaction, private_key=sender_private_key)
-    >>> tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
-
+        # Returns the tx hash as HexBytes
+        tx_hash = portal.functions.decreaseWalletBalance(myOperator.ID, amount).transact(transaction_params)
+        # HexBytes('0xed0389fb5f45d676808d7a72ccb694d989f39495e2e6911c39ce4253cf976e34')

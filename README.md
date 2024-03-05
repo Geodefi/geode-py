@@ -1,13 +1,18 @@
 # geodefi
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+**geodefi**  is a Python library for interacting with `geode.fi <https://www.geode.fi>`_ smart contract infrastructure.
 
-`geodefi` is a Python library which makes it easier to interact with the Proof of Stake networks that [The Staking Library](https://docs.geode.fi) is available.
-It provides a simple and intuitive interface for accessing blockchain data, executing smart contract functions, and managing blockchain transactions related to Geode's Trustless staking solution.
+`geode.fi <https://www.geode.fi>`_ is an open source **Decentralized Infrastructure Provider** aiming to create a secure closed-environment for the wider Decentralized Finance landscape.
+Currently providing a set of smart contracts which allows anyone to create their own Staking Pool on Ethereum.
+Soon, much more.
+
+Built on top of `web3.py <https://web3py.readthedocs.io/en/stable/>`_, Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with the protocol's smart contract infrastructure.
+
+Whether you're looking to query contract data or execute transactions, **geodefi** Python SDK has you covered! With a user-friendly and highly efficient interface, this SDK also provides cool features such as built-in cache, easy wallet management etc.
 
 ## Features
 
-- Supports Ethereum Goerli testnet (as of v1.3.0) where The Protocol is deployed.
+- Supports Ethereum Holesky testnet (as of v2.0.0) where The Protocol is deployed.
 - Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/packages.
 - Dynamically adapts to the contract upgrades.
 - Mostly chain agnostic. However, might differ according to the unique PoS implementations.
@@ -15,31 +20,32 @@ It provides a simple and intuitive interface for accessing blockchain data, exec
 
 ## Installation
 
-Using pip:
-
 ```sh
 pip install geodefi
 ```
 
-Using setup.py:
+## Documentation
 
-```sh
-python3 setup.py .
+Detailed documentation for this project is available on [Geodefi SDK Read The Docs](https://sdk.geode.fi).
+
+### Sphinx
+
+If your feature needs to have additional section in [Read The Docs](https://sdk.geode.fi). Please check the docs in your local computer first.
+
+> built docs page is located in docs/_build/html/index.html.
+
+You will need a sphinx server to render rst files:
+
+#### **Build**
+
+```bash
+sphinx-build docs docs/_build/html
 ```
 
-## Usage Details
->
->Note that, Geode.Token refers to the chain-specific internal Token of The Staking Library. This token differs on different chains.
+#### **Auto-build**
 
-### Get the chain-specific internal Token
-
-gETH on Ethereum, gGNO on Gnosis etc.
-
-```python
-# Get gETH token with all functionalities
-gETH = Geode.Token
-totalSupply = gETH.functions.totalSupply().call()
-print(f"Total Supply: {totalSupply}")
+```bash
+sphinx-autobuild docs docs/_build/html
 ```
 
 ## Contributing
@@ -90,34 +96,16 @@ We welcome contributions from the community! To contribute to this project, plea
 
 8. **Create a Pull Request**: Go to the original repository on GitHub and click on the "Pull Request" button. Fill out the necessary information and submit the pull request. Your pull request will be reviewed by the maintainers. Be ready to respond to any feedback or changes requested. You might need to make additional commits based on the feedback.
 
-9. **Celebrate**: Once your pull request is approved and merged, your contribution will be part of the project! Thank you for your contribution.
-
-## Documentation
-
-Detailed documentation for this project is available on [Geodefi SDK](https://sdk.geode.fi).
-
-You can find information on how to install, use, and contribute to the project in the documentation. Whether you're a user or a developer, the documentation provides essential resources to help you get started.
-
-1. **Update in documentations**
-If your feature needs to have additional section in [Read The Docs](https://sdk.geode.fi). Please check the docs in your local computer first.
-
-```bash
-cd docs
-make html
-```
-
-> built docs page is located in docs/_build/html/index.html.
-
-# Releasing
+## Release
 
 - Use main branch for releases.
 - Change .github/workflows/pipy_release.yml version first, then:
 
-```
-git tag 0.0.1 # or whatever version you want 
-git push origin --tags
+``` bash
+    git tag 0.0.1 # or whatever version you want 
+    git push origin --tags
 ```
 
-# License
+## License
 
-`geodefi` is licensed under MIT.
+`geodefi` python sdk is licensed under MIT.

@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-display: swap;
+  font-style: normal;
+  scroll-behavior: smooth;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+.wy-side-nav-search .wy-dropdown > a.icon img.logo,
+.wy-side-nav-search > a.icon img.logo {
+  max-height: 50px;
+}
+
+/** SCROLLBAR **/
+
+::-webkit-scrollbar-track {
+  border-radius: 1px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  margin-right: 1px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #abacac;
+  background-clip: content-box;
+  border: 5px solid transparent;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

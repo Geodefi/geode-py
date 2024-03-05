@@ -1,13 +1,12 @@
-
 from dotenv import dotenv_values
 import sys
 import os
 import pytest
 import re
 
-from geode.utils.merkle import StandartMerkleTree
-from geode import Geode
-from geode.classes.validator import Validator
+from geodefi.utils.merkle import StandartMerkleTree
+from geodefi import Geode
+from geodefi.classes.validator import Validator
 
 
 sys.path.append(os.getcwd())
@@ -19,11 +18,15 @@ env = dotenv_values(".env")
 G = Geode(exec_api=env["EXECUTION_API"], cons_key=env["CONSENSUS_KEY"])
 PORTAL = G.Portal
 
-POOL_LIST = [50016835115526216130031110555486827201953559012021267556883950029143900999178,
-             29228457249232120346521013786824808088246537603535847808963148138747123868265]
+POOL_LIST = [
+    50016835115526216130031110555486827201953559012021267556883950029143900999178,
+    29228457249232120346521013786824808088246537603535847808963148138747123868265,
+]
 
-OPERATOR_LIST = [114391297015478800753082638170652680401082080549997516459063441314156612391510,
-                 106440257855610140438147021303249733137151692982873052796064618175630395030085]
+OPERATOR_LIST = [
+    114391297015478800753082638170652680401082080549997516459063441314156612391510,
+    106440257855610140438147021303249733137151692982873052796064618175630395030085,
+]
 
 
 def test_init():
@@ -34,11 +37,12 @@ def test_init():
     assert isinstance(myVal, Validator)
 
     # '0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d'
-    assert myVal.pubkey == '0x'
+    assert myVal.pubkey == "0x"
     assert myVal.w3 == G.w3
     assert myVal.network == 5
     assert myVal.beacon == G.Beacon
     assert myVal.portal.address == G.Portal.address
+
 
 # Portal
 
@@ -93,7 +97,8 @@ def test_signature31():
 
 def test_str():
     # 9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d'
-    assert str(myVal) == 'Validator Object: 0x'
+    assert str(myVal) == "Validator Object: 0x"
+
 
 # BEACON
 

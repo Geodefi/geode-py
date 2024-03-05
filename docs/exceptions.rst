@@ -4,42 +4,42 @@
 Exceptions
 ===============
 
-.. py:method::   class PythonVersionException(Exception)
+.. py:exception:: PythonVersionException
 
-    Raises when the Python ``VERSION < 3.7`` 
+    Raises whenPython ``Current version is < 3.7 or > 3.10`` 
 
-.. py:method::   class UnknownChainException(Exception)
+.. py:exception:: UnknownChainException
 
-    Raises when ``GIVEN NETWORK IS NOT DEFINED`` 
+    Raises when ``Provided RPC points to an unknown chainId`` 
 
-.. py:method::   class UnexpectedResponseException(Exception)
+.. py:exception:: UnexpectedResponseException
 
-    Raises when ``CAN NOT HANDLE RESPONSE`` 
+    Raises when ``Https call resulted with an error code (non 2xx)`` 
 
-.. py:method::   class BadRequestException(Exception)
+.. py:exception:: HTTPRequestException
 
     Raises when ``RESPONSE IS NOT CODE 200`` 
 
-.. py:method::   class MaxAttemptException(Exception)
+.. py:exception:: MaxAttemptException
 
     Raises when ``MULTIPLE ATTEMPT MADE BUT CALL FAILED`` 
 
-.. py:method::   class DepositSizeException(Exception)
+.. py:exception:: DepositSizeException
 
-    Raises when ``DEPOSIT SIZE IS NOT CORRECT !(1/31)`` 
+    Raises when ``DEPOSIT SIZE IS NOT CORRECT !(1/31) !(1/31)`` 
 
-.. py:method::   class WithdrawalCredentialException(Exception)
+.. py:exception:: WithdrawalCredentialException
 
     Raises when ``INCORRECT withdrawal_credentials`` 
 
-.. py:method::   class GenesisForkException(Exception)
+.. py:exception:: GenesisForkException
 
     Raises when ``INCORRECT fork_version`` 
 
-.. py:method::   class NetworkNameException(Exception)
+.. py:exception:: NetworkNameException
 
     Raises when ``INCORRECT network_name`` 
 
-.. py:method::   class DepositDataException(Exception)
+.. py:exception::  DepositDataException
 
     Raises when ``CAN NOT VERIFY DEPOSIT DATA`` 

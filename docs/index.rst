@@ -1,57 +1,76 @@
-
-Geode Finance Python SDK
+====================================================
+geodefi Python SDK
 ====================================================
 
-Geodefi is a powerful Python library designed specifically for Geode Finance users working with Ethereum smart contracts.
+**geodefi**  is a Python library for interacting with `geode.fi <https://www.geode.fi>`_ smart contract infrastructure.
 
-Built on top of web3.py, Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with smart contracts on the Ethereum blockchain. 
-Whether you're looking to query contract data, execute transactions, Geode Staking library has you covered with a user-friendly and highly efficient interface. By leveraging the power of the Ethereum network and Geodefi's intuitive functionality, Geode Staking Library can streamline their operations and unlock new levels of efficiency in their workflows.
+`geode.fi <https://www.geode.fi>`_ is an open source **Decentralized Infrastructure Provider** aiming to create a secure closed-environment for the wider Decentralized Finance landscape.
+Currently providing a set of smart contracts which allows anyone to create their own Staking Pool on Ethereum.
+Soon, much more. 
 
+Built on top of `web3.py <https://web3py.readthedocs.io/en/stable/>`_, Geodefi offers a comprehensive set of functions and utilities that simplify the process of interacting with the protocol's smart contract infrastructure. 
 
+Whether you're looking to query contract data or execute transactions, **geodefi** Python SDK has you covered! With a user-friendly and highly efficient interface, this SDK also provides cool features such as built-in cache, easy wallet management etc.
+
+----
+
+---------------
 Getting Started
 ---------------
 
-- Ready to code? → :ref:`quickstart`
-- Like to give back? → :ref:`Contribute <contributing>`
-- Want to chat? → `Discord`_
-- Read the source? → `Github`_
+- Installation → :ref:`installation`
+- Environment Variables → :ref:`configuration`
+- Start Coding → :ref:`initialization`
+- Deep dive → :ref:`Contribute <contributing>`
+- Come discuss with us → `Discord`_
 
+----
+
+-----------------
 Table of Contents 
---------------------
+-----------------
+
+.. toctree::
+    :hidden:
+
+    self
 
 .. toctree::
     :maxdepth: 1
-    :caption: Intro
+    :caption: Quickstart
 
-    quickstart
+    installation
+    configuration
+    initialization
     releases
 
-.. toctree::
-    :maxdepth: 1
-    :caption: Classes
 
-    initializing_geode
+.. toctree::    
+    :maxdepth: 1
+    :caption: Deep Dive
+
     portal
-    gToken
-    pool 
+    token
+    beacon
+    pool
     operator
     validator
 
 .. toctree::
     :maxdepth: 1
-    :caption: Utils
+    :caption: Examples
+
+    internal_wallet
+    creating_validators
+    .. staking_pool_handbook
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Helpers
 
     constants
     utils
     exceptions
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Examples
-
-    staking_pool_handbook
-    examples
-    internal_wallet
 
 .. toctree::
     :maxdepth: 1
@@ -60,13 +79,6 @@ Table of Contents
     contributing
     code_of_conduct
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. _Discord: https://discord.com/invite/RC8fTTuJtm
 .. _Github: https://github.com/Geodefi/geode-py

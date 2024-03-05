@@ -1,392 +1,459 @@
 .. _portal:
 
 
+======
 Portal
-============
+======
+
+.. py:module:: Portal
+.. py:currentmodule:: Portal
+
+.. py:class:: geodefi.Portal
+
+Provides easy access to the public utility functions for the **main smart contract** of the staking infrastructure: Portal. 
 
 .. contents:: :local:
 
-.. py:module:: portal
-.. py:currentmodule:: portal
+----
+
+----------------
+Class Attributes
+----------------
+
+    .. py:attribute:: Portal.address
+
+        Returns the ``address`` of the contract.
+
+    .. code-block:: python
+
+        geode.portal.address
+        # 0xB0334F08dEC465Ec180F1AF04C6D7d3737407083
+        
+
+    .. py:attribute:: Portal.version
+
+        Returns the current ``version`` of the contract.
+
+    .. NOTE:: 
+        geodefi smart contracts has their own built-in version management system based on UUPS.
+        This ``version`` should not be confused with smart contract's proxy version, which increases by one on every update.
+
+    .. code-block:: python
+
+        geode.portal.version
+        #96496677624318398099812318321560460756447703796250258508740352959269719433552    
+
+        from geodefi.utils import to_bytes32, to_string
+
+        # read as a string: 
+        version_name = geode.portal.functions.readBytes(self.version, to_bytes32("NAME")).call()
+
+        # convert from bytes to string: 
+        to_string(version_name)
+        # v1_0
+
+    .. py:attribute:: Portal.network
+
+        Returns the ``network`` of the contract as a ``geodefi.Network`` (strEnum) instance.
+
+    .. code-block:: python
+
+        geode.portal.network
+        # <Network.holesky: 17000>    
+
+----
+
+---------
+Functions
+---------
+
+    .. code-block:: python
+
+        # recommended for easier access:
+        portal = geode.portal
+
+    .. NOTE:: 
+        On Portal and Token instances, contracts can be utilized with ``instance.contract.functions.name().call()`` .
+        However, similarly can be accessed through: ``instance.functions.name().call()`` , which removes the useless ``contract`` in the middle.
+
+Parameters
+----------
+
+    .. py:method:: GeodeParams()
+
+            * ``governance`` : proposer part on the dual governance
+            * ``senate`` : authority that approves the proposers
+            * ``approvedUpgrade`` : special proposal that is approved by the senate. Contract can be upgraded to given instance afterwards.
+            * ``senateExpiry`` : a senate can only function for 365 days max. Governance should propose a new senate before the circuit-breaker is activated.
+            * ``packageType`` : portal's package TYPE is 10001. Similarly, other packages such as withdrawal contract etc. also has ID_TYPE between ``10000-19999``.
+
+    .. code-block:: python
+
+        portal.functions.GeodeParams().call()
+        # ['0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
+        # '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
+        # '0x6699580E23Fc6a802e996a654845348CA560bc94',
+        # 1717847448,
+        # 10001]
 
 
-.. py:class:: Geode.Portal()
+    .. py:method:: StakeParams()
 
-The ``portal`` package houses public utility functions from Portal contract.
+            * ``gETH`` : deployed token address
+            * ``oraclePosition`` : geoscope oracle multisig address 
+            * ``validatorsIndex`` : current index of the validators, includes all states.
+            * ``verificationIndex`` : verified validators, only increases as more validators are evaluated. Note that, not all evaluated validators are verified.
+            * ``monopolyThreshold`` : given ``PERCENTAGE_DENOMINATOR = 100%``, max amount of validators of a operator can be up to x% of the all validators on the beaconchain.
+            * ``beaconDelayEntry`` : a validator proposal can be delayed up to x seconds (currently represents 14 days) by the operator.
+            * ``beaconDelayExit`` : a validator exit request can be delayed up to x seconds (currently represents 14 days) by the operator.
+            * ``initiationDeposit`` : Fixed amount that should be deposited  to reserve a NAME while creating a staking pool (currently 32 eth).
+            * ``oracleUpdateTimestamp`` : timestamp for the latest oracle update, which set new merkle roots.
+            * ``dailyPriceIncreaseLimit`` : price of the token can decrease x% * elapsed_days at most.
+            * ``dailyPriceDecreaseLimit`` : price of the token can increase x% * elapsed_days at most.
 
-.. WARNING:: 
-    You may want to make sure to double-check the gas limit when executing transactions to prevent potential out-of-gas errors and unexpected transaction failures.
+    .. code-block:: python
+
+        portal.functions.StakeParams().call()
+        # ['0xaA970005F693Ae459e0ee107c63b546E8ff51d5d',
+        # '0x7B6fA217a374826FCa50dccB87041AE0e34Ba1f5',
+        # 0,
+        # 0,
+        # 0,
+        # 1209600,
+        # 1209600,
+        # 32000000000000000000,
+        # 0,
+        # 700000000,
+        # 700000000]
 
 
-Attributes
-------------
+    .. py:method:: getContractVersion()
 
-.. py:attribute:: Portal.address
+        Returns ``version`` of contract in integer.
 
-    Returns the ``address`` of the contract.
 
-.. code-block:: python
+    .. code-block:: python
 
-    # get a Portal address
-    >>> geode.Portal.address
-     0xB0334F08dEC465Ec180F1AF04C6D7d3737407083
+        portal.functions.getContractVersion().call()
+        # 87373968589722757255522487689903791119558634447171488905970002736659167479131
+
+
+Isolated Storage
+----------------
+
+    .. image:: storage.png
+        :width: 300
+        :alt: Isolated Storage Layout
+
+    DataStore is designed to host multiple parties of different ``TYPE`` entities, without them affecting each other's storage space under any condition.
+
+    This is achieved by utilizing ``id`` and ``key`` pairs within the storage.
+
+    .. note:: 
+        DataStore can only store 3 types of variables: UINT256, Address, Bytes. Worth noting, DataStore not only can store these types, but can also store Arrays of these types and relational data between different IDs by generating a new key for the unqiue combinations.
+
+    .. NOTE::
+        Do not forget to call the correct function according to the type of the variable you will return.
+
+    .. WARNING::
+        We recommend that you initialize the ``Pool``, ``Operator`` or ``Validator`` and read the data that way, instead of calling it from the ``Portal`` directly. 
+        See :doc:`Pools <pool>`, :doc:`Operators <operator>`, :doc:`Validators <validator>`,
+
+    .. py:method:: readBytes(id : uint256, key : bytes32)
+
+    .. code-block:: python
+
+        from geodefi.utils import to_bytes32, to_string
+        pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
+        
+        name = portal.functions.readBytes(pid, to_bytes32("NAME")).call()
+        # b'Icy Pool'
+
+        to_string(name)
+        # 'Icy Pool'
+
+    .. py:method:: readAddress(id : uint256, key : bytes32)
+
+    .. code-block:: python
+
+        from geodefi.utils import to_bytes32, to_string
+        pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
+        
+        address = portal.functions.readAddress(pid, to_bytes32("CONTROLLER")).call()
+        # 0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C
+
+
+
+    .. py:method:: readUint(id : uint256, key : bytes32)
+
+    .. code-block:: python
+
+        from geodefi.utils import to_bytes32, to_string
+        pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
+        
+        address = portal.functions.readUint(pid, to_bytes32("fee")).call()
+        # 5e8 # equal to 5%
+
+Arrays
+******
+
+    .. NOTE::
+        If you want to get lenght of the array you can call ``readUint`` function with the same ``key`` like below function.
+
+    .. code-block:: python
+        
+        # length
+        portal.functions.readUint(pid, to_bytes32("middlewares")).call()
+        # 3
+        
+        # index
+        portal.functions.readAddressArray(pid, to_bytes32("middlewares"), index).call()
+        # 0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C
+
+    .. py:method:: Portal.functions.readBytesArray(id : uint256, key: bytes32, index: uint256)
+
+    For getting array of ``bytes``.
+
+    .. py:method:: Portal.functions.readAddressArray(id : uint256, key: bytes32, index: uint256)
+
+    For getting array of ``address``.
+
+    .. py:method:: Portal.functions.readUintArray(id : uint256, key: bytes32, index: uint256)
+
+    For getting array of ``uint256``.
+
+
+List of all IDs 
+---------------
+
+    .. py:method:: Portal.functions.allIdsByType(type: uint256, index: uint256)
+
+        Returns the ``id`` of specific type of given index.
+        
+    .. code-block:: python
+
+        from geodefi.globals import ID_TYPE
+
+        # Get Pools (ID_TYPE => 5)
+        portal.functions.allIdsByType(ID_TYPE.POOL,0).call()
+        # 29228457249232120346521013786824808088246537603535847808963148138747123868265
+        portal.functions.allIdsByType(5,0).call()
+        # 29228457249232120346521013786824808088246537603535847808963148138747123868265
     
-    >>> PORTAL = geode.Portal
+        portal.functions.allIdsByType(ID_TYPE.POOL,99).call()
+        # ContractLogicError
 
-.. py:attribute:: Portal.version
+        # Get Operators (ID_TYPE => 4)
+        portal.functions.allIdsByType(ID_TYPE.OPERATOR,0).call()
+        114391297015478800753082638170652680401082080549997516459063441314156612391510
+        portal.functions.allIdsByType(4,0).call()
+        114391297015478800753082638170652680401082080549997516459063441314156612391510
 
-    Returns the ``version`` of the contract.
 
-.. code-block:: python
+    .. py:method:: Portal.functions.allIdsByTypeLength(type: uint256)
 
-    # get a Portal address
-    >>> geode.Portal.version
-      87373968589722757255522487689903791119558634447171488905970002736659167479131    
+        Returns the ``lenght`` of specific type of given index.
+        
+    .. code-block:: python
 
-.. py:attribute:: Portal.network
+        from geode.globals import ID_TYPE
 
-    Returns the ``network`` of the contract.
+        # Get Pool IDs Length (ID_TYPE => 5)
+        portal.functions.allIdsByTypeLength(ID_TYPE.POOL).call()
+        # 13
 
-.. code-block:: python
+        # Get Operator IDs Length (ID_TYPE => 4)
+        portal.functions.allIdsByTypeLength(ID_TYPE.OPERATOR).call()
+        # 5
 
-    # get a Portal address
-    >>> geode.Portal.network
-      <Network.goerli: 5>    
 
+Generating IDs and KEYs
+-----------------------
 
-Methods
-------------
+Local (recommended)
+*******************
 
-.. py:method:: Portal.functions.GeodeParams()
+    Utilize utils functions:
 
-    Returns: 
-        * ``governance``
-        * ``senate``
-        * ``approvedUpgrade`` 
-        * ``senateExpiry`` 
-        * ``packageType`` 
+    .. code-block:: python
 
-.. code-block:: python
+        from geode.utils import generate_id, get_key
 
-    # get a Portal address
-    >>> Portal.functions.GeodeParams().call()
-    ['0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
-    '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
-    '0x6699580E23Fc6a802e996a654845348CA560bc94',
-    1717847448,
-    10001]
+        id = generate_id("Some_Pool", 5)
+        # 76326158993240509638979169100046752960475693436338829808324780012712985408415
 
+        get_key(id, "array_name")
+        # HexBytes('0x1a4666a7056a1f68c5a72f124ff88dd31ad1576baf1633657754e387e30a2b2b')
 
-.. py:method:: Portal.functions.StakeParams()
+Onchain
+*******
 
-    Returns:
-        * ``gETH``
-        * ``oraclePosition``
-        * ``validatorsIndex``
-        * ``verificationIndex``
-        * ``monopolyThreshold``
-        * ``oracleUpdateTimestamp``
-        * ``dailyPriceIncreaseLimit``
-        * ``dailyPriceDecreaseLimit``
-        * ``governanceFee``
-        * ``priceMerkleRoot``
-        * ``balanceMerkleRoot``
+    .. py:method:: Portal.functions.getKey(id: uint256, param: bytes32)
 
-.. code-block:: python
+        returns Bytes.
 
-    # get a Portal address
-    >>> Portal.functions.StakeParams().call()
-    ['0x3f911696044d000CcF7D085e35b060e846b95f56',
-    '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C',
-    0,
-    0,
-    500000,
-    0,
-    700000000,
-    700000000,
-    0,
-    b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
-    b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00']
+    .. code-block:: python
 
+        portal.functions.getKey(poolID, to_bytes32('CONTROLLER')).call()
+        # b'\xb4s\xca\xe0\xf2\xd9\xf2!*k\xfd$\xd9\xff\xcc\n\xf8\xcc7>\xae{=\x8f&\xb9\xbe\xc6_\x00^\xdf'
 
-.. py:method:: Portal.functions.getContractVersion()
+    .. py:method:: Portal.functions.generateId(name: string, type: uint256)
 
-    Returns ``version`` of contract in integer.
+        returns uint256.
 
+    .. code-block:: python
 
-.. code-block:: python
+        portal.functions.generateId("Some_Pool", 5).call()
+        # 97770474815149397909782741678802560703260876453812799861980400297568557242506
 
-    # get a Portal address
-    >>> Portal.functions.getContractVersion().call()
-    87373968589722757255522487689903791119558634447171488905970002736659167479131
 
+Other View Functions for Pools, Operators and Validators
+--------------------------------------------------------------
+.. py:method:: Portal.functions.canStake(pubkey: bytes)
 
-Portal: Reading Isolated Storage
------------------------------------
+    ``True`` if the validator of given pubkey passed the checks and is ready to stake, ``False`` otherwise.
 
-.. NOTE:: 
-    Please read the `Isolated Storage <https://docs.geode.fi/key-concepts/portal/isolated-storage>`_ in Geode Finance Docs.
+    .. code-block:: python
 
-.. WARNING::
-    We recommend that you initialize the ``Pool``, ``Operator`` or ``Validator`` and read the data that way, instead of calling it from the ``Portal`` contract. 
-    See :doc:`Pools <pool>`, :doc:`Operators <operator>`, :doc:`Validators <validator>`,
+        ## pubkey: bytes
+        portal.functions.canStake(pubkey).call()
+        True
 
-.. py:method:: Portal.functions.readBytes(uint256, bytes32)
+.. py:method:: Portal.functions.isMiddleware(_type: uint256, version: uint256)
 
-.. code-block:: python
+    ``True`` if list of middlewares for given type ``ID_TYPE`` (e.g ``MIDDLEWARE_GETH = 20011``) has provided version set as a middleware on portal, that can be used while pool creation.
 
-    >>> from geode.utils import toBytes32, toString
-    >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.readBytes(pid, toBytes32("NAME")).call()
-      b'Icy Pool'
-    >>> toString(b'Icy Pool')
-       'Icy Pool'
+    .. code-block:: python
 
-.. py:method:: Portal.functions.readAddress(uint256, bytes32)
+        portal.functions.isMiddleware(ID_TYPE.MIDDLEWARE_GETH, 97770474815149397909782741678802560703260876453812799861980400297568557242506).call()
+        # False
 
-.. code-block:: python
+.. py:method:: Portal.functions.getPackageVersion(_type: uint256, version: uint256)
 
-    >>> from geode.utils import toBytes32
-    >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.readAddress(pid, toBytes32("CONTROLLER")).call()
-      '0x2C95BC18Fd9382a07776D416EeF6c2FEb3AD2A8C'
+    Returns the latest version for given ``ID_TYPE`` (e.g ``PACKAGE_WITHDRAWAL_CONTRACT = 10011``) :
 
+    .. code-block:: python
 
-.. py:method:: Portal.functions.readUint(uint256, bytes32)
+        _v =portal.functions.getPackageVersion(ID_TYPE.PACKAGE_WITHDRAWAL_CONTRACT).call()
+        # 97770474815149397909782741678802560703260876453812799861980400297568557242506
+        
+        # get version's name as a string: 
+        _v_name = portal.functions.readBytes(_v, to_bytes32("NAME")).call()
 
-.. code-block:: python
+        # convert from bytes to string: 
+        to_string(_v_name)
 
-    >>> from geode.utils import toBytes32
-    >>> pid = 29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.readUint(pid, toBytes32("fee")).call()
-      500000000
-
-
-.. NOTE::
-    Do not forget to call the correct function according to the type of the variable you will return.
-
-Reading Arrays
-*****************
-
-.. NOTE::
-    If you want to get lenght of the array you can call ``readUint`` function with the same keyword like below function.
-
-
-.. code-block:: python
-
-    >>> Portal.functions.readAddressArray(pid, toBytes32("middlewares")).call()
-    ['0x..','0x..','0x..']
-
-    >>> Portal.functions.readUint(pid, toBytes32("middlewares")).call()
-    3
-
-
-.. py:method:: Portal.functions.readBytesArray(uint256, bytes32)
-
-For getting array of ``bytes``.
-
-.. py:method:: Portal.functions.readAddressArray(uint256, bytes32)
-
-For getting array of ``address``.
-
-.. py:method:: Portal.functions.readUintArray(uint256, bytes32)
-
-For getting array of ``uint256``.
-
-
-Getting IDs from Portal's Storage
------------------------------------
-
-.. py:method:: Portal.functions.allIdsByType(type: uint256, index: uint256)
-
-    Returns the ``id`` of specific type of given index.
-    
-.. code-block:: python
-
-    >>> from geode.globals import ID_TYPE
-
-    # Get Pools (ID_TYPE => 5)
-    >>> Portal.functions.allIdsByType(ID_TYPE.POOL,0).call()
-      29228457249232120346521013786824808088246537603535847808963148138747123868265
-    >>> Portal.functions.allIdsByType(5,1).call()
-      50016835115526216130031110555486827201953559012021267556883950029143900999178
-    >>> Portal.functions.allIdsByType(ID_TYPE.POOL,99).call()
-      ContractLogicError
-
-    # Get Operators (ID_TYPE => 4)
-    >>> Portal.functions.allIdsByType(ID_TYPE.OPERATOR,0).call()
-      114391297015478800753082638170652680401082080549997516459063441314156612391510
-    >>> Portal.functions.allIdsByType(4,1).call()
-      51559110727159830236523264446237638129364818047104669081802875007477059353434
-
-
-.. py:method:: Portal.functions.allIdsByTypeLength(type: uint256)
-
-    Returns the ``lenght`` of specific type of given index.
-    
-.. code-block:: python
-
-    >>> from geode.globals import ID_TYPE
-
-    # Get Pools Length (ID_TYPE => 5)
-    >>> Portal.functions.allIdsByTypeLength(ID_TYPE.POOL).call()
-      13
-
-    # Get Operators Length (ID_TYPE => 4)
-    >>> Portal.functions.allIdsByTypeLength(ID_TYPE.OPERATOR).call()
-      5
-
-
-How IDs Are generated
----------------------------
-
-
-.. py:method:: Portal.functions.generateId(name: string, type: uint256)
-
-    It returns keccak256 hash of encoded name and type.
-
-.. code-block:: python
-
-    >>> Portal.functions.generateId(b'Some_Pool', 5).call()
-      97770474815149397909782741678802560703260876453812799861980400297568557242506
-
-.. py:method:: Portal.functions.getKey(id: uint256, param: bytes32)
-
-    Each variable of roles stores in mappings. To optimize storage, each key directs the specific parameter with given id in mapping.
-
-.. code-block:: python
-
-    >>> from geode.utils import toBytes32
-
-    # Bytes
-    >>> Portal.functions.getKey(poolID, toBytes32('CONTROLLER')).call()
-      b'\xb4s\xca\xe0\xf2\xd9\xf2!*k\xfd$\xd9\xff\xcc\n\xf8\xcc7>\xae{=\x8f&\xb9\xbe\xc6_\x00^\xdf'
-
-
-
-Get Validator Data from Portal
------------------------------------
-
-.. py:method:: Portal.functions.getValidator(pubkey: bytes)
-
-    Returns the ``Validator`` by given pubkey.
-
-.. code-block:: python
-
-    ### Optionally both hexstring or bytes works.
-    ## Hex-string 
-    >>> pubkey = 0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
-    ## Hex-to-bytes
-    >>> bytes.fromhex('9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d')
-      b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
-      
-    ## Bytes
-    >>> pubkey =  b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
-    ## Bytes-to-hex
-    >>> pubkey.hex()
-      0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
-
-    >>> Portal.functions.getValidator(pubkey).call()
-        (2,
-        1,
-        50016835115526216130031110555486827201953559012021267556883950029143900999178,
-        114391297015478800753082638170652680401082080549997516459063441314156612391510,
-        500000000,
-        500000000,
-        0,
-        1677383052,
-        1692935052,
-        b'\x94\xc0\x18~I\x0e\xc3\x96r&\xd3\xc3\xce\xbc\xf0\xb0t\xbf\xa0Iq\xe5+\x95t\x8e\x91\x93?\x93\xfc?\x93g}\x94tM\xf5 \x89|\x99\xd3sn\xd1\xdb\x08\xa8!i\x813\xc2b\xb3SdB\x95Y\xa1\xb0z\xc4\x85`\xd2z.g\x88Dq\xf8R/g\xae\nB\xfa\xaa\xee!~\x9c@\xe0\\\xd91(\xad\xdb')
-
-
-.. py:method:: Portal.functions.getValidatorByPool(poolID: uint256, index: uint256)
-
-    Returns the ``Validator`` of pool that corresponding index.
-
-.. code-block:: python
-
-    >>> Portal.functions.getValidatorByPool(poolID, 0).call()
-        (2,
-        1,
-        50016835115526216130031110555486827201953559012021267556883950029143900999178,
-        114391297015478800753082638170652680401082080549997516459063441314156612391510,
-        500000000,
-        500000000,
-        0,
-        1677383052,
-        1692935052,
-        b'\x94\xc0\x18~I\x0e\xc3\x96r&\xd3\xc3\xce\xbc\xf0\xb0t\xbf\xa0Iq\xe5+\x95t\x8e\x91\x93?\x93\xfc?\x93g}\x94tM\xf5 \x89|\x99\xd3sn\xd1\xdb\x08\xa8!i\x813\xc2b\xb3SdB\x95Y\xa1\xb0z\xc4\x85`\xd2z.g\x88Dq\xf8R/g\xae\nB\xfa\xaa\xee!~\x9c@\xe0\\\xd91(\xad\xdb')
-
-
-.. WARNING::
-    The offchain version of below functions have already implemented. Optionally: Use built-in functions in geode.utils.
-
-
-Additional View Functions for Pools, Operators and Validators
----------------------------------------------------------------
 .. py:method:: Portal.functions.isPrisoned(operatorId: uint256)
 
     ``True`` if the operator of given id has prisoned, ``False`` otherwise.
 
+    .. code-block:: python
 
-.. code-block:: python
-
-    ## operatorId: uint256
-    >>> Portal.functions.isPrisoned(operatorId).call()
-      False
-
-
-.. py:method:: Portal.functions.isPrivatePool(poolId: uint256)
-
-    ``True`` if the pool of given id is private pool, ``False`` otherwise.
-
-.. code-block:: python
-
-    ## poolID: uint256
-    >>> Portal.functions.isPrivatePool(poolId).call()
-      False
-
+        portal.functions.isPrisoned(operatorId).call()
+        # False
 
 .. py:method:: Portal.functions.isPriceValid(poolId: uint256)
 
     ``True`` if the pool of given id has valid price, ``False`` otherwise.
 
-.. code-block:: python
+    .. code-block:: python
 
-    ## poolID: uint256
-    >>> Portal.functions.isPriceValid(poolId).call()
-      True
+        portal.functions.isPriceValid(poolId).call()
+        # True
 
 .. py:method:: Portal.functions.isMintingAllowed(poolId: uint256)
 
     ``True`` if the pool of given id allows minting, ``False`` otherwise.
 
-.. code-block:: python
+    .. code-block:: python
 
-    ## poolID: uint256
-    >>> Portal.functions.isMintingAllowed(poolId).call()
-      True
+        portal.functions.isMintingAllowed(poolId).call()
+        # True
 
-.. py:method:: Portal.functions.canStake(pubkey: uint256)
+.. py:method:: Portal.functions.isPrivatePool(poolId: uint256)
 
-    ``True`` if the validator of given pubkey passed the checks and is ready to stake, ``False`` otherwise.
+    ``True`` if the pool of given id is private pool, ``False`` otherwise.
 
-.. code-block:: python
+.. py:method:: Portal.functions.isWhitelisted(poolId: uint256, account: address)
 
-    ## pubkey: bytes
-    >>> Portal.functions.canStake(pubkey).call()
-      True
-
-.. py:method:: Portal.functions.getMaintenanceFee(operatorId: uint256)
-
-    ``MaintainanceFee`` 1e10 means 10% of commision will be payed to operator.
-
-.. code-block:: python
-
-    ## operatorId: uint256
-    >>> Portal.functions.getMaintenanceFee(operatorId).call()
-      500000000
-    >>> 500000000 / 1e10 
-      0.05
+    | ``True`` if the given address is whitelisted in given private pool.
+    | ``False`` if not whitelised or if the pool is public.
 
 
+.. py:method:: Portal.functions.getInfrastructureFee(_type : uint256)
+
+    ``infrastructureFee`` as a percentage with respect to PERCENTAGE_DENOMINATOR for given package type.
+
+.. py:method:: Portal.functions.getMaintenanceFee(id: uint256)
+
+    ``MaintainanceFee`` as a percentage with respect to PERCENTAGE_DENOMINATOR. ``id`` can be operator or pool.
+
+    .. code-block:: python
+
+        portal.functions.getMaintenanceFee(operatorId).call()
+        # 500000000
+        # 500000000 / 1e10 = 0.05 %
+        
+.. py:method:: Portal.functions.getValidator(pubkey: bytes)
+
+    Returns the ``Validator`` by given pubkey.
+
+    * state
+    * index
+    * createdAt
+    * period
+    * poolId
+    * operatorId
+    * poolFee
+    * operatorFee
+    * infrastructureFee
+    * signature31
+
+    .. code-block:: python
+
+        # Optionally both hexstring or bytes works.
+        # Hex-string 
+        pubkey = 0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
+        # Hex-to-bytes
+        bytes.fromhex('9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d')
+        # b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
+        
+        # Bytes
+        pubkey =  b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
+        # Bytes-to-hex
+        pubkey.hex()
+        # 0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
+
+        portal.functions.getValidator(pubkey).call()
+
+.. py:method:: Portal.functions.getValidatorByPool(poolID: uint256, index: uint256)
+
+    Returns the ``Validator`` of pool that corresponding index:
+
+    * state
+    * index
+    * createdAt
+    * period
+    * poolId
+    * operatorId
+    * poolFee
+    * operatorFee
+    * infrastructureFee
+    * signature31
+
+    .. code-block:: python
+
+        # Optionally both hexstring or bytes works.
+        # Hex-string 
+        pubkey = 0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
+        # Hex-to-bytes
+        bytes.fromhex('9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d')
+        # b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
+
+        # Bytes
+        pubkey =  b'\x93&\xf6\xc0\x7f\x8a\xbd\x08.\xf8+\x19\'\x9c\xbb\xa7ak\x03\x95\xfb\x94}P\xcd-_\xef0=\xd6\x13\xab\xe3\x10\x87\x07zg\xfa\xa4w\xc0c\x1c\xc7"\x8d'
+        # Bytes-to-hex
+        pubkey.hex()
+        # 0x9326f6c07f8abd082ef82b19279cbba7616b0395fb947d50cd2d5fef303dd613abe31087077a67faa477c0631cc7228d
+
+        portal.functions.getValidatorByPool(poolId, 1).call()

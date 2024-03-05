@@ -1,9 +1,7 @@
 .. _signatures:
 
-
 Signatures 
 ==============
-
 
 .. py:method:: DepositData()
 

@@ -27,26 +27,31 @@ ETH-related
 ****************
 .. code-block:: python
 
-    #The amount of Gwei in one Ether
+    # The amount of Gwei in one Ether = 1e9
     geode.globals.constants.ETH2GWEI
     >> 1000000000
 
-    # The denominator for calculations between beacon and mainnet
-    geode.globals.constants.DENOMINATOR
+    # beacon to mainnet conversion rate = 1e9
+    geode.globals.constants.BEACON_DENOMINATOR
+    >> 1000000000
+
+    # The denominator for calculations within geodefi packages = 1e10
+    # DENOMINATOR = 1 or 100%.
+    # Such as, 10% = DENOMINATOR/10
+    geode.globals.constants.PERCENTAGE_DENOMINATOR
     >> 10000000000 
 
-    #The amount of Wei in one Ether
-    geode.globals.constants.ETH
+    # The amount of Wei in one Ether = 1e18
+    geode.globals.constants.ETHER_DENOMINATOR
     >> 1000000000000000000
 
-    #The amount of Wei in minimum deposit amount 1 Ether
+    #The amount of Wei in minimum deposit amount = 2**0 * ETHER_DENOMINATOR
     geode.globals.constants.MIN_DEPOSIT_AMOUNT
     >> 1000000000000000000
 
-    #The amount of Wei in minimum deposit amount 32 Ether
+    #The amount of Wei in minimum deposit amount = 2**5 * ETHER_DENOMINATOR
     geode.globals.constants.MIN_DEPOSIT_AMOUNT
     >> 32000000000000000000   
-
 
 Beacon Chain Execution specs
 ********************************
@@ -66,15 +71,15 @@ Network
 ****************
 .. code-block:: python
 
-    # The seconds value of refresth rate of each request
+    # The maximum try before raise exception 
+    geode.globals.constants.MAX_ATTEMPT
+    >> 10
+
+    # The seconds value of refresh rate of the internal cache (s)
     geode.globals.constants.REFRESH_RATE
     >> 60
 
-    # The maximum try before raise exception
-    geode.globals.constants.MAX_ATTEMPT
-    >> 60
-
-    # The second interval between tries
+    # The interval between tries (s)
     geode.globals.constants.ATTEMPT_RATE
     >> 0.1 
 
