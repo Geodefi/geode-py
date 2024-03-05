@@ -5,23 +5,23 @@ from dataclasses import asdict
 from py_ecc.optimized_bls12_381 import curve_order as bls_curve_order
 from py_ecc.bls import G2ProofOfPossession as bls
 
-from geode.utils.bls.serialize import (
+from geodefi.utils.bls.serialize import (
     DepositMessage,
     compute_deposit_domain,
     compute_signing_root,
     DepositData,
 )
 
-from geode.utils.bls.keystore import ScryptKeystore, Keystore
+from geodefi.utils.bls.keystore import ScryptKeystore, Keystore
 
-from geode.utils.bls.crypto import SHA256, HKDF, _HKDF_mod_r, PBKDF2
+from geodefi.utils.bls.crypto import SHA256, HKDF, _HKDF_mod_r, PBKDF2
 
-from geode.globals.constants import (
+from geodefi.globals.constants import (
     DEPOSIT_CLI_VERSION,
     WORD_LIST_PATH,
     ETH1_ADDRESS_WITHDRAWAL_PREFIX,
 )
-from geode.globals.beacon import (
+from geodefi.globals.beacon import (
     DEPOSIT_SIZE,
     GENESIS_FORK_VERSION,
     DEPOSIT_NETWORK_NAME,

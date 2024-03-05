@@ -1,4 +1,3 @@
-
 from dotenv import dotenv_values
 import sys
 import os
@@ -6,9 +5,9 @@ import pytest
 import inspect
 import re
 
-from geode.utils.merkle import StandartMerkleTree
-from geode import Geode
-from geode.classes.operator import Operator
+from geodefi.utils.merkle import StandartMerkleTree
+from geodefi import Geode
+from geodefi.classes.operator import Operator
 
 
 sys.path.append(os.getcwd())
@@ -20,8 +19,10 @@ env = dotenv_values(".env")
 G = Geode(exec_api=env["EXECUTION_API"], cons_key=env["CONSENSUS_KEY"])
 PORTAL = G.Portal
 
-OPERATOR_LIST = [114391297015478800753082638170652680401082080549997516459063441314156612391510,
-                 106440257855610140438147021303249733137151692982873052796064618175630395030085]
+OPERATOR_LIST = [
+    114391297015478800753082638170652680401082080549997516459063441314156612391510,
+    106440257855610140438147021303249733137151692982873052796064618175630395030085,
+]
 
 
 def test_init():
@@ -37,7 +38,8 @@ def test_init():
     assert myOperator.w3 == G.w3
 
     myOperator2 = PORTAL.operator(
-        "114391297015478800753082638170652680401082080549997516459063441314156612391510")
+        "114391297015478800753082638170652680401082080549997516459063441314156612391510"
+    )
     assert str(myOperator.ID) == myOperator2.ID
 
 

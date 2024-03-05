@@ -4,12 +4,12 @@ import requests
 from requests.exceptions import JSONDecodeError
 
 
-from geode.exceptions import (
+from geodefi.exceptions import (
     HTTPRequestException,
     UnexpectedResponseException,
     MaxAttemptException,
 )
-from geode.globals import MAX_ATTEMPT, ATTEMPT_RATE
+from geodefi.globals import MAX_ATTEMPT, ATTEMPT_RATE
 
 
 def multiple_attempt(call_attempt=None):

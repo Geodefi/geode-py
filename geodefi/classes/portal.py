@@ -2,9 +2,9 @@ import logging
 from web3 import Web3
 from web3.contract import Contract
 
-from geode.globals import Network
-from geode.utils import get_contract_abi, to_bytes32, to_string
-from geode.exceptions import UnknownChainException
+from geodefi.globals import Network
+from geodefi.utils import get_contract_abi, to_bytes32, to_string
+from geodefi.exceptions import UnknownChainException
 
 from .pool import Pool
 from .operator import Operator

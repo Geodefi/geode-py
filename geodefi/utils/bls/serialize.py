@@ -1,6 +1,6 @@
 from ssz import Serializable, uint64, bytes4, bytes32, bytes48, bytes96
 
-from geode.globals.constants import (
+from geodefi.globals.constants import (
     DOMAIN_DEPOSIT,
     ZERO_BYTES32,
 )

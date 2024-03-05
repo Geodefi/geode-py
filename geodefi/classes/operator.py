@@ -1,4 +1,4 @@
-from geode.globals import ID_TYPE
+from geodefi.globals import ID_TYPE
 
 from .id import Id
 

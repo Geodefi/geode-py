@@ -1,8 +1,8 @@
 import sys
 from web3 import Web3, HTTPProvider, WebsocketProvider
-from geode.exceptions import PythonVersionException, UnknownChainException
-from geode.globals import Network
-from geode.classes import Portal, Token, Beacon
+from geodefi.exceptions import PythonVersionException, UnknownChainException
+from geodefi.globals import Network
+from geodefi.classes import Portal, Token, Beacon
 
 
 def check_python_version() -> None:
@@ -22,7 +22,7 @@ class Geode:
         # Set the Web3 instance with the given execution API
         self._set_web3(exec_api)
 
-        # If the network is Ethereum, Goerli or Gnosis, set the Beacon instance with the given consumer key
+        # If the network is Ethereum, Holesky or Gnosis, set the Beacon instance with the given consumer key
         if (
             self.network is Network.ethereum
             or self.network is Network.holesky

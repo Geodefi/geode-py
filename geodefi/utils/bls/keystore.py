@@ -7,7 +7,7 @@ from typing import Any, Dict, Union
 from unicodedata import normalize
 from uuid import uuid4
 
-from geode.utils.bls.crypto import (
+from geodefi.utils.bls.crypto import (
     AES_128_CTR,
     PBKDF2,
     scrypt,

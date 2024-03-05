@@ -1,6 +1,6 @@
 from os import path
 import json
-from geode.globals.network import Network
+from geodefi.globals.network import Network
 
 
 def _get_network_path(network: Network):

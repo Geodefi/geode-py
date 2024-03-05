@@ -2,8 +2,8 @@ import pytest
 import sys
 
 from pytest import MonkeyPatch
-from geode.exceptions import PythonVersionException
-from geode.geode import check_python_version
+from geodefi.exceptions import PythonVersionException
+from geodefi.geodefi import check_python_version
 
 
 def test_python_invalid_version_check():

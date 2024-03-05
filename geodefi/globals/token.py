@@ -1,5 +1,5 @@
 import typing as t
-from geode.globals.network import Network
+from geodefi.globals.network import Network
 
 
 TOKEN_NAMES: t.Dict[Network, str] = {

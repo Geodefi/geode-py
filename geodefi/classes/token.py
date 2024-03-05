@@ -3,8 +3,8 @@ import logging
 from web3 import Web3
 from web3.contract import Contract
 
-from geode.globals import Network
-from geode.utils import get_contract_abi, get_token_name
+from geodefi.globals import Network
+from geodefi.utils import get_contract_abi, get_token_name
 
 
 class Token:

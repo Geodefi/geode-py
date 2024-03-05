@@ -1,7 +1,7 @@
 import typing as t
 
-from geode.globals import ID_TYPE, DEPOSIT_SIZE
-from geode.utils import get_key, validate_deposit_data_file
+from geodefi.globals import ID_TYPE, DEPOSIT_SIZE
+from geodefi.utils import get_key, validate_deposit_data_file
 
 
 from .id import Id

@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 from py_ecc.bls import G2ProofOfPossession as bls
 from Crypto.Hash import SHA256 as _sha256
 
-from geode.globals import MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT
+from geodefi.globals import MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT
 
 from .serialize import (
     DepositMessage,

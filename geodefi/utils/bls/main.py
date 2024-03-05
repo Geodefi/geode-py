@@ -1,13 +1,13 @@
 from os import path
 import json
 import typing as t
-from geode.globals import (
+from geodefi.globals import (
     Network,
     DEPOSIT_SIZE,
     DEPOSIT_NETWORK_NAME,
     GENESIS_FORK_VERSION,
 )
-from geode.exceptions import (
+from geodefi.exceptions import (
     DepositSizeException,
     WithdrawalCredentialException,
     GenesisForkException,

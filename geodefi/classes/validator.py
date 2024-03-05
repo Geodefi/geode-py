@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from web3 import Web3
 from web3.contract import Contract
 
-from geode.globals import Network, VALIDATOR_STATE, REFRESH_RATE
-from geode.utils import multiple_attempt
+from geodefi.globals import Network, VALIDATOR_STATE, REFRESH_RATE
+from geodefi.utils import multiple_attempt
 
 from .beacon import Beacon
 
@@ -98,16 +98,15 @@ class Validator:
         return f"Validator Object: {self.pubkey}"
 
     # Portal Props
+    @property
+    @update_portal
+    def portal_index(self):
+        return self.portal_state[1]
 
     @property
     @update_portal
     def state(self):
         return VALIDATOR_STATE(self.portal_state[0])
-
-    @property
-    @update_portal
-    def portal_index(self):
-        return self.portal_state[1]
 
     @property
     @update_portal
@@ -141,7 +140,7 @@ class Validator:
 
     @property
     @update_portal
-    def governanceFee(self):
+    def infrastructureFee(self):
         return self.portal_state[8]
 
     @property
@@ -181,7 +180,7 @@ class Validator:
 
     @property
     @update_beacon
-    def status(self):
+    def beacon_status(self):
         return self.beacon_state["status"]
 
     @property

@@ -1,6 +1,6 @@
 import logging
-from geode.globals import Network
-from geode.utils import http_request
+from geodefi.globals import Network
+from geodefi.utils import http_request
 
 
 class Beacon:
