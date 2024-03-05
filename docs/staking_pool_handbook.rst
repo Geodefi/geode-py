@@ -1,13 +1,14 @@
 .. _staking_pool_handbook:
 
+=====================
 Staking Pool Handbook
-===================================
+=====================
 
 Initilize a Customizable Staking Pool
-----------------------------------------
+-------------------------------------
 
 Before Initiation
-*********************
+*****************
 ``32 Ether``
 Creating a Pool is ``permissionless``, anyone can claim any pool name.
 To prevent sybil attacks, initiation requires exactly 1 validator worth of funds. However, you can deposit more Ether later.
@@ -25,7 +26,7 @@ It will be used for your Pool operations, and you can find your ID from both our
 .. code-block:: python
 
     # First select a pool name. This name have to be unique.
-    pool_name = 'Cypher'
+    pool_name = 'Ice Pool'
 
     # Generate ID for your pool.
     >>> Portal.functions.generateId(pool_name, 5).call()
@@ -40,7 +41,7 @@ Geode uses an initiator function to set some parameters for your staking pool an
 .. code-block:: python
 
     # First select a pool name. This name have to be unique.
-    pool_name = 'Cypher'
+    pool_name = 'Ice Pool'
 
     # Maintenance fee that will be charged for your services as the pool owner.
     # 10^10 represents 100%, can be set to up to 10% (10^9).

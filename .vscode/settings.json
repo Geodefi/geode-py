@@ -1,0 +1,12 @@
+{
+  "editor.tabSize": 4,
+  "black-formatter.args": ["--line-length=80"],
+  "python.analysis.typeCheckingMode": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "esbonio.sphinx.confDir": "${workspaceFolder}/docs",
+  "restructuredtext.preview.doubleClickToSwitchToEditor": false,
+  "restructuredtext.preview.name": "sphinx",
+}

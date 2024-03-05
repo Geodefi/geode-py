@@ -1,10 +1,19 @@
-
 from dotenv import dotenv_values
 import pytest
 
-from geode.utils.bls.validate import SHA256, validate_deposit, validate_parameters
-from geode.utils.bls.serialize import DepositData, DepositMessage, compute_signing_root, compute_deposit_fork_data_root, compute_deposit_domain
-from geode.globals.constants import (
+from geodefi.utils.bls.validate import (
+    SHA256,
+    validate_deposit,
+    validate_parameters,
+)
+from geodefi.utils.bls.serialize import (
+    DepositData,
+    DepositMessage,
+    compute_signing_root,
+    compute_deposit_fork_data_root,
+    compute_deposit_domain,
+)
+from geodefi.globals.constants import (
     DOMAIN_DEPOSIT,
     ZERO_BYTES32,
 )

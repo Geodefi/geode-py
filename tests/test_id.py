@@ -1,4 +1,3 @@
-
 from dotenv import dotenv_values
 import sys
 import os
@@ -8,9 +7,9 @@ import inspect
 sys.path.append(os.getcwd())
 
 try:
-    from geode import Geode
-    from geode.classes.id import Id
-    from geode.exceptions import MaxAttemptException
+    from geodefi import Geode
+    from geodefi.classes.id import Id
+    from geodefi.exceptions import MaxAttemptException
 except ImportError:
     raise
 
@@ -22,13 +21,20 @@ G = Geode(exec_api=env["EXECUTION_API"], cons_key=env["CONSENSUS_KEY"])
 
 
 def test_init():
-    id = Id(G.w3, G.network, G.Portal,
-            id=50016835115526216130031110555486827201953559012021267556883950029143900999178)
+    id = Id(
+        G.w3,
+        G.network,
+        G.Portal,
+        id=50016835115526216130031110555486827201953559012021267556883950029143900999178,
+    )
 
     assert id.w3 == G.w3
     assert id.network == G.network
     assert id.portal == G.Portal
-    assert id.ID == 50016835115526216130031110555486827201953559012021267556883950029143900999178
+    assert (
+        id.ID
+        == 50016835115526216130031110555486827201953559012021267556883950029143900999178
+    )
 
 
 def test_invalid_arguments():
@@ -44,21 +50,32 @@ def test_invalid_arguments():
 
     pass
 
+
 ###################################################################
 # Init is costly so below test will use this id instance.
 ###################################################################
 
 
-id_portal = Id(G.w3, G.network, G.Portal,
-               id=50016835115526216130031110555486827201953559012021267556883950029143900999178)
-id_operator = Id(G.w3, G.network, G.Portal,
-                 id=50016835115526216130031110555486827201953559012021267556883950029143900999178)
+id_portal = Id(
+    G.w3,
+    G.network,
+    G.Portal,
+    id=50016835115526216130031110555486827201953559012021267556883950029143900999178,
+)
+id_operator = Id(
+    G.w3,
+    G.network,
+    G.Portal,
+    id=50016835115526216130031110555486827201953559012021267556883950029143900999178,
+)
 
 
 def test_str():
 
-    assert str(
-        id_portal) == '50016835115526216130031110555486827201953559012021267556883950029143900999178'
+    assert (
+        str(id_portal)
+        == "50016835115526216130031110555486827201953559012021267556883950029143900999178"
+    )
 
 
 def test_readUint():
