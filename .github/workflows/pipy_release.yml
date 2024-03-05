@@ -26,16 +26,10 @@ jobs:
         with:
           python-version: "3.10"
 
-      # Store the version, stripping any v-prefix
-      - name: Write release version
+      - name: Inject release version
         run: |
-          VERSION=${GITHUB_REF_NAME#v}
-          echo Version: $VERSION
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      # Use version in other step
-      - name: Read version
-        run: echo Version now: ${VERSION}
+          TAG=${{ github.event.release.tag_name }}
+          echo "VERSION=${TAG#v}" >> $GITHUB_ENV
 
       - name: Build source and wheel distributions
         run: |
