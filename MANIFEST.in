@@ -1,2 +1,2 @@
-recursive-include geode *.json 
+recursive-include geodefi *.json 
 include LICENCE README.md
