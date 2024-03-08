@@ -36,7 +36,7 @@ It will be used for your Pool operations, and you can find your ID from both our
 Initiate Your Pool!
 **********************
 
-Geode uses an initiator function to set some parameters for your staking pool and derivative.
+**geodefi** uses an initiator function to set some parameters for your staking pool and derivative.
 
 .. code-block:: python
 
