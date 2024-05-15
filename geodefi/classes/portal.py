@@ -4,7 +4,7 @@ from web3.contract import Contract
 
 from geodefi.globals import Network
 from geodefi.utils import get_contract_abi, to_bytes32, to_string
-from geodefi.exceptions import UnknownChainException
+from geodefi.exceptions import UnknownChainError
 
 from .pool import Pool
 from .operator import Operator
@@ -43,7 +43,7 @@ class Portal:
         ):
             self._set_beacon(beacon)
         else:
-            raise UnknownChainException
+            raise UnknownChainError
 
         address, abi = get_contract_abi(
             network=self.network, kind="package", name="Portal"

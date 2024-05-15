@@ -12,7 +12,7 @@ Whether you're looking to query contract data or execute transactions, **geodefi
 
 ## Features
 
-- Supports Ethereum Holesky testnet (as of v2.0.0) where The Protocol is deployed.
+- Supports Ethereum Holesky testnet (as of v2.1.0) where The Protocol is deployed.
 - Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/packages.
 - Dynamically adapts to the contract upgrades.
 - Mostly chain agnostic. However, might differ according to the unique PoS implementations.

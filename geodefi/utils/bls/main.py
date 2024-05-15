@@ -8,11 +8,11 @@ from geodefi.globals import (
     GENESIS_FORK_VERSION,
 )
 from geodefi.exceptions import (
-    DepositSizeException,
-    WithdrawalCredentialException,
-    GenesisForkException,
-    NetworkNameException,
-    DepositDataException,
+    DepositSizeError,
+    WithdrawalCredentialError,
+    GenesisForkError,
+    NetworkNameError,
+    DepositDataError,
 )
 
 from .validate import validate_deposit
@@ -47,16 +47,16 @@ def validate_deposit_data_file(
     deposit_data: t.List[t.Dict] = _get_deposit_data(deposit_data_path)
     for deposit in deposit_data:
         if deposit["amount"] != amount.value:
-            raise DepositSizeException
+            raise DepositSizeError
         if deposit["withdrawal_credentials"] != credential:
-            raise WithdrawalCredentialException
+            raise WithdrawalCredentialError
         if (
             bytes.fromhex(deposit["fork_version"])
             != GENESIS_FORK_VERSION[network.value]
         ):
-            raise GenesisForkException
+            raise GenesisForkError
         if deposit["network_name"] != DEPOSIT_NETWORK_NAME[network.value]:
-            raise NetworkNameException
+            raise NetworkNameError
         if not validate_deposit(deposit):
-            raise DepositDataException
+            raise DepositDataError
     return deposit_data
