@@ -5,7 +5,7 @@ from web3.contract import Contract
 
 from geodefi.globals import Network, ID_TYPE
 from geodefi.utils import to_bytes32, to_string, multiple_attempt
-from geodefi.exceptions import UnexpectedResponseException
+from geodefi.exceptions import UnexpectedResponseError
 
 
 class Id:
@@ -73,7 +73,7 @@ class Id:
             else:
                 return res
         else:
-            raise UnexpectedResponseException
+            raise UnexpectedResponseError
 
     @multiple_attempt
     def _read_bytes_array(
@@ -93,7 +93,7 @@ class Id:
             else:
                 return res
         else:
-            raise UnexpectedResponseException
+            raise UnexpectedResponseError
 
     @multiple_attempt
     def _read_address(self, key: str):

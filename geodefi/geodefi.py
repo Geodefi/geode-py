@@ -1,6 +1,6 @@
 import sys
 from web3 import Web3, HTTPProvider, WebsocketProvider
-from geodefi.exceptions import PythonVersionException, UnknownChainException
+from geodefi.exceptions import PythonVersionError, UnknownChainError
 from geodefi.globals import Network
 from geodefi.classes import Portal, Token, Beacon
 
@@ -10,7 +10,7 @@ def check_python_version() -> None:
     Checks that the python version running is sufficient and exits if not.
     """
     if sys.version_info <= (3, 7) and sys.version_info >= (3, 10):
-        raise PythonVersionException
+        raise PythonVersionError
         sys.exit()
 
 
@@ -30,7 +30,7 @@ class Geode:
         ):
             self._set_beacon(cons_api)
         else:
-            raise UnknownChainException
+            raise UnknownChainError
 
         # Set the Token instance
         self._set_token()

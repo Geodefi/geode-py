@@ -5,9 +5,9 @@ from requests.exceptions import JSONDecodeError
 
 
 from geodefi.exceptions import (
-    HTTPRequestException,
-    UnexpectedResponseException,
-    MaxAttemptException,
+    HTTPRequestError,
+    UnexpectedResponseError,
+    MaxAttemptError,
 )
 from geodefi.globals import MAX_ATTEMPT, ATTEMPT_RATE
 
@@ -24,9 +24,7 @@ def multiple_attempt(call_attempt=None):
                     sleep(ATTEMPT_RATE)
                     count += 1
                 else:
-                    raise MaxAttemptException(
-                        f"{call_attempt} Call Error"
-                    ) from exc
+                    raise MaxAttemptError(f"{call_attempt} Call Error") from exc
 
     return wrap
 
@@ -46,10 +44,8 @@ def http_request(func):
                 except JSONDecodeError:
                     return res.content
             else:
-                raise HTTPRequestException(
-                    res.status_code, res.reason, res.text
-                )
+                raise HTTPRequestError(res.status_code, res.reason, res.text)
         except Exception as exc:
-            raise UnexpectedResponseException from exc
+            raise UnexpectedResponseError from exc
 
     return wrap
