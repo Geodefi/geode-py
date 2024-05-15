@@ -24,7 +24,7 @@ DEPOSIT_NETWORK_NAME: t.Dict[Network, bytes] = {
 
 GENESIS_FORK_VERSION: t.Dict[Network, bytes] = {
     Network.ethereum: bytes.fromhex("00000000"),
-    Network.holesky: bytes.fromhex("00001020"),
+    Network.holesky: bytes.fromhex("01017000"),
     Network.binance: None,
     Network.gnosis: bytes.fromhex("00000064"),
     Network.avalanche: None,
