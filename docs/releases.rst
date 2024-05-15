@@ -4,6 +4,11 @@
 Release Notes
 =============
 
+2.1.0 (2024-05-15)
+------------------
+* New holesky deployment.
+* Exception names improved.
+
 2.0.0 (2024-03-01)
 ------------------
 * Added holesky deployment mirroring the mainnet deployment.

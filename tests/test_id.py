@@ -9,7 +9,7 @@ sys.path.append(os.getcwd())
 try:
     from geodefi import Geode
     from geodefi.classes.id import Id
-    from geodefi.exceptions import MaxAttemptException
+    from geodefi.exceptions import MaxAttemptError
 except ImportError:
     raise
 
@@ -94,10 +94,10 @@ def test_readUint():
 def test_invalid_readUint():
 
     # test incorrect values
-    with pytest.raises(MaxAttemptException):
+    with pytest.raises(MaxAttemptError):
         id_portal._readUint(1231231)
 
-    with pytest.raises(MaxAttemptException):
+    with pytest.raises(MaxAttemptError):
         id_portal._readUint(list("maintainer"))
 
 
@@ -125,7 +125,7 @@ def test_readBytesArray():
 def test_invalid_readBytesArray():
 
     # Negative index
-    with pytest.raises(MaxAttemptException):
+    with pytest.raises(MaxAttemptError):
         id_portal._readBytesArray(
             "validators", index=-1)
 
