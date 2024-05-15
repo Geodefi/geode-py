@@ -26,8 +26,6 @@ Keep your `mnemonic` in mind
 You can use a new mnemonic for every single pool, or you can use a one global mnemonic and increase its index over time. 
 But, it is very important that you keep some consistency on your mnemonic usage, while keeping it safe.
 
-I will use one global mnemonic. 
-
 Detect which pools you can stake for
 ------------------------------------
 

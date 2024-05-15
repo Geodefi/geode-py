@@ -1,38 +1,38 @@
-class PythonVersionException(Exception):
+class PythonVersionError(Exception):
     "Current version is < 3.7 or > 3.10"
 
 
-class UnknownChainException(Exception):
+class UnknownChainError(Exception):
     "Provided RPC points to an unknown chainId"
 
 
-class UnexpectedResponseException(Exception):
+class UnexpectedResponseError(Exception):
     "Https call resulted with an error code (non 2xx)"
 
 
-class HTTPRequestException(Exception):
+class HTTPRequestError(Exception):
     "RESPONSE IS NOT CODE 200"
 
 
-class MaxAttemptException(Exception):
+class MaxAttemptError(Exception):
     "MULTIPLE ATTEMPT MADE BUT CALL FAILED"
 
 
-class DepositSizeException(Exception):
+class DepositSizeError(Exception):
     "DEPOSIT SIZE IS NOT CORRECT !(1/31)"
 
 
-class WithdrawalCredentialException(Exception):
+class WithdrawalCredentialError(Exception):
     "INCORRECT withdrawal_credentials"
 
 
-class GenesisForkException(Exception):
+class GenesisForkError(Exception):
     "INCORRECT fork_version"
 
 
-class NetworkNameException(Exception):
+class NetworkNameError(Exception):
     "INCORRECT network_name"
 
 
-class DepositDataException(Exception):
+class DepositDataError(Exception):
     "CAN NOT VERIFY DEPOSIT DATA"
