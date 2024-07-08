@@ -15,6 +15,7 @@ black = "^24.4.2"
 pytest = "^8.2.2"
 ipykernel = "^6.29.5"
 sphinx-copybutton = "^0.5.2"
+sphinx-rtd-theme = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
