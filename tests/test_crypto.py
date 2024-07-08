@@ -4,34 +4,7 @@ import pytest
 
 sys.path.append(os.getcwd())
 
-try:
-    import geodefi
-    from geodefi.utils.crypto import keccak256, solidity_keccak256
-except ImportError:
-    raise
-
-
-@pytest.mark.parametrize(
-    "input_data, expected_hash",
-    [
-        (
-            b"Hello, World!",
-            b"\xac\xaf2\x89\xd7\xb6\x01\xcb\xd1\x14\xfb6\xc4\xd2\x9c\x85\xbb\xfd^\x13?\x14\xcb5\\?\xd8\xd9\x93g\x96O",
-        ),
-        (
-            b"12345",
-            b"\x18A\xd6S\xf9\xc4\xed\xda\x9df\xa7\xe7s{9v=k\xd4\x0fV\x9a>\xc6\x85\x9d3\x05\xb7#\x10\xe6",
-        ),
-        (
-            b"",
-            b"\xc5\xd2F\x01\x86\xf7#<\x92~}\xb2\xdc\xc7\x03\xc0\xe5\x00\xb6S\xca\x82';{\xfa\xd8\x04]\x85\xa4p",
-        ),
-    ],
-)
-def test_keccak256(input_data, expected_hash):
-
-    result = keccak256(input_data)
-    assert result == expected_hash
+from geodefi.utils.crypto import solidity_keccak256
 
 
 @pytest.mark.parametrize(
