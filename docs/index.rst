@@ -69,7 +69,6 @@ Table of Contents
     :caption: Helpers
 
     constants
-    utils
     exceptions
 
 .. toctree::

@@ -1,16 +1,13 @@
-from dotenv import dotenv_values
-import sys
-import os
+# -*- coding: utf-8 -*-
+
 import pytest
-import re
+from dotenv import dotenv_values
 
 from geodefi.utils.id import getKey, generateId
 from geodefi.utils.solidity import toBytes
-from geodefi.utils.abi import get_module_abi
+
 
 # ID
-
-
 @pytest.mark.parametrize(
     "input_str, input_num, expected_output, valid_example",
     [

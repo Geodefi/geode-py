@@ -16,7 +16,7 @@ Whether you're looking to query contract data or execute transactions, **geodefi
 - Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/packages.
 - Dynamically adapts to the contract upgrades.
 - Mostly chain agnostic. However, might differ according to the unique PoS implementations.
-- Compatible from Python 3.7 to Python 3.10.
+- Compatible from Python 3.8 to Python 3.12.
 
 ## Installation
 
@@ -60,15 +60,8 @@ We welcome contributions from the community! To contribute to this project, plea
    git clone https://github.com/<your_user_name>/geode-py.git
     ```
 
-3. **Virtual Environment (adviced)** Open virtual environment for python.
-
-    ```bash
-    sudo pip install virtualenv
-    python3 -m venv {path}
-    source {path}/bin/activate
-
-    pip install -r requirements.txt
-    ```
+3. **Build from source**:
+   Take a look at the [Build](#building) section
 
 4. **Create a Branch**: Create a new branch for your contribution:
 
@@ -96,7 +89,52 @@ We welcome contributions from the community! To contribute to this project, plea
 
 8. **Create a Pull Request**: Go to the original repository on GitHub and click on the "Pull Request" button. Fill out the necessary information and submit the pull request. Your pull request will be reviewed by the maintainers. Be ready to respond to any feedback or changes requested. You might need to make additional commits based on the feedback.
 
+### Building
+
+We do not recommend using `pip` and your *local* `python` installation.
+
+Use `pipx` to manage your local packages, which in this case will be used to install pyenv.
+
+Use `pyenv` to manage your python version.
+
+Use `poetry` for dependency management and packaging.
+
+#### Create virtual env
+
+Simply do:
+
+```bash
+poetry shell
+```
+
+> This will create and activate a virtual environment.
+
+If you want to set the python version from start you can also do:
+
+```bash
+poetry env use <python_version/3.9/3.9.19/etc>
+```
+
+This will output:
+
+> Using virtualenv: <path_to_venv>
+> copy <path_to_venv> and use it above to activate
+
+```bash
+source <path_to_venv>/bin/activate
+```
+
+#### Install deps
+
+Install project dependencies with:
+
+```bash
+poetry install
+```
+
 ## Release
+
+Old method:
 
 - Use main branch for releases.
 - test with ``VERSION=1.0.0 python -m build`` if you want, then:
@@ -104,6 +142,12 @@ We welcome contributions from the community! To contribute to this project, plea
 ``` bash
     git tag -a "v0.0.1-beta" -m "beta version testing"
     git push --tags
+```
+
+New Method:
+
+``` bash
+poetry publish --build
 ```
 
 ## License

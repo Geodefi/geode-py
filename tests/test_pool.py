@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from dotenv import dotenv_values
 import sys
 import os
@@ -180,17 +182,9 @@ def test_validators():
 
     # Check if the attributes of the Validator object match the expected values
     assert myVal.network == G.network
-    assert myVal.beacon == G.Beacon
+    assert myVal.beacon == G.beacon
     assert myVal.w3 == G.w3
     assert myVal.poolId == int(POOL_LIST[0])
-
-
-def test_prepareProposeStake():
-    pass
-
-
-def test_prepareBeaconStake():
-    pass
 
 
 myPool = PORTAL.pool(POOL_LIST[0])

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import typing as t
 from geodefi.globals.network import Network
 

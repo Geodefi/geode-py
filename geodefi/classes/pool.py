@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import typing as t
 
 from geodefi.globals import ID_TYPE, DEPOSIT_SIZE
-from geodefi.utils import get_key, validate_deposit_data_file
+from geodefi.utils import get_key
 
 
 from .id import Id
@@ -138,57 +140,3 @@ class Pool(Id):
 
     def alienValidators(self, operator: int):
         return self._read_uint(get_key(id_=operator, key="alienValidators"))
-
-    def prepareProposeStake(self, deposit_data_path: str):
-        """
-        This method prepares for a validator proposal. It reads deposit data from a file path,
-        validates it, and returns the public keys and signature 1s for the proposal stake.
-
-        Args:
-        - deposit_data_path (str): The file path of the deposit data.
-
-        Returns:
-        - pubkeys (List[bytes]): A list of public keys as bytes objects.
-        - sig1s (List[bytes]): A list of signature 1s as bytes objects.
-        """
-        deposit_data = validate_deposit_data_file(
-            deposit_data_path=deposit_data_path,
-            amount=DEPOSIT_SIZE.PROPOSAL,
-            network=self.network,
-            credential=self.withdrawalCredential[2:],
-        )
-        pubkeys = [bytes.fromhex(deposit["pubkey"]) for deposit in deposit_data]
-        sig1s = [
-            bytes.fromhex(deposit["signature"]) for deposit in deposit_data
-        ]
-        return pubkeys, sig1s
-
-    def prepareStake(self, deposit_data_path: str):
-        """
-        This function prepares a beacon stake by taking the path to a deposit data file as input.
-        The deposit data file is validated by checking that it contains the required amount of Ether
-        for the Beacon chain, that it is meant for the specified network, and that it is associated
-        with the withdrawal credentials of the current operator.
-
-        Once the deposit data has been validated, the function extracts the public keys and
-        signatures from the deposit data and returns them as a tuple.
-
-        Args:
-            deposit_data_path (str): The path to the deposit data file.
-
-        Returns:
-            Tuple of lists: A tuple containing two lists, the public keys and signatures extracted
-            from the deposit data file.
-        """
-
-        deposit_data = validate_deposit_data_file(
-            deposit_data_path=deposit_data_path,
-            amount=DEPOSIT_SIZE.STAKE,
-            network=self.network,
-            credential=self.withdrawalCredential[2:],
-        )
-        pubkeys = [bytes.fromhex(deposit["pubkey"]) for deposit in deposit_data]
-        sig31s = [
-            bytes.fromhex(deposit["signature"]) for deposit in deposit_data
-        ]
-        return pubkeys, sig31s
