@@ -31,7 +31,7 @@ eth_abi==5.1.0
 exceptiongroup==1.2.1
 executing==2.0.1
 frozenlist==1.4.1
--e git+https://github.com/Geodefi/geode-py.git@9d27e02137d4c33d0d5d6f488678b6448b3f355d#egg=geodefi
+-e git+https://github.com/Geodefi/geode-py.git@6e8a230c181a679d189408d5d9a3d11c96368028#egg=geodefi
 hexbytes==0.3.1
 idna==3.7
 imagesize==1.4.1
@@ -81,9 +81,11 @@ six==1.16.0
 snowballstemmer==2.2.0
 Sphinx==7.1.2
 sphinx-copybutton==0.5.2
+sphinx-rtd-theme==2.0.0
 sphinxcontrib-applehelp==1.0.4
 sphinxcontrib-devhelp==1.0.2
 sphinxcontrib-htmlhelp==2.0.1
+sphinxcontrib-jquery==4.1
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.5
