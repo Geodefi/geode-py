@@ -4,7 +4,6 @@ name = "geodefi"
 description = "Python SDK for Geodefi Ecosystem"
 authors = ["0xIceBear"]
 readme = "README.md"
-packages = [{include = "geodefi", from = "src"}]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.13"
