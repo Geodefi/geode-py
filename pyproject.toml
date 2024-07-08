@@ -1,5 +1,5 @@
 [tool.poetry]
-version = "3.0.3"
+version = "3.0.4"
 name = "geodefi"
 description = "Python SDK for Geodefi Ecosystem"
 authors = ["0xIceBear"]
