@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import pytest
 import sys
 
@@ -16,8 +18,8 @@ def test_python_invalid_version_check():
 
 
 def test_python_version_check():
-    # Mock sys.version_info to return a version greater than 3.7 (e.g., 3.8)
+    # Mock sys.version_info to return a version greater than 3.8 (e.g., 3.11)
     with MonkeyPatch.context() as m:
-        m.setattr(sys, "version_info", (3, 8))
+        m.setattr(sys, "version_info", (3, 11))
         check_python_version()
         assert True

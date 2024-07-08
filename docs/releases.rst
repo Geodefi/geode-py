@@ -4,6 +4,14 @@
 Release Notes
 =============
 
+3.0.0 (2024-07-07)
+------------------
+* Migrated to poetry to make things easier with a modern approach on project management.
+* Improved CI-CD pipelines.
+* Made improvements to multinet support in prep for the mainnet deployment.
+* Deleted bls and merkle related codes as not needed anymore.
+* Improved tests and overall coverage.
+
 2.1.0 (2024-05-15)
 ------------------
 * New holesky deployment.

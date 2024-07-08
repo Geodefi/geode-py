@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from geodefi.globals import ID_TYPE
 
 from .id import Id

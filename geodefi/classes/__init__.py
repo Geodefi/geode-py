@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .token import Token
 from .portal import Portal
 from .operator import Operator
