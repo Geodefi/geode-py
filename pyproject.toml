@@ -1,5 +1,5 @@
 [tool.poetry]
-version = "3.0.4"
+version = "3.0.5"
 name = "geodefi"
 description = "Python SDK for Geodefi Ecosystem"
 authors = ["0xIceBear"]
@@ -14,6 +14,7 @@ pylint = "^3.2.5"
 black = "^24.4.2"
 pytest = "^8.2.2"
 ipykernel = "^6.29.5"
+sphinx-copybutton = "^0.5.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
