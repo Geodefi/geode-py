@@ -1,9 +1,10 @@
 [tool.poetry]
-version = "3.0.0"
+version = "3.0.1"
 name = "geodefi"
 description = "Python SDK for Geodefi Ecosystem"
 authors = ["0xIceBear"]
 readme = "README.md"
+include=['src']
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.13"

@@ -134,12 +134,20 @@ poetry install
 
 ## Release
 
+Old method:
+
 - Use main branch for releases.
 - test with ``VERSION=1.0.0 python -m build`` if you want, then:
 
 ``` bash
     git tag -a "v0.0.1-beta" -m "beta version testing"
     git push --tags
+```
+
+New Method:
+
+``` bash
+poetry publish --build
 ```
 
 ## License
