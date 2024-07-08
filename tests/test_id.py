@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 from dotenv import dotenv_values
 import sys
 import os
@@ -7,9 +10,9 @@ import inspect
 sys.path.append(os.getcwd())
 
 try:
-    from geodefi import Geode
-    from geodefi.classes.id import Id
-    from geodefi.exceptions import MaxAttemptError
+    from src import Geode
+    from src.classes.id import Id
+    from src.exceptions import MaxAttemptError
 except ImportError:
     raise
 

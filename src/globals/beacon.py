@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from enum import IntEnum
 import typing as t
 
@@ -10,8 +12,8 @@ class DEPOSIT_SIZE(IntEnum):
     beaconStake: takes 31 ether from pool & reimburses the operator's 1 ether
     """
 
-    PROPOSAL = 1000000000
-    STAKE = 31000000000
+    PROPOSAL = 1_000_000_000
+    STAKE = 31_000_000_000
 
 
 DEPOSIT_NETWORK_NAME: t.Dict[Network, bytes] = {

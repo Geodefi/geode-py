@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import os
 import pytest
 
 sys.path.append(os.getcwd())
 
-from geodefi.utils.crypto import solidity_keccak256
+from src.utils.crypto import solidity_keccak256
 
 
 @pytest.mark.parametrize(

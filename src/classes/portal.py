@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import logging
 from web3 import Web3
 from web3.contract import Contract
 
-from geodefi.globals import Network
-from geodefi.utils import get_contract_abi, to_bytes32, to_string
-from geodefi.exceptions import UnknownChainError
+from src.globals import Network
+from src.utils import get_contract_abi, to_bytes32, to_string
+from src.exceptions import UnknownChainError
 
 from .pool import Pool
 from .operator import Operator

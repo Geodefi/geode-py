@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import logging
 import typing as t
 from datetime import datetime, timedelta
 from web3 import Web3
 from web3.contract import Contract
 
-from geodefi.globals import Network, VALIDATOR_STATE, REFRESH_RATE
-from geodefi.utils import multiple_attempt
+from src.globals import Network, VALIDATOR_STATE, REFRESH_RATE
+from src.utils import multiple_attempt
 
 from .beacon import Beacon
 

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .id import ID_TYPE
 from .network import Network
 from .token import TOKEN_NAMES

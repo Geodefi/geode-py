@@ -1,12 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from dotenv import dotenv_values
 import sys
 import os
 import pytest
 import re
 
-from geodefi.utils.merkle import StandartMerkleTree
-from geodefi import Geode
-from geodefi.classes.validator import Validator
+from src.utils.merkle import StandartMerkleTree
+from src import Geode
+from src.classes.validator import Validator
 
 
 sys.path.append(os.getcwd())

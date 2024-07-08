@@ -1,19 +1,21 @@
+# -*- coding: utf-8 -*-
+
 from dotenv import dotenv_values
 import pytest
 
-from geodefi.utils.bls.validate import (
+from src.utils.bls.validate import (
     SHA256,
     validate_deposit,
     validate_parameters,
 )
-from geodefi.utils.bls.serialize import (
+from src.utils.bls.serialize import (
     DepositData,
     DepositMessage,
     compute_signing_root,
     compute_deposit_fork_data_root,
     compute_deposit_domain,
 )
-from geodefi.globals.constants import (
+from src.globals.constants import (
     DOMAIN_DEPOSIT,
     ZERO_BYTES32,
 )

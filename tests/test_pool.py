@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from dotenv import dotenv_values
 import sys
 import os
@@ -5,9 +7,9 @@ import pytest
 import inspect
 import re
 
-from geodefi.utils.merkle import StandartMerkleTree
-from geodefi import Geode
-from geodefi.classes.validator import Validator
+from src.utils.merkle import StandartMerkleTree
+from src import Geode
+from src.classes.validator import Validator
 
 
 sys.path.append(os.getcwd())
@@ -180,17 +182,9 @@ def test_validators():
 
     # Check if the attributes of the Validator object match the expected values
     assert myVal.network == G.network
-    assert myVal.beacon == G.Beacon
+    assert myVal.beacon == G.beacon
     assert myVal.w3 == G.w3
     assert myVal.poolId == int(POOL_LIST[0])
-
-
-def test_prepareProposeStake():
-    pass
-
-
-def test_prepareBeaconStake():
-    pass
 
 
 myPool = PORTAL.pool(POOL_LIST[0])

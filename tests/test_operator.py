@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from dotenv import dotenv_values
 import sys
 import os
@@ -5,9 +7,9 @@ import pytest
 import inspect
 import re
 
-from geodefi.utils.merkle import StandartMerkleTree
-from geodefi import Geode
-from geodefi.classes.operator import Operator
+from src.utils.merkle import StandartMerkleTree
+from src import Geode
+from src.classes.operator import Operator
 
 
 sys.path.append(os.getcwd())

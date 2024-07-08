@@ -1,17 +1,10 @@
-import sys
+# -*- coding: utf-8 -*-
+
 from web3 import Web3, HTTPProvider, WebsocketProvider
-from geodefi.exceptions import PythonVersionError, UnknownChainError
-from geodefi.globals import Network
-from geodefi.classes import Portal, Token, Beacon
-
-
-def check_python_version() -> None:
-    """
-    Checks that the python version running is sufficient and exits if not.
-    """
-    if sys.version_info <= (3, 7) and sys.version_info >= (3, 10):
-        raise PythonVersionError
-        sys.exit()
+from src.exceptions import UnknownChainError, UnknownApiError
+from src.globals import Network
+from src.utils import check_python_version
+from src.classes import Portal, Token, Beacon
 
 
 class Geode:
@@ -22,7 +15,7 @@ class Geode:
         # Set the Web3 instance with the given execution API
         self._set_web3(exec_api)
 
-        # If the network is Ethereum, Holesky or Gnosis, set the Beacon instance with the given consumer key
+        # If the network is Ethereum, Holesky or Gnosis, set the Beacon instance with the given key
         if (
             self.network is Network.ethereum
             or self.network is Network.holesky
@@ -46,8 +39,7 @@ class Geode:
             elif exec_api.startswith("wss"):
                 self.w3: Web3 = Web3(WebsocketProvider(exec_api))
             else:
-                # TODO raise if not provided
-                pass
+                raise UnknownApiError
 
             self.network: int = Network(self.w3.eth.chain_id)
 
@@ -57,7 +49,8 @@ class Geode:
             self.beacon: Beacon = Beacon(
                 network=self.network, cons_api=cons_api
             )
-        # TODO raise if not provided
+        else:
+            raise UnknownApiError
 
     # Internal method to set the Portal instance
     def _set_portal(self):

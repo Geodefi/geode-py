@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import logging
 import eth_typing as et
 from web3 import Web3
 from web3.contract import Contract
 
-from geodefi.globals import Network, ID_TYPE
-from geodefi.utils import to_bytes32, to_string, multiple_attempt
-from geodefi.exceptions import UnexpectedResponseError
+from src.globals import Network, ID_TYPE
+from src.utils import to_bytes32, to_string, multiple_attempt
+from src.exceptions import UnexpectedResponseError
 
 
 class Id:
@@ -100,16 +102,16 @@ class Id:
         res: et.Address = self.portal.functions.readAddress(
             self.ID, to_bytes32(key)
         ).call()
-        csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
-        return csRes
+        cs_res: et.ChecksumAddress = Web3.to_checksum_address(res)
+        return cs_res
 
     @multiple_attempt
     def _read_address_array(self, key: str, index: int):
         res: et.Address = self.portal.functions.readAddressArray(
             self.ID, to_bytes32(key), index
         ).call()
-        csRes: et.ChecksumAddress = Web3.to_checksum_address(res)
-        return csRes
+        cs_res: et.ChecksumAddress = Web3.to_checksum_address(res)
+        return cs_res
 
     @property
     def NAME(self):

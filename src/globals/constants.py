@@ -1,6 +1,8 @@
-# Solidity
+# -*- coding: utf-8 -*-
+
 import os
 
+# Solidity
 ZERO_BYTES = b""
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 ZERO_BYTES32 = b"\x00" * 32
@@ -11,7 +13,7 @@ PERCENTAGE_DENOMINATOR = 10_000_000_000
 # 1 ether = 1e18 wei
 ETHER_DENOMINATOR: int = 1_000_000_000_000_000_000
 
-# 1 gwei = 1e9 wei
+# beacon has 9 decimal points, while eth has 18
 ETH2GWEI = 1_000_000_000
 
 # 1 execution ether = 1 beacon ether * 1e9

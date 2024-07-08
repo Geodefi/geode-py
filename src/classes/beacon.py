@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import logging
-from geodefi.globals import Network
-from geodefi.utils import http_request
+from src.globals import Network
+from src.utils import http_request
 
 
 class Beacon:
@@ -159,7 +161,7 @@ class Beacon:
     @http_request
     def beacon_blob_sidecars(self, block_id: str):
         # Retrieves blob sidecars for a given block id.
-        # If the indices parameter is specified, only the blob sidecars with the specified indices will be returned.
+        # When indices is specified, only the blob sidecars with the specified indices are returned.
         # There are no guarantees for the returned blob sidecars in terms of ordering.
         url = self.api_base + f"/eth/v1/beacon/blob_sidecars/{block_id}"
         return (url, False)

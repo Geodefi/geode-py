@@ -1,15 +1,17 @@
+# -*- coding: utf-8 -*-
+
 import logging
 from time import sleep
 import requests
 from requests.exceptions import JSONDecodeError
 
 
-from geodefi.exceptions import (
+from src.exceptions import (
     HTTPRequestError,
     UnexpectedResponseError,
     MaxAttemptError,
 )
-from geodefi.globals import MAX_ATTEMPT, ATTEMPT_RATE
+from src.globals import MAX_ATTEMPT, ATTEMPT_RATE
 
 
 def multiple_attempt(call_attempt=None):
