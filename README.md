@@ -16,7 +16,7 @@ Whether you're looking to query contract data or execute transactions, **geodefi
 - Provides a simple and intuitive API for managing validators, operators, pools, tokens, and other smart contracts/packages.
 - Dynamically adapts to the contract upgrades.
 - Mostly chain agnostic. However, might differ according to the unique PoS implementations.
-- Compatible from Python 3.7 to Python 3.10.
+- Compatible from Python 3.8 to Python 3.12.
 
 ## Installation
 

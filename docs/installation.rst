@@ -23,7 +23,7 @@ Before Installation
 .. code-block:: shell
    
   $ python3 --version 
-  # Python 3.7.0 <> 3.10.13
+  # Python 3.8.0 - 3.12.3
 
 2. Create a virtual environment
 =========================================
