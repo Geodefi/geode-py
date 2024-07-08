@@ -2,8 +2,8 @@
 
 import typing as t
 
-from src.globals import ID_TYPE, DEPOSIT_SIZE
-from src.utils import get_key
+from geodefi.globals import ID_TYPE, DEPOSIT_SIZE
+from geodefi.utils import get_key
 
 
 from .id import Id

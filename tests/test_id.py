@@ -10,9 +10,9 @@ import inspect
 sys.path.append(os.getcwd())
 
 try:
-    from src import Geode
-    from src.classes.id import Id
-    from src.exceptions import MaxAttemptError
+    from geodefi import Geode
+    from geodefi.classes.id import Id
+    from geodefi.exceptions import MaxAttemptError
 except ImportError:
     raise
 

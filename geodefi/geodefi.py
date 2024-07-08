@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from web3 import Web3, HTTPProvider, WebsocketProvider
-from src.exceptions import UnknownChainError, UnknownApiError
-from src.globals import Network
-from src.utils import check_python_version
-from src.classes import Portal, Token, Beacon
+from geodefi.exceptions import UnknownChainError, UnknownApiError
+from geodefi.globals import Network
+from geodefi.utils import check_python_version
+from geodefi.classes import Portal, Token, Beacon
 
 
 class Geode:

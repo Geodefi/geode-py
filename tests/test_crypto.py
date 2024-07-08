@@ -6,7 +6,7 @@ import pytest
 
 sys.path.append(os.getcwd())
 
-from src.utils.crypto import solidity_keccak256
+from geodefi.utils.crypto import solidity_keccak256
 
 
 @pytest.mark.parametrize(

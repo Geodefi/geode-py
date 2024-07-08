@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from src.globals import Network
-from src.utils import http_request
+from geodefi.globals import Network
+from geodefi.utils import http_request
 
 
 class Beacon:

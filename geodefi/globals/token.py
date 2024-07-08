@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import typing as t
-from src.globals.network import Network
+from geodefi.globals.network import Network
 
 
 TOKEN_NAMES: t.Dict[Network, str] = {

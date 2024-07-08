@@ -3,8 +3,8 @@
 import pytest
 from dotenv import dotenv_values
 
-from src.utils.id import getKey, generateId
-from src.utils.solidity import toBytes
+from geodefi.utils.id import getKey, generateId
+from geodefi.utils.solidity import toBytes
 
 
 # ID

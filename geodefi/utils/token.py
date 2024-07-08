@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from src.globals import TOKEN_NAMES
-from src.globals import Network
+from geodefi.globals import TOKEN_NAMES
+from geodefi.globals import Network
 
 
 def get_token_name(network: Network):

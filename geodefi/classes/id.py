@@ -5,9 +5,9 @@ import eth_typing as et
 from web3 import Web3
 from web3.contract import Contract
 
-from src.globals import Network, ID_TYPE
-from src.utils import to_bytes32, to_string, multiple_attempt
-from src.exceptions import UnexpectedResponseError
+from geodefi.globals import Network, ID_TYPE
+from geodefi.utils import to_bytes32, to_string, multiple_attempt
+from geodefi.exceptions import UnexpectedResponseError
 
 
 class Id:

@@ -6,9 +6,9 @@ import os
 import pytest
 import re
 
-from src.utils.merkle import StandartMerkleTree
-from src import Geode
-from src.classes.validator import Validator
+from geodefi.utils.merkle import StandartMerkleTree
+from geodefi import Geode
+from geodefi.classes.validator import Validator
 
 
 sys.path.append(os.getcwd())

@@ -4,8 +4,8 @@ import pytest
 import sys
 
 from pytest import MonkeyPatch
-from src.exceptions import PythonVersionError
-from src.geodefi import check_python_version
+from geodefi.exceptions import PythonVersionError
+from geodefi.geodefi import check_python_version
 
 
 def test_python_invalid_version_check():

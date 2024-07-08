@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from src.exceptions import PythonVersionError
+from geodefi.exceptions import PythonVersionError
 
 
 def check_python_version() -> None:

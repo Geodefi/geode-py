@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from src.globals import ID_TYPE
+from geodefi.globals import ID_TYPE
 
 from .id import Id
 
