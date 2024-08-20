@@ -175,5 +175,3 @@ To understand why some operators have prisoned read `this link <https://docs.geo
 
 More 
 ----
-
-Next step: Learn how to create validators through geodefi: :ref:`creating_validators`

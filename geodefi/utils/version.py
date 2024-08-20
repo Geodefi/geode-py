@@ -9,5 +9,5 @@ def check_python_version() -> None:
 
     if sys.version_info <= (3, 8) and sys.version_info >= (3, 12):
         raise PythonVersionError(
-            f"Python version is not supported.Please consider using 3.8-3.12"
+            f"Python version is not supported. Consider using >3.8"
         )

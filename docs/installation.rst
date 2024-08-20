@@ -8,7 +8,7 @@ Before Installation
 ===================
 
 .. WARNING::
-  **geodefi** Python SDK (as of v2.0.0) only supports the Python versions from ``3.8`` to ``3.12``.  
+  **geodefi** Python SDK (as of v2.0.0) only supports the Python versions bigger than ``3.8``.  
 
 .. NOTE::
   We recommend that you read protocol's `documentation <https://docs.geode.fi>`_ to become familiar with the terms.
@@ -23,7 +23,7 @@ Before Installation
 .. code-block:: shell
    
   $ python3 --version 
-  # Python 3.8.0 - 3.12.3
+  # Python 3.8.0 
 
 2. Create a virtual environment
 =========================================
