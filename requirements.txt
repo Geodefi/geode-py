@@ -31,7 +31,7 @@ eth_abi==5.1.0
 exceptiongroup==1.2.1
 executing==2.0.1
 frozenlist==1.4.1
--e git+https://github.com/Geodefi/geode-py.git@6e8a230c181a679d189408d5d9a3d11c96368028#egg=geodefi
+-e git+https://github.com/Geodefi/geode-py.git@00b4547dc979da8f4459664471487d830d6a0715#egg=geodefi
 hexbytes==0.3.1
 idna==3.7
 imagesize==1.4.1

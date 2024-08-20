@@ -61,8 +61,7 @@ Table of Contents
     :caption: Examples
 
     internal_wallet
-    creating_validators
-    .. staking_pool_handbook
+    staking_pool_handbook
 
 .. toctree::
     :maxdepth: 1
