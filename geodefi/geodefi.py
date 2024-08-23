@@ -34,7 +34,7 @@ class Geode:
     # Internal method to set the Web3 instance
     def _set_web3(self, exec_api: str):
         if exec_api:
-            if exec_api.startswith("https"):
+            if exec_api.startswith("http"):
                 self.w3: Web3 = Web3(HTTPProvider(exec_api))
             elif exec_api.startswith("wss"):
                 self.w3: Web3 = Web3(WebsocketProvider(exec_api))
