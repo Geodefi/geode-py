@@ -1,8 +1,9 @@
-# [3.1.0](https://github.com/Geodefi/geode-py/compare/1.3.0...3.1.0) (2024-08-20)
+# [3.2.0](https://github.com/Geodefi/geode-py/compare/1.3.0...3.2.0) (2024-08-23)
 
 
 ### Bug Fixes
 
+* allow http endpoints along with https ([a69f6c8](https://github.com/Geodefi/geode-py/commit/a69f6c87424552ae045fafb4b35d01f4add584bf))
 * error messages and docs. implement the new ci pipeline ([8bd014f](https://github.com/Geodefi/geode-py/commit/8bd014f47ea8192bd770a26ecc04cd1bfb7e0267))
 * fix hexbyte input issue on to_bytes32 ([6dbabf9](https://github.com/Geodefi/geode-py/commit/6dbabf9310dd98bbda2ab480b52405ce187a307f))
 * include src subfolders when published ([5830a86](https://github.com/Geodefi/geode-py/commit/5830a862e47cce09af3d8abd732bbdb457c214dd))
